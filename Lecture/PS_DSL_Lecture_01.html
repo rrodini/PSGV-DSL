@@ -1,0 +1,726 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html><head><title>DSL Lecture 1</title>
+
+<link rel="stylesheet" href="PS_Lecture.css">
+</head>
+<body>
+<!-- Site navigation menu -->
+<ul class="navbar">
+<li><a href="PS_DSL_Syllabus.html">Syllabus</a></li>
+<li><a href="PS_DSL_Lecture_02.html">Lecture 2</a></li>
+<li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
+<li><a href="PS_DSL_Lecture_04.html">Lecture 4</a></li>
+<li><a href="PS_DSL_Lecture_05.html">Lecture 5</a></li>
+<li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
+<li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
+<li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
+<li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
+<li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
+</ul>
+<!-- Main content -->
+<h1>Penn State Great Valley Engineering<br>
+DSL Course - Lecture 1</h1>
+<h2>Course Outline and Structure</h2>
+<h3 style="margin-left: 40px;">Book:</h3>
+<div style="margin-left: 80px;"><span style="font-weight: bold;">Domain-Specific Languages</span>
+by Martin Fowler with Rebecca Parsons</div>
+<div style="margin-left: 80px;">Publisher: Addison-Wesley
+Pearson Education<br>
+ISBN-13: 978-0-321-71294-3<br>
+ISBN-10: &nbsp; &nbsp; &nbsp; &nbsp; 0-321-71294-3<br>
+</div>
+<div style="margin-left: 40px;"><br>
+<h3>Course Outline: &nbsp;TBD</h3>
+<h3>Lectures:</h3>
+<p style="margin-left: 0.5in;">Regular class attendance is
+expected and
+participation helps.<span style="">&nbsp; </span>Just
+like most of
+you, we are also full-time working parents and part-time to Penn State
+so I understand
+the demands that are placed upon you.<span style="">&nbsp;
+</span>However, my goal is to pass to you has much information on
+this topic as
+possible and the primary means for that transfer is the classroom.<span style="">&nbsp; </span>Please come and
+participate, let me know if
+you cannot make class for reasons beyondI your control.</p>
+<p style="margin-left: 0.5in;">This
+class requires the use of a laptop or at
+least the computer center. I
+would be
+most grateful if you could use your computers and phones for
+course-related
+activities like following the notes, rather than for email, chat,
+YouTube,
+Twitter, Google, solitaire, poker, eBay, Facebook, or similarly
+compelling
+distractions. (Additions to this list are welcome; I can't keep up.)<span style="">&nbsp;&nbsp; If you are
+looking at your laptop screen and
+laughing &#8211; I know you are NOT looking that the lecture notes.</span></p>
+<br>
+</div>
+<p style="margin-left: 40px;"></p>
+<div style="margin-left: 80px;"><img style="width: 450px; height: 614px;" alt="" src="images/Doonesbury.jpg"></div>
+<h3>Grading: &nbsp;TBD</h3>
+<h3>Academic Integrity:</h3>
+<div style="margin-left: 40px;">Academic
+integrity is the pursuit of scholarly activity free from fraud and
+deception and is an educational objective of this institution. Academic
+dishonesty includes, but is not limited to, cheating, plagiarism,
+fabricating of information or citations, facilitating acts of academic
+dishonesty by others, unauthorized possession of examinations,
+submitting work for another person or work previously used without
+informing the instructor or tampering with academic work of other
+students.&nbsp; (p. 44, Policies and Rules, 1996-1997).</div>
+<br>
+<h3>Disability Statement:</h3>
+<div style="margin-left: 40px;">The
+Pennsylvania State University encourages qualified persons with
+disabilities to participate in its programs and activities. If you
+anticipate needing any type of accommodation or have questions about
+the physical access provided, please contact Kathy Mingioni at
+610.648.3315 in advance of your participation or visit.</div>
+<br>
+<h3>Emergency Evacuations:</h3>
+<div style="margin-left: 40px;">Periodic
+fire/evacuation exercises are conducted in all occupied PSU Great
+Valley buildings.&nbsp; Every PSU Great Valley faculty, staff, and
+student is expected to exit the building and remain outside until the
+drill or actual event is completed.&nbsp; Drills are a safe
+opportunity
+to test the building emergency plan, insure that the fire alarm is
+working properly, and allows every employee a chance to experience the
+procedures.<br>
+<br>
+Guidelines:<br>
+&#8226;&nbsp;&nbsp;&nbsp; Please familiarize yourself with the
+emergency evacuation plan posted in each classroom.<br>
+&#8226;&nbsp;&nbsp;&nbsp; Do not use elevators. Use stairs.<br>
+&#8226;&nbsp;&nbsp;&nbsp; Fire doors close but do not lock or
+trap a person in an area.<br>
+&#8226;&nbsp;&nbsp;&nbsp;
+Should evacuation be necessary, go to the nearest exit or stairway and
+proceed to a pre-designated evacuation meeting area (150 feet away from
+building) outside the building. Stay with your instructor and class.<br>
+&#8226;&nbsp;&nbsp;&nbsp;
+Please do not leave the meeting area, return to your classroom, or go
+to your vehicle unless instructed to do so.<br>
+</div>
+<br>
+<hr style="width: 100%; height: 2px;"><br>
+<h2>Introduction to Domain Specific Languages</h2>
+<h3>What is a DSL?</h3>
+Domain-specific language (noun): a computer programming language of
+limited expressiveness focused on a particular domain.<br>
+<br>
+<ul>
+<li><span style="font-weight: bold;">Computer
+programming language</span>: A DSL is used by humans to instruct
+a computer to do something. &nbsp;As with any modern computer
+programming language, its structure is designed to make it easy for
+humans to understand, but it should be something executable by a
+computer.</li>
+<li><span style="font-weight: bold;">Language
+nature</span>: A DSL is a programming language, and as such
+should have a sense of fluency where the expressiveness comes not just
+from individual expressions but also from the way they can be composed
+together.</li>
+<li><span style="font-weight: bold;">Limited
+expressiveness</span>: &nbsp;A general-purpose programming
+language provides lots of capabilities: supporting varied data,
+control, and abstraction structures. &nbsp;All of this is useful
+but makes it harder to learn and use. &nbsp;A DSL supports a bare
+minimum of features needed to support its domain. &nbsp;You can't
+build an entire software system in a DSL; rather, you use a DSL for one
+particular aspect of a system.</li>
+<li><span style="font-weight: bold;">Domain focus</span>:
+A limited language is only useful if it has a clear focus on a small
+domain. &nbsp;The domain focus is what makes a limited language
+worthwhile.</li>
+</ul>
+<h3>Example DSL Languages</h3>
+Life:<br>
+<div style="margin-left: 40px;">Aviation, economics,
+politics, finance, brokerage, auto, restaurant, music, construction,
+athletics,&nbsp; etc. &nbsp;They are everywhere. &nbsp;Does
+your family have it's own DSL?<br>
+</div>
+Computers:<br>
+<div style="margin-left: 40px;">SQL, Ant, Rake, Make, CSS,
+YACC, Bison, ANTLR, JUnit, HTML, and many many more. &nbsp;What
+DSL's do you use on a regular basis?<br>
+<br>
+</div>
+<h3>How is a DSL different from General Purpose Languages?</h3>
+<div style="margin-left: 40px;">
+<ol>
+<li>DSL are targeted to a specific problem area</li>
+<li>A DSL contains syntax and semantics that model concepts at
+the same level of abstraction as the problem domain does.</li>
+</ol>
+</div>
+<h3>Manipulating Abstractions</h3>
+DSLs are really a way of
+programming the manipulation of an abstraction. &nbsp;In software
+development, we build abstractions and then manipulate them, often on
+multiple levels. &nbsp;The most common way to build in abstraction
+is
+by implementing a library or framework; the common way &nbsp;to
+manipulate this framework is through command-query API calls.
+&nbsp;In
+this view a DSL is a front-end to a library providing a different style
+of manipulation to the command-query API. &nbsp;In this context,
+the
+library is the Semantic Model of the DSL. &nbsp;A consequence of
+this
+is that DSLs ted to follow libraries, and indeed Fowler considers a
+Semantic Model to be a necessary adjunct to a well-built DSL.<br>
+<br>
+<h3>Types of DSLs</h3>
+<h4>External DSL</h4>
+An
+external DSL is a language separate from the main language of the
+application it works with. &nbsp;Usually, an external DSL has a
+custom
+syntax, but using another language's syntax is also common (XML is
+frequent choice). &nbsp;A script in an external DSL will usually be
+parsed by a code in the host application using text parsing techniques.
+&nbsp;The Unix tradition of &nbsp;little languages fits this
+style.
+&nbsp;Examples of external DSls that you probably have come across
+include regular expressions, SQL, AWK, and XML configuration files for
+systems like Struts and Hibernate.<br>
+<br>
+When you write in SQL - it's SQL - there is not mistaking it for
+another language. &nbsp;Same for <span style="font-family: Courier New,Courier,monospace;">make</span>,
+LEX and YACC.<br>
+<br>
+<h4>Internal DSL</h4>
+An
+internal DSL is a particular way of using a general-purpose language.
+&nbsp;A script in an internal DSL is valid code in its
+general-purpose
+language, but only uses a subset of the language's features in a
+particular style to handle one small aspect of the overall system.
+&nbsp;The result should have the feel of a custom language, rather
+than
+its host language. &nbsp;The classic example of this sytle is Lisp;
+&nbsp;Lisp programmers often talk about Lisp programming as
+creating
+and using DSLs. &nbsp;Ruby has also developed a strong DSL culture:
+Many Ruby Libraries come in the style of DSLs. &nbsp;In particular,
+Ruby's most famous framework, Rails, is often seen as a collection of
+DSLs.<br>
+<br>
+<img style="width: 554px; height: 277px;" alt="" src="images/internal_DSL.jpg"><br>
+<br>
+When you write Rails code you are writing in Ruby!<br>
+When you write Gradle code you are writing in Groovy!<br>
+<h4>Language Workbench or Nontextual DSLs</h4>
+A
+language workbench is a specialized IDE for defining and building DSLs.
+&nbsp;In particular, a language workbench is used not just to
+determine
+the structure of a DSL but also as a custom editing environment for
+people to write DSL scripts. The resulting scripts intimately combine
+the editing environment and the language.<br>
+<br>
+This is a growing
+industry trend toward richer ways of modeling the domain. &nbsp;A
+DSL
+needs to be a representation of the domain but the definition doesn't
+mandate that this representation or language needs to be a textual one.<br>
+<br>
+<a target="_blank" href="http://www.intentsoft.com/">Intentional's
+DSL Workbench</a> and <a target="_blank" href="http://www.jetbrains.com/mps/">JetBrains' Meta
+Programming System</a> (MPS) are two examples of rich DSL
+modeling tools.<br>
+<br>
+For
+all practical purposes you can consider Language Workbench/Nontextual
+DSLs as external DSLs because the underlying infrastructure that you
+use to develop DSL APIs isn't a host language. &nbsp;But just wait
+a
+while someone will prove me wrong soon :-)<br>
+<br>
+<h3>Fuzzy Boundaries for DSL's</h3>
+Identifying
+DSL's is not always so simple. &nbsp;Internal DSLs, because they
+are
+implemented in a general purpose language may seem to contain all the
+expressiveness of the GPL. &nbsp;Understanding the characteristics
+of a
+DSL require understanding a small subset of the GPL that is used to
+implement the DSL.<br>
+<br>
+External DSLs have the GPL as the boundary
+itself. &nbsp;However, if the expressiveness of the DSL is more
+than
+"limited", say with a mathmatics or statistical DSL, you may see a
+greater use of GPL features such as conditions, looping constructs and
+variables.<br>
+<br>
+You should also never forget "that if your only tool
+is a hammer everything looks like a nail." &nbsp;I have seen
+programmers fall in love with a DSL then try to use it for all
+processing (XSLT, VBScript, JavaScript, Microsoft Access, etc.)
+&nbsp;One valuable insight&nbsp;you will hopefully get from
+this course
+is to understand when to NOT use a technology!<br>
+<br>
+Many DSLs are
+used in a fragmentary many manner. &nbsp;For example, you don't
+generally create a regular expressions script but mix regular
+expressions into your general purpose code. &nbsp;This is ok and a
+common use of DSLs. &nbsp;You do not always have a DSL like make,
+Ant
+and Gradle in which you create a script to be run to do a complete job.<br>
+<hr style="width: 100%; height: 2px;">
+<h2>Benefits&nbsp;with DSLs</h2>
+<ul>
+<li>DSLs are a tool with limited focus.</li>
+<li>Not a fundamental change to way we do software development</li>
+<li>DSLs are a thin veneer over a model - a library or framework</li>
+<li>Need to separate the benefits provided by the model from
+the benefits provided by the DSL</li>
+</ul>
+<h3>Improving Development Productivity</h3>
+<ul>
+<li>Provides
+a means to more clearly communicate the intent of a part of the system.
+&nbsp;For the same reasons we want meaningful variable names,
+documentation and clear coding constructs - we want to use DSLs.</li>
+<li>Limited expressiveness of DSLs makes it harder to say the
+wrong things and easier to see when you have made an error.</li>
+<li>Clearly
+defining the model &nbsp;will provide increases in productivity.
+&nbsp;It avoids duplication by gathering together common code; it
+provides an abstraction to think about the problem that makes it easier
+to specify what's going on.</li>
+</ul>
+<h3>Communication with Domain Experts</h3>
+Communication,
+communication, communication! &nbsp;Could be the largest factor in
+project failure. &nbsp;Users are busy, domain experts have other
+things
+to do besides sit with you and model their system. &nbsp;Taking the
+time to define a clear yet precise language to a domain may be the
+efficient method in capturing the model and it's language.
+<h3>Change in Execution Environment</h3>
+Evaluating
+an application context at runtime rather than compile time is a huge
+advantage. &nbsp;As software development moves to using more and
+more
+components - dependency injection - there is a greater need to
+configure the environment at runtime. &nbsp;Enter XML configuration
+files.<br>
+<br>
+Using a DSL language with &nbsp;a rules engine overcomes
+the limitations of a host language and express things in a comfortable
+DSL and then generate code for the actual execution environment to use.
+&nbsp;Think of a SQL generator based on an understanding of the
+domain
+model and the database structure....<span style="font-weight: bold;"><br>
+</span>
+<h3>Alternative Computational Model</h3>
+Computers
+are determinant and we often want our software to behave the same way -
+what's called imperative computing. &nbsp;2+2=4 -- it easy to
+understand.<br>
+<br>
+Alternatively, you hear people talk about
+declarative programming which is a catch-all phrase for all things
+'non-imperative'. &nbsp;These are generally styles that allow
+programmers to declare what should happen. &nbsp;DSL's can make a
+big
+difference at it makes it much easier for people to manipulate
+declarative programs that populate this type of semantic model.
+<h2>Problems with DSLs</h2>
+There
+are no 'silver bullets' and DSLs are no exception. &nbsp;Most
+problems
+with DSLs are typical &nbsp;development problems. &nbsp;So most
+likely,
+the best reason to not use a DSL is that none of the above benefits are
+worth the cost of writing a DSL!
+<h3>Language Cacophony</h3>
+This is
+common in softare today as the complexity of our development
+environment grows. &nbsp;The most important insight you may get out
+of
+this class is recognizing DSLs in your development environment and
+being able to learn and "partition" them from all the other languages.
+&nbsp;DSLs should be limited and simple so understanding them
+should
+not be a huge burden. &nbsp;DSLs can simplify complex areas of your
+software making the system easier to learn.<br>
+<br>
+DSLs are NOT general-purpose languages! &nbsp;If your DSL is
+looking like one then you have failed to write a good DSL!<br>
+<br>
+Fowler argues that the incremental cost of learning a DSL is quite
+small compared to the cost of understanding the model.
+<h3>Cost of Building</h3>
+The
+cost of writing a DSL depends on many factors - the skills of the
+programmers, understanding of the model or libraries underneath the
+DSL, size of the model, internal DSLs are simpler than external DSLs,
+level of reuse in other systems, etc.<br>
+<br>
+Maintenance of DSLs must
+be considered. &nbsp;If the model is new maybe you should wait to
+build
+a DSL wrapper until the model is more mature and less fluid.
+&nbsp;The
+cost of the DSL is over and above the costs of the model.<br>
+<br>
+Excessive
+DSLs probably means that you will have some bad DSLs to maintain and
+that is the same as any bad code - a waste of resources.
+<h3>Ghetto Language</h3>
+I
+have seen this where some Wizard of Oz talks the powers that be into
+spending some outrageous amount of money on some DSL that morphs into a
+GPL. &nbsp;Example: a project I know of built their own OR mapping
+tool. &nbsp;"Let's not use Top Link or Hibernate, let's write our
+own
+OR mapping tool." &nbsp;Lots of performance issues, lots of
+maintenance
+issues, lots of programmer turnover later, it is being ripped out and
+replaced with JPA/Hibernate.<br>
+<br>
+Always a danger a DSL will evolve into a GPL!<br>
+<br>
+Don't
+build something that you should be taking from the outside.
+&nbsp;If it
+is not in your core competency then it probably should not be written
+in house.
+<h3>Blinkered Abstraction</h3>
+There is nothing more beautiful
+that abstraction that fits the subject area. &nbsp;It is the 'siren
+song' of software development. &nbsp;Developers fall in love with
+their
+abstraction then try to fit everything that comes along into the
+model/abstraction. &nbsp;This is the "Blinkered Abstraction" and
+you
+don't want to change that which you find so beautiful. &nbsp;This
+is
+true from any model/abstraction including those that don't have DSLs.<br>
+<br>
+In software everything evolves, nothing is finished.
+<hr style="width: 100%; height: 2px;">
+<h2>DSL Lifecycle</h2>
+Model first, library first or DSL first?<br>
+<br>
+What
+you need first is an understanding of what the domain is! &nbsp;It
+seems to me that you need domain experts, an already existing model or
+library. &nbsp;Try to determine how much change will be applied to
+this
+domain. &nbsp;If you believe there is a great deal of change coming
+then maybe it is better to write a library with it's attendant test
+suites and let the domain settle down, then write a DSL wrapper.<br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h3>&nbsp;What makes a Good DSL Design?</h3>
+The overall goal for a DSL is clarity for the reader.
+&nbsp;Iterative design will let you try out ideas on your target
+audience.<br>
+<br>
+Use
+the domain language in the DSL. &nbsp;If the users of the DSL are
+familiar with the jargon of the domain they will intuitively understand
+the DSL. &nbsp;Jargon is there to enhance the communication within
+a
+domain even if it sounds like gibberish to those outside.<br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h2>Example - The Build Domain</h2>
+make,
+ANT and Gradle are all DSLs that are specific to the domain of building
+software. &nbsp;They aren't sexy, they are not going to impress
+your friends and you'll hardly notice a build tool until it's time to
+redeploy that 1,000 class application you have built in C# or Java or
+whatever language you have been working in. &nbsp;Then all the
+interesting code, killer IDE's and plug-ins, and amazing design
+patterns aren't worth nearly has much &nbsp;as typing make or ant
+and watching your boring tool handle complicated dependencies,
+deployment onto multiple servers via FTP and SSH, and log errors.
+&nbsp;All these tools do essentially&nbsp;the same thing but do
+it in a different
+manner. &nbsp;By examining these three DSLs we will gain insight
+into
+the common characteristics and differences&nbsp; of DSLs.<br>
+<h3>make</h3>
+You start with the command: <br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp; <span class="code">make makefile</span><br>
+<br>
+make reads the makefile in the current directory and begins by
+processing the first rule. In the example, this rule is for relinking
+edit; but before make can fully process this rule, it must process the
+rules for the files that edit depends on, which in this case are the
+object files. Each of these files is processed according to its own
+rule. These rules say to update each &#8216;.o&#8217; file by compiling its source
+file. The recompilation must be done if the source file, or any of the
+header files named as prerequisites, is more recent than the object
+file, or if the object file does not exist. <br>
+<br>
+The other rules are processed because their targets appear as
+prerequisites of the goal. If some other rule is not depended on by the
+goal (or anything it depends on, etc.), that rule is not processed,
+unless you tell make to do so (with a command such as make clean). <br>
+<br>
+Before recompiling an object file, make considers updating its
+prerequisites, the source file and header files. This makefile does not
+specify anything to be done for them&#8212;the &#8216;.c&#8217; and &#8216;.h&#8217; files are not
+the targets of any rules&#8212;so make does nothing for these files. But make
+would update automatically generated C programs, such as those made by
+Bison or Yacc, by their own rules at this time. <br>
+<br>
+After recompiling whichever object files need it, make decides whether
+to relink edit. This must be done if the file edit does not exist, or
+if any of the object files are newer than it. If an object file was
+just recompiled, it is now newer than edit, so edit is relinked. Thus,
+if we change the file insert.c and run make, make will compile that
+file to update insert.o, and then link edit. If we change the file
+command.h and run make, make will recompile the object files kbd.o,
+command.o and files.o and then link the file edit.<br>
+<br>
+<br>
+A simple makefile consists of &#8220;rules&#8221; with the following shape: <br>
+<br>
+<span class="code">
+&nbsp;&nbsp;&nbsp;&nbsp; target ... : prerequisites ...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+recipe<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+...</span><br>
+<br>
+<br>
+A sample makefile:<br>
+<br>
+<span class="code">&nbsp;edit : main.o kbd.o command.o
+display.o \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+insert.o search.o files.o utils.o<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cc -o edit main.o kbd.o command.o display.o \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+insert.o search.o files.o utils.o<br>
+&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp; main.o : main.c defs.h<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cc -c main.c<br>
+&nbsp;&nbsp;&nbsp;&nbsp; kbd.o : kbd.c defs.h command.h<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cc -c kbd.c<br>
+&nbsp;&nbsp;&nbsp;&nbsp; command.o : command.c defs.h
+command.h<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cc -c command.c<br>
+&nbsp;&nbsp;&nbsp;&nbsp; display.o : display.c defs.h
+buffer.h<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cc -c display.c<br>
+&nbsp;&nbsp;&nbsp;&nbsp; insert.o : insert.c defs.h
+buffer.h<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cc -c insert.c<br>
+&nbsp;&nbsp;&nbsp;&nbsp; search.o : search.c defs.h
+buffer.h<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cc -c search.c<br>
+&nbsp;&nbsp;&nbsp;&nbsp; files.o : files.c defs.h
+buffer.h command.h<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cc -c files.c<br>
+&nbsp;&nbsp;&nbsp;&nbsp; utils.o : utils.c defs.h<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cc -c utils.c<br>
+&nbsp;&nbsp;&nbsp;&nbsp; clean :<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+rm edit main.o kbd.o command.o display.o \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+insert.o search.o files.o utils.o<br>
+<br>
+</span>Who is doing the parsing of the makefile?<br>
+Where does the 'syntax' of the rules come from?<br>
+Is this internal or external DSL?<br>
+<h3>ANT</h3>
+Ant is different from <span style="font-family: Courier New,Courier,monospace;">make</span>.
+Instead of a model where it is extended with shell-based commands, Ant
+is extended using Java classes. Instead of writing shell commands which
+are inherently OS specific, the
+configuration files are XML-based, calling out a target tree where
+various tasks get executed. Each task is run by an object that
+implements a particular Task interface.<br>
+<br>
+So Ant give you more platform independence and the flexibility of Java.
+&nbsp;If you are a UNIX shell expert you probably loose some
+features like - <span style="font-family: monospace; color: white;">`find
+. -name foo -exec rm {}`</span> - but how much is the flexibility
+worth to you and your project?<br>
+<br>
+You start ant with the command: <br>
+<br>
+<span class="code">
+ant -f buildfile</span><br>
+<br>
+Your buildfile might look something like this: <br>
+<br>
+<span class="code">
+&lt;project name="MyProject" default="dist" basedir="."&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;description&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+simple example build file<br>
+&nbsp;&nbsp;&nbsp; &lt;/description&gt;<br>
+&nbsp; &lt;!-- set global properties for this build --&gt;<br>
+&nbsp; &lt;property name="src" location="src"/&gt;<br>
+&nbsp; &lt;property name="build" location="build"/&gt;<br>
+&nbsp; &lt;property name="dist"&nbsp;
+location="dist"/&gt;<br>
+<br>
+&nbsp; &lt;target name="init"&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;!-- Create the time stamp
+--&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;tstamp/&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;!-- Create the build directory
+structure used by compile --&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;mkdir dir="${build}"/&gt;<br>
+&nbsp; &lt;/target&gt;<br>
+<br>
+&nbsp; &lt;target name="compile" depends="init"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+description="compile the source " &gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;!-- Compile the java code from
+${src} into ${build} --&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;javac srcdir="${src}"
+destdir="${build}"/&gt;<br>
+&nbsp; &lt;/target&gt;<br>
+<br>
+&nbsp; &lt;target name="dist" depends="compile"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+description="generate the distribution" &gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;!-- Create the distribution
+directory --&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;mkdir dir="${dist}/lib"/&gt;<br>
+<br>
+&nbsp;&nbsp;&nbsp; &lt;!-- Put everything in ${build}
+into the MyProject-${DSTAMP}.jar file --&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;jar
+jarfile="${dist}/lib/MyProject-${DSTAMP}.jar"
+basedir="${build}"/&gt;<br>
+&nbsp; &lt;/target&gt;<br>
+<br>
+&nbsp; &lt;target name="clean"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+description="clean up" &gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;!-- Delete the ${build} and
+${dist} directory trees --&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;delete dir="${build}"/&gt;<br>
+&nbsp;&nbsp;&nbsp; &lt;delete dir="${dist}"/&gt;<br>
+&nbsp; &lt;/target&gt;<br>
+&lt;/project&gt;<br>
+</span><br>
+Same questions:<br>
+<br>
+Who is doing the parsing?<br>
+Where did all those XML tags come from?<br>
+Is this internal or external DSL?<br>
+<br>
+<h3>Gradle</h3>
+Gradle is a build system for the Java (JVM) world. Gradle provides: <br>
+<ul>
+<li>A very flexible general purpose build tool like Ant. </li>
+<li>Switchable, build-by-convention framework. </li>
+<li>Very powerful support for multi-project builds. </li>
+<li>Very powerful dependency management. </li>
+<li>Full support for your existing Maven or Ivy repository
+infrastructure. </li>
+<li>Support for transitive dependency management without the
+need for remote repositories or pom.xml and ivy.xml files. </li>
+<li>Ant tasks and builds as first class citizens. </li>
+<li>Groovy build scripts. </li>
+<li>A rich domain model for describing your build. </li>
+</ul>
+<br>
+A command line to start Gradle would look like this:<br>
+<br>
+<span class="code">gradle&nbsp;-b buildFile.gradle</span><br>
+<br>
+Gradle's build scripts are written in Groovy, not XML. But unlike other
+approaches this is not for simply exposing the raw scripting power of a
+dynamic language. That would just lead to a very difficult to maintain
+build. The whole design of Gradle is oriented towards being used as a
+language, not as a rigid framework. And Groovy is our glue that allows
+you to tell your individual story with the abstractions Gradle (or you)
+provide. Gradle provides some standard stories but they are not
+privileged in any form. This is for us a major distinguishing features
+compared to other declarative build systems. <br>
+<br>
+Your Gradle buildfile might look like this:<br>
+<br>
+<span class="code"><br>
+apply plugin: 'java'<br>
+apply plugin: 'eclipse'<br>
+<br>
+sourceCompatibility = 1.5<br>
+version = '1.0'<br>
+jar {<br>
+&nbsp;&nbsp;&nbsp; manifest {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+attributes 'Implementation-Title': 'Gradle Quickstart',
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp;'Implementation-Version': version<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+<br>
+repositories {<br>
+&nbsp;&nbsp;&nbsp; mavenCentral()<br>
+}<br>
+<br>
+dependencies {<br>
+&nbsp;&nbsp;&nbsp; compile group: 'commons-collections',<br>
+&nbsp; &nbsp;&nbsp;name: 'commons-collections', version:
+'3.2'<br>
+&nbsp;&nbsp;&nbsp; testCompile group: 'junit', name:
+'junit', version: '4.+'<br>
+}<br>
+<br>
+test {<br>
+&nbsp;&nbsp;&nbsp; systemProperties 'property': 'value'<br>
+}<br>
+<br>
+uploadArchives {<br>
+&nbsp;&nbsp;&nbsp; repositories {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+flatDir(dirs: file('repos'))<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+</span>
+<br>
+Same questions:<br>
+<br>
+Who is doing the parsing?<br>
+What's up with all that syntax and those functions?<br>
+Is this internal or external DSL?<br>
+<br>
+<hr style="width: 100%; height: 2px;">"Generalizing
+grossly, I find it
+useful to divide them into two broader styles. External DSLs are
+written in a different language than the main (host) language of the
+application and are transformed into it using some form of compiler or
+interpreter. The Unix little languages, active data models, and XML
+configuration files all fall into this category. Internal DSLs morph
+the host language into a DSL itself - the Lisp tradition is the best
+example of this."<br>
+- Martin Fowler<br>
+<br>
+<address>Made 24 September 2011<br>
+by D Bartlett.</address>
+</body></html>

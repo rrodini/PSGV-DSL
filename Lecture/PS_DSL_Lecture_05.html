@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html><head><title>DSL Lecture 5</title>
+
+<link rel="stylesheet" href="PS_Lecture.css"></head>
+<body>
+<!-- Site navigation menu -->
+<ul class="navbar">
+<li><a href="PS_DSL_Syllabus.html">Syllabus</a></li>
+<li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
+<li><a href="PS_DSL_Lecture_02.html">Lecture 2</a></li>
+<li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
+<li><a href="PS_DSL_Lecture_04.html">Lecture 4</a></li>
+<li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
+<li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
+<li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
+<li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
+<li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
+</ul>
+<!-- Main content -->
+<h1>Penn State Great Valley - DSL Course - Lecture 5</h1>
+<h2>The Semantic Model and Symbol Table</h2>The term Semantic Model is
+used over and over and over again in the book and throughout CS.
+&nbsp;It seems to be one of &nbsp;those overloaded terms which is used
+constantly but never really well defined at least well enough so
+students feel they have a strong grasp of the term in it's various
+contexts. &nbsp;So let's get it straight and tear it apart!<br><br>Definition of 'semantic' - is the study of meaning. &nbsp;It is the study of the relationship between <span style="font-style: italic;">signifiers</span>, such as words, phrases, symbols and signs,&nbsp;and what they stand for, their <span style="font-style: italic;">denotata</span>.<br><br>Definition of 'model':<br><ol><li>a standard or example for imitation or comparison.</li><li>a representation, generally in miniature, to show the construction or appearance of something.</li><li>an image in clay, wax, or the like, to be reproduced in more durable material.</li><li>etc, etc, etc....</li></ol>According to Eric Evans,
+author of Domain Driven Design, the semantic model is the model of the
+domain where you can apply all the principles that&nbsp;DDD espouses.
+&nbsp;The linguistic abstraction is a thin veneer on top of the
+underlying model. &nbsp;The more well abstracted your model is, the
+easier the construction of the layer on top of it will be.<p>You must realize that the term 'semantic model'
+can represent the abstract form Evan associates with the domain you are
+trying to model and the concrete representation that Fowler often works
+in when describing the development of DSLs. &nbsp;We will look at it
+from Martin Fowler's perspective but we may move between the abstract
+and the concrete during the discussion.</p><p>In the context of a DSL,
+a semantic model is a representation, such as an in-memory object
+model, of the same subject that the DSL describes. &nbsp;The semantic
+model acts as a repository for the next action that you execute.
+&nbsp;If the DSL describes a state machine, then the Semantic Model
+might be an object model with classes for state, event, etc. &nbsp;The
+Semantic Model is the library or framework that the DSL populates.</p><p>A
+semantic model is a notion very similar to that of a Domain Model.
+&nbsp;A Domain Model captures the core behavior of an application,
+while a Semantic Model may play a supporting role. &nbsp;A good example
+of this is an object-relational mapper that coordinates data between an
+object model and a relational database. &nbsp;You could use a DSL to
+describe object-relational mappings, and the resulting Semantic Model
+would consist of the Data Mappers, not the Domain Model that is the
+subject of the mapping.</p><p>A Semantic Model is usually different
+from a Abstract Syntax Tree (AST) because they &nbsp;server separate
+purposes. &nbsp;A syntax tree corresponds to the structure of the DSL
+scripts. &nbsp;Although an AST may simplify and somewhat reorganize the
+input data, it still takes fundamentally the same form. &nbsp;The
+Semantic Model, however, is based on what will be done with the
+information from a DSL script. &nbsp;It often will be substantially
+different structure, and usually not a tree structure. &nbsp;There are
+occasions when an AST is an effective Semantic Model for a DSL, but
+these are the exception rather than the rule.</p>The Semantic Model can
+often precede the DSL. &nbsp;This happens when you decide that a
+portion of the Domain Model might be better populated from a DSL than
+from a regular command-query interface. &nbsp;Alternatively, you can
+build a DSL and Semantic Model together using the discussions with
+Domain experts both to refine the expressions of the DSL and the
+structure of the the Domain Model.<br><br>The Semantic Model can either
+hold the code to execute itself (interpreter style), or be the basis
+for code generation (compiler style). &nbsp;Even if you are using code
+generation, it's useful to provide interpretation to help with testing
+and debugging.<br><br>So let's build an Semantic Model for the fun of it...<br><br><h2>Tips on Building Models<br></h2><ol><li>Understand
+the business completely. &nbsp;In my view this is the best part of our
+job. &nbsp;I've working in manufacturing, insurance, finance, banking,
+medical devices, medical records, pharmaceuticals, &nbsp;retail and
+others.&nbsp;</li><li>Use good names for all your classes. &nbsp;If you
+can't explain an object to someone then it's probably not right.
+&nbsp;That's OK, get it right on the next iteration. &nbsp;Names should
+be consistent and some stupid overloaded computer term, it should be
+something the business understands implicitly. &nbsp;The name should be
+exact in that it defines the responsibilities of the entity in the
+model.</li><li>Use metaphors to model abstract operations/entities to
+help simplify the design of the model. &nbsp;For example, "Sticky Note"
+is a comment that hangs on to some entity as it travels through the
+order process flow.</li><li>Make the model self-contained. &nbsp;It
+should contain the raw logic of the application. &nbsp;Any additional
+logic should be contained in some layers, as for instance the
+work-flow, dependency injection, persistence....</li><li>The model
+should be independent. &nbsp;The model shouldn't change because the
+underlying persistence implementation or the UI or any other
+&nbsp;layer changes.</li><li>The model should be technically simple.
+&nbsp;It should only contain POJOs. &nbsp;The responsibilities assigned
+to an entity in the model should be limited to only those necessary for
+the software domain.</li><li>Keep the model up to date.</li><li>Make
+sure the software model matches the business model. &nbsp;The software
+domain should be easy to understand for the businessmodel expert and it shouldn't have any discrepancy. </li><li>Care
+for the code quality of you model because it is the foundation of your
+application. &nbsp;If it is bad the whole thing can fall apart, plus
+changes are inevitable to your model so it has to be adaptable.</li><li>Test your model independently and involve your customer in testing.</li></ol><h2>Card Game Semantic Model</h2>Although
+not as famous as its logical or physical data model cousins, the
+semantic model deserves generally greater consideration because of its
+unyielding focus on the user perspective. When built correctly, the
+semantic model is the user's perspective of the data-and what could be
+more important?<br><br>In a general sense, semantics is the study of
+meanings-of the message behind the words. "Semantic" in the context of
+data and applications means "from the user's perspective." It is the
+data in context-where the meaning is. "Information" is also often
+defined as "data in context." "Semantic" therefore, while not
+synonymous with information, carries with it the same sense of data at
+work, or data in the worker's hands. <br><br>Semantic data elements
+are deceptively similar to the entities and attributes we find in a
+logical or physical data model. They are things like "customer,"
+"product," "credit limit," "net sales," and so forth. What the semantic
+modeler must address however, is the context of the term-the data
+element- and how it relates to the data elements as present in the
+computing systems data stores. For example, is a customer an
+individual-the Purchasing Agent- or a company? Must a customer have
+actually purchased a product, or can a customer also be someone who is
+in the market for a (the) product? What in some contexts might be
+called a "prospect" might be called a "customer" in others. Is a
+customer a wholesaler or is the end consumer the customer? Is the
+wholesaler's customer also called a customer?<br><br>The answer to
+these questions is likely to be "it depends." And that is the correct
+answer, because it does depend. It depends on who is asking and why.
+ABC company's sales department may draw a clear line between customers
+(buyers) and prospects. ABC's marketing department may simply use
+"customer" to refer to those participating in the market, whether or
+not they've actually bought ABC's product.<br><br>The semantic modeler
+must drill down and capture the nuance of each perspective and must
+struggle to work with the business users to develop a naming convention
+or syntax that provides clarity. All perspectives are represented in
+the semantic model. <br><br>So in our example let's create a semantic model for working with cards and card games. &nbsp;Obvious terms include:<br><br><ul><li>Card</li><li>Suit</li><li>Deck</li><li>Player</li><li>Deal</li><li>Shuffle</li></ul>Ok,
+sounds good, now what? &nbsp;We have to look at the relationships and
+actions. &nbsp;For example, suits (Clubs, Diamonds, Hearts, Spades)
+pertain to cards. &nbsp;Deck is a collection of cards, while shuffle is
+an action taken on a deck.<br><br><img style="width: 289px; height: 248px;" alt="Card Player Use Case Diagram" src="images/CardPlayerUseCase.jpg"><br><br><br><h3>Data Dictionary:</h3><br><table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2"><tbody><tr><td style="text-align: center; font-weight: bold; text-decoration: underline;">Term</td><td style="text-align: center; font-weight: bold; text-decoration: underline;">Description</td><td style="text-align: center; font-weight: bold; text-decoration: underline;">Type</td></tr><tr><td>Player</td><td>An external entity that will interact with other players and the deck of cards.</td><td>Actor</td></tr><tr><td>Card</td><td>A data item that has value and suit.</td><td>Data</td></tr><tr><td>Hand</td><td>A collection of cards held by a player.</td><td>Collection</td></tr><tr><td>Deck</td><td>A collection of cards.</td><td>Collection</td></tr><tr><td>Shuffle</td><td>A player will manipulate the deck of cards to rearrange the order of the collection.</td><td>Use Case</td></tr><tr><td>Deal</td><td>A
+player will hand out individual cards to the different players.
+&nbsp;The number of cards handed out depends on the game being played.</td><td>Use Case</td></tr><tr><td>Card Game</td><td>A
+collecton of players that get together with a deck of cards. &nbsp;A
+set of rules&nbsp; governs how a particular card game is played.
+&nbsp;These rules control the number of cards dealt, displayed and
+strategies players may use to generate a hand with higher value than
+the other players.</td><td>Use Case</td></tr></tbody></table><br><br><p></p><p></p><p>&nbsp;<!-- Sign and date the page, it's only polite! --></p>
+<address>Made 31 August 2011<br>
+by D Bartlett.</address>
+</body></html>

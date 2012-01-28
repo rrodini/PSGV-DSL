@@ -1,0 +1,403 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html><head><title>DSL Lecture 2</title>
+
+
+<link rel="stylesheet" href="PS_Lecture.css"></head><body>
+<!-- Site navigation menu -->
+<ul class="navbar">
+<li><a href="PS_DSL_Syllabus.html">Syllabus</a></li>
+<li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
+<li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
+<li><a href="PS_DSL_Lecture_04.html">Lecture 4</a></li>
+<li><a href="PS_DSL_Lecture_05.html">Lecture 5</a></li>
+<li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
+<li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
+<li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
+<li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
+<li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
+</ul>
+<!-- Main content -->
+<h1>Penn State Great Valley Engineering<br>
+DSL Course - Lecture 2</h1>
+<h2 style="text-decoration: underline; font-weight: bold;">Implementing
+DSLs</h2>
+In first class we set the guidelines for the class and *hopefully*
+explained what a DSL is and why they are useful. &nbsp;In this
+class we will look at how to build a DSL. &nbsp;This class is not
+specific to internal or external DSL but looks at the common issues for
+both. &nbsp;Future classes will look at the specific issues for
+either internal or external DSLs.
+<h2>Architecture of DSL Processing</h2>
+First some definitions:<br>
+<br>
+<span style="font-weight: bold; text-decoration: underline;">Domain
+Model</span>
+-
+A domain model is a model of the domain within which an Enterprise
+conducts its business. &nbsp;The domain model for one enterprise
+should
+be the same as that for any other enterprise conducting business in the
+same domain.<br>
+<br>
+The
+domain model can be thought of as a conceptual model of a domain of
+interest (often referred to as a problem domain) which describes the
+various entities, their attributes, roles and relationships, plus the
+constraints that govern the integrity of the model elements comprising
+that problem domain.<br>
+<br>
+<img style="width: 618px; height: 420px;" alt="Domain Model for Health Insurance Plan - kishorekumar 62" src="images/800px-Domain_model.png"><br>
+<br>
+<span style="font-weight: bold; text-decoration: underline;">Semantic
+Model</span>
+- Fowler says that a semantic model is 'very similar to that of a
+Domain Model.' &nbsp;He uses the 'separate term because although
+Semantic Models are often subsets of Domain Models, they don't have to
+be.'<br>
+<br>
+I find all this to be confusing. &nbsp;I understand domain
+models and have used them often. &nbsp;My understanding of semantic
+models comes from database design. &nbsp;From that world I
+understand
+the semantic model to be "a conceptual data model that includes the
+capability to express information that enables parties to the
+information exchange to interpret meaning (semantics) from the
+instances, without the need to know the meta-model." &nbsp;If that
+is
+the case I get this notion of the need for a Semantic Model for a DSL
+because you are trying to create a way to grab meaning from the
+underlying data without knowing the underlying objects.<br>
+<br>
+What you
+need to understand is that a DSL, like any language, is about
+communication. &nbsp;To communicate effectively you need to
+understand
+the vocabulary of the domain, which comes from the domain model.
+&nbsp;Once you understand the vocabulary you can come up with a
+semantic model that will allow the users of your DSL to interact with
+the objects of the domain model. &nbsp;Now your users only have to
+know
+the DSL and not all the underlying objects.<br>
+<br>
+"In many ways, this
+separation of the semantic model and DSL syntax mirrors the separation
+of domain model and presentation that we see in designing enterprise
+software. &nbsp;Indeed on a hot day I think of a DSL as another
+form of
+user interface."<br>
+<br>
+The difference between internal and external
+DSLs lies in the parsing step - both in what is parsed and in how the
+parsing is done.<br>
+<br>
+<ul>
+<li>With an external DSL, there is very
+clear separation between the DSL scripts, the parser, and the Semantic
+Model. &nbsp;The DSL scripts are written in a clearly separate
+language; the parser reads these scripts and populates the Semantic
+Model.</li>
+<li>Things are messier in an internal DSL, parsing is done
+by a combination of the host language parser and an explicit layer of
+objects whose job is to provide the necessary fluent interfaces to act
+as the language.</li>
+<li>The true distinction is that internal DSLs are
+written in an executable language and parsed by executing the DSL
+within that language.</li>
+</ul>
+<h2>The Working of a Parser</h2>
+So the differences between internal and external DSLs lie entirely in
+parsing.<br>
+<br>
+So
+what is parsing? &nbsp;Parsing is the process of analyzing text and
+breaking it down into discrete components or tokens. &nbsp;In
+eighth
+grade I did a whole year of sentence diagramming with Miss Martin.
+&nbsp;I hated it but I learned a lot and it paid off in spades when
+I
+had to take a compiler class in college.<br>
+<br>
+"My grandfather, a lifelong non-smoker, attributed his longevity to a
+healthy lifestyle."<br>
+<img style="width: 447px; height: 145px;" alt="" src="images/SentenceDiagram.gif"><br>
+<br>
+So when you parse text you transform it into something that creates a
+different structure for a different analysis.<br>
+<br>
+Parsing
+is a strongly hierarchical operation. &nbsp;We transform the text
+from
+one structure to another. &nbsp;In computer parsing we almost
+always
+create a tree structure known as a parse tree or syntax tree.<br>
+<br>
+<img style="width: 147px; height: 409px;" alt="" src="images/Parser_Flow.gif"><br>
+<br>
+Now that we have that Syntax tree we have to interpret it...
+<h2>Grammars, Syntax, and Semantics</h2>
+In order&nbsp;to parse a language, it must be described by a
+context-free grammar. This means that you specify one or more syntactic
+groupings and give rules for constructing them from their parts. For
+example, in the C language, one kind of grouping is called an
+`expression'. One rule for making an expression might be, &#8220;An
+expression can be made of a minus sign and another expression&#8221;. Another
+would be, &#8220;An expression can be an integer&#8221;. As you can see, rules are
+often recursive, but there must be at least one rule which leads out of
+the recursion. <br>
+<br>
+In the formal grammatical rules for a language, each kind of syntactic
+unit or grouping is named by a symbol. Those which are built by
+grouping smaller constructs according to grammatical rules are called
+nonterminal symbols; those which can't be subdivided are called
+terminal symbols or token types. We call a piece of input corresponding
+to a single terminal symbol a token, and a piece corresponding to a
+single nonterminal symbol a grouping. <br>
+<br>
+We can use the C language as an example of what symbols, terminal and
+nonterminal, mean. The tokens of C are identifiers, constants (numeric
+and string), and the various keywords, arithmetic operators and
+punctuation marks. So the terminal symbols of a grammar for C include
+`identifier', `number', `string', plus one symbol for each keyword,
+operator or punctuation mark: `if', `return', `const', `static', `int',
+`char', `plus-sign', `open-brace', `close-brace', `comma' and many
+more. (These tokens can be subdivided into characters, but that is a
+matter of lexicography, not grammar.) <br>
+<br>
+Here is a simple C function subdivided into tokens: <br>
+<br>
+<span class="code"><br>
+&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* keyword `int' */<br>
+&nbsp;&nbsp;&nbsp;&nbsp; square (int x)&nbsp; /*
+identifier, open-paren, keyword `int',<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+identifier, close-paren */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;
+{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* open-brace */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return x *
+x; /* keyword `return', identifier, asterisk,<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+identifier, semicolon */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;
+}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* close-brace */<br>
+<br>
+</span><br>
+The syntactic groupings of C include the expression, the statement, the
+declaration, and the function definition. These are represented in the
+grammar of C by nonterminal symbols `expression', `statement',
+`declaration' and `function definition'. The full grammar uses dozens
+of additional language constructs, each with its own nonterminal
+symbol, in order to express the meanings of these four. The example
+above is a function definition; it contains one declaration, and one
+statement. In the statement, each &#8216;x&#8217; is an expression and so is &#8216;x *
+x&#8217;. <br>
+<br>
+2 + 3&nbsp;or &nbsp;"add three to two"<br>
+<br>
+A
+grammar defines the one form of a syntax tree; the actual grammar and
+the syntax tree you choose &nbsp;will depend on many factors,
+including
+the features of the grammar language you're working with and how you
+want to process the syntax tree.<br>
+<br>
+The grammar only defines the
+syntax of a language - how it gets represented in the syntax tree - we
+know nothing about its semantics or what an expression means.
+&nbsp;2 +
+3 could mean "5" or it could mean "23" - the <span style="font-weight: bold;">syntax</span> is the same
+but the <span style="font-weight: bold;">semantics</span>
+differ.<br>
+<br>
+This
+is the biggest problem in teaching! &nbsp;What I say and what you
+understand I say may be two completely different things! &nbsp;That
+is
+why you should ask questions....<br>
+<br>
+So let's do a very trivial example:<span class="code"><br>
+/**<br>
+*A simple object to hold the data for each individual file action<br>
+*/<br>
+class FileAction {<br>
+&nbsp; def actionType<br>
+&nbsp; def fileLocation<br>
+&nbsp; def fileName<br>
+&nbsp; def newLocation<br>
+&nbsp; def newName<br>
+&nbsp; def actionDate<br>
+}<br>
+<br>
+def move(fileLocation, fileName, newLocation, newName){<br>
+&nbsp; action('Move', fileLocation, fileName, newLocation, newName)<br>
+}<br>
+<br>
+def copy(fileLocation, fileName, newLocation, newName){<br>
+&nbsp; action("Copy", fileLocation, fileName, newLocation, newName)<br>
+}<br>
+<br>
+def action(type, fileLocation, fileName, newLocation, newName){<br>
+&nbsp; def action = new FileAction(actionType:type,<br>
+&nbsp; &nbsp; fileLocation:fileLocation, fileName:fileName,<br>
+&nbsp; &nbsp; newLocation:newLocation, newName:newName,
+actionDate:new Date())<br>
+&nbsp; println "${action.actionType}ing from<br>
+&nbsp; ${action.fileLocation}/${action.fileName} to" +<br>
+&nbsp; " ${action.newLocation}/${action.newName}"<br>
+}<br>
+<br>
+copy "fromLocation", "fromName", "toLocation", "toName"<br>
+move "fromLocation", "fromName", "toLocation", "toName"<br>
+<br>
+</span>
+<br>
+As I said a very trivial Example - we basically create some simple
+methods that will move files from one location to another. &nbsp;We
+have 'copy' and 'move' and could easily add 'delete', we could also add
+a 'cp' and a 'mv' to make it less verbose. It not so easy to read and
+it's not much different from an API.<br>
+<br>
+So let's make our simple DSL a bit more fluent:<br>
+<br>
+<span class="code"><br>
+/**
+*A simple object to hold the data for each individual file action
+*/
+class FileAction {<br>
+&nbsp; def actionType<br>
+&nbsp;&nbsp;def fromLocation<br>
+&nbsp; def fileName<br>
+&nbsp;&nbsp;def toLocation<br>
+&nbsp;&nbsp;def newName<br>
+&nbsp;&nbsp;def actionDate<br>
+}<br>
+<br>
+class FileHelper {<br>
+&nbsp; static move(self, fileAction){<br>
+&nbsp; &nbsp; fileAction.ActionType = 'Move'<br>
+&nbsp; &nbsp; fileAction.actionDate = new Date()<br>
+&nbsp; &nbsp; action(fileAction)<br>
+&nbsp; }<br>
+<br>
+&nbsp; static copy(self, fileAction){<br>
+&nbsp; &nbsp; fileAction.actionType = 'Copy'<br>
+&nbsp; &nbsp; fileAction.actionDate = new Date()<br>
+&nbsp; &nbsp; action(fileAction)<br>
+&nbsp; }<br>
+<br>
+&nbsp;&nbsp;static action(fileAction){<br>
+&nbsp; &nbsp; println "${fileAction.actionType}ing from<br>
+&nbsp;&nbsp; &nbsp; &nbsp;
+&nbsp;${fileAction.fromLocation}/${fileAction.fileName} to" +
+"<br>
+&nbsp;&nbsp; &nbsp; &nbsp;
+&nbsp;${fileAction.toLocation}/${fileAction.newName} on <br>
+&nbsp; &nbsp; &nbsp; &nbsp; ${fileAction.actionDate}"<br>
+&nbsp; }<br>
+<br>
+&nbsp; static name(self, name){<br>
+&nbsp; &nbsp; self.fileName = name<br>
+&nbsp; &nbsp; self.newName = name<br>
+&nbsp; &nbsp; return self<br>
+&nbsp; }<br>
+<br>
+&nbsp; static from(self, location){<br>
+&nbsp; &nbsp; self.fromLocation = location<br>
+&nbsp; &nbsp; return self<br>
+&nbsp; }<br>
+&nbsp;<br>
+&nbsp; static to(self, location){<br>
+&nbsp; &nbsp; self.toLocation = location<br>
+&nbsp; &nbsp; return self<br>
+&nbsp; }<br>
+}<br>
+<br>
+use(FileHelper){<br>
+&nbsp; copy name("myfile").from("fromLocation").to("toLocation")<br>
+&nbsp; move name("myfile").from("fromLocation").to("toLocation")<br>
+}<br>
+&nbsp;</span><br>
+<h2>Parsing Data</h2>
+When a parser recognizes the input stream that you
+give to it, it generates the complete parse tree for the language
+script. Parsers are classified based on the order in which the nodes of
+the parse tree are constructed. The parser might start constructing the
+parse tree from the root; these parsers are called top-down parsers.
+Conversely, the parse tree might be constructed starting from the
+leaves and moving up towards the root. We call these bottom-up parsers.
+Top-down and bottom-up parsers vary in the complexity of their
+implementations and the class of grammars that they recognize. As a DSL
+designer, it&#8217;s worthwhile to make yourself familiar with the general
+concepts associated with both of them.<br>
+<br>
+<img style="width: 398px; height: 379px;" alt="" src="images/topdownParsing.jpg"><br>
+<br>
+<img style="width: 401px; height: 385px;" alt="" src="images/bottomupParsing.jpg"><br>
+<br>
+The
+parse is inherently a tree walk, and whenever you are processing a part
+of the DSL script, you'll have some information about the context
+within the branch of the syntax tree that you're processing.
+<h2>Macros</h2>
+Macros come in two flavors - textual and syntactic.<br>
+<ul>
+<li>textual
+- allow the substitution of some text with another text.
+&nbsp;#2924FF
+is a color code but without lots of exposure it is hard to tell what
+color that is. &nbsp;The word "BLUE" is much easier to understand.
+&nbsp;A textual macro will replace "BLUE" with "#2924FF".</li>
+<li>syntactic - work
+on a host language by transforming one kind of expression into another.
+&nbsp;LISP uses this heavily and it is the basis of Java Generics
+and
+C++ Templates.</li>
+</ul>
+<h2>Testing DSLs</h2>
+This
+is an area which I am complete agreement with Martin Fowler.
+&nbsp;Test-driven development should be a common practice to all
+software development practitioners.
+<h3>Testing the Semantic Model</h3>
+Does
+the model behave the way I expect it to? &nbsp;This is really
+testing
+the interface - based upon these inputs, I expect these outputs.
+&nbsp;This should be done to test the model independently of the
+DSL
+and the parser.<br>
+<br>
+In
+all testing situations you are trying to test some type of predefined
+model. &nbsp;Any Semantic Model tests will test the actions that
+are
+executed when a rule is recognized by the parser.
+<h3>Testing the Parser</h3>
+As we showed above the parser looks at the
+input and creates a parse tree. &nbsp;A parser test will have to
+test
+to ensure the parse tree is as you expect it. &nbsp;You may want to
+parse some commands and walk through the parse tree to ensure they
+represent your commands appropriately. &nbsp;
+<h3>Testing the Scripts</h3>
+Once the unit tests are written for
+Semantic Model and the parser, you've basically tested the generic
+code. &nbsp;Your DSL Scripts are also code and they should be
+tested as
+well. &nbsp;In this case you have scripts that run and output from
+those scripts which need to be compared.<br>
+<br>
+Script tests also act
+as integration tests, since any errors in the parser or Semantic Model
+should cause them to fail. &nbsp;As a result, it is worth sampling
+the
+DSL scripts to use a few for this purpose.
+<h2>Handling Errors</h2>
+<h2>Migrating DSLs</h2>
+<address>Made 31 August 2011<br>
+by D Bartlett.</address>
+</body></html>

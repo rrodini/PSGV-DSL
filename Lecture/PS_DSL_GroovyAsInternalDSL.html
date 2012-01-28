@@ -1,0 +1,387 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html><head>
+  <title>DSL Syllabus</title>
+
+  
+  
+  <link rel="stylesheet" href="PS_Lecture.css">
+
+</head><body>
+<!-- Site navigation menu -->
+<ul class="navbar">
+
+  <li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
+  <li><a href="PS_DSL_Lecture_02.html">Lecture 2</a></li>
+  <li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
+  <li><a href="PS_DSL_Lecture_04.html">Lecture 4</a></li>
+  <li><a href="PS_DSL_Lecture_05.html">Lecture 5</a></li>
+  <li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
+  <li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
+  <li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
+  <li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
+  <li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
+</ul>
+
+<!-- Main content -->
+<h1>Groovy as an (excellent) Internal DSL<br>
+</h1>
+
+Groovy is good for a DSL because:<br>
+
+<ul>
+
+  <li>basic features<br>
+  </li>
+  <li>closures<br>
+  </li>
+  <li>Meta Object Protocol<br>
+  </li>
+</ul>
+
+Basic Features<br>
+
+<ul>
+
+  <li>less boilerplate</li>
+  <ul>
+    <li>semicolons optional</li>
+    <li>return keyword optional</li>
+    <li>Caveat: empty parens needed for method w/ no parameters</li>
+    <li>Example:&nbsp; println()</li>
+  </ul>
+  <li>dynamic typing</li>
+  <ul>
+    <li>system infers type so user doesn&#8217;t have to declare it</li>
+  </ul>
+  <li>all Groovy classes are POGOs</li>
+  <ul>
+    <li>properties are public</li>
+    <li>implicit generation of getters and setters</li>
+  </ul>
+  <li>&#8220;multi-step&#8221; constructor</li>
+  <ul>
+    <li>call default constructor&nbsp;</li>
+    <li>set properties of new object</li>
+  </ul>
+</ul>
+
+<hr>
+Closures<br>
+
+<ul>
+
+  <li>code as objects</li>
+  <ul>
+    <li>not methods of a particular class</li>
+    <li>can be passed as parameters</li>
+  </ul>
+</ul>
+
+<ul>
+
+  <li>used within an iteration method<br>
+  </li>
+  <ul>
+    <li>callback&nbsp; behavior</li>
+  </ul>
+</ul>
+
+Insert diagram closure sequence diagram.jpg here<br>
+
+<ul>
+
+  <li>used as a parameter</li>
+  <ul>
+    <li>visitor pattern<br>
+    </li>
+  </ul>
+</ul>
+
+Demo: Drawing program (below)<br>
+
+<br>
+
+<div class="code">
+<pre>class Drawing {<br>    List shapes<br>    def accept(Closure yield) { shapes.each{it.accept(yield)} }<br>}<br>class Shape {<br>    def accept(Closure yield) { yield(this) }<br>}<br>class Square extends Shape {<br>    def width<br>    def area() { width**2 }<br>}<br>class Circle extends Shape {<br>    def radius<br>    def area() { Math.PI * radius**2 }<br>}<br>def picture = new Drawing(shapes: [new Square(width:1.0), new Circle(radius:1.0)])<br>def total = 0<br><br>picture.accept { total += it.area() }<br>println "The shapes in this drawing cover an area of $total units."<br>println 'The individual contributions are: '<br><br>picture.accept { println it.class.name + ":" + it.area() }<br></pre>
+</div>
+
+<hr>
+<br>
+
+Meta Object Protocol<br>
+
+<ul>
+
+  <li>extra level of indirection on each method call</li>
+</ul>
+
+<div class="code">
+println 'Hello'&nbsp; // Groovy<br>
+InvokerHelper.invokeMethod(this,"println",{"Hello"}); // Java
+</div>
+
+<ul>
+
+  <li>opens a world of possibilities</li>
+</ul>
+
+Hook Methods<br>
+
+<ul>
+
+  <li>hook <span style="font-style: italic;">pretended</span> methods</li>
+</ul>
+
+<div class="code">
+<pre>class Pretender {<br>  def methodMissing(String name, Object args) {<br>	  "called $name with $args"<br>  }<br>}<br>def bounce = new Pretender()<br>assert bounce.hello('Robert')  == 'called hello with [Robert]'<br></pre>
+</div>
+
+<ul>
+
+  <li>hook <span style="font-style: italic;">pretended</span>
+properties</li>
+</ul>
+
+<div class="code">
+<pre>class PropPretender {<br>  def propertyMissing(String name) {<br>		"accessed $name"<br>  }<br>}<br>def bounce2 = new PropPretender()<br>assert bounce2.hello == 'accessed hello'<br></pre>
+</div>
+
+<ul>
+
+  <li>closures for dynamic hook methods</li>
+</ul>
+
+<div class="code">
+<pre>class DynamicPretender {<br>	Closure whatToDo = { name -&gt; "accessed $name" }<br>	def propertyMissing(String name) {<br>		whatToDo(name)<br>	}<br>}<br>def bounce3 = new DynamicPretender()<br>assert bounce3.hello == 'accessed hello'<br>bounce3.whatToDo = { name -&gt; name.size() }<br>assert bounce3.hello == 5<br></pre>
+</div>
+
+<br>
+
+Demo: PretenderScript program<br>
+
+<hr>
+Metaclass<br>
+
+<ul>
+
+  <li>for every class A in the class loader Groovy has a metaclass</li>
+  <li>the metaclass keeps track of both native methods and additional
+methods<br>
+  </li>
+  <li>metaclass can change at runtime for a class or an object</li>
+</ul>
+
+Expando class<br>
+
+<ul>
+
+  <li>pure Groovy class that exploits metaclass features</li>
+  <li>can easily add properties and methods at runtime</li>
+</ul>
+
+<div class="code">
+<pre>def boxer = new Expando()<br>boxer.takeThis = 'ouch' // new property added<br>boxer.fightBack = { times -&gt; takeThis * times } // new method added<br>assert boxer.fightBack(3) == 'ouch!ouch!ouch!'<br></pre>
+</div>
+
+&nbsp;
+<br>
+
+ExpandoMetaClass<br>
+
+<ul>
+
+  <li>works like an Expando at the metaclass level</li>
+  <li>to add properties and methods to a class set its metaclass to
+ExpandoMetaClass</li>
+  <li>Groovy does this automatically for you when you assign new
+properties / methods</li>
+</ul>
+
+<div class="code">
+<pre>assert String.metaClass =~ /MetaClassImpl/  // default metaclass<br>String.metaClass.low = { -&gt; delegate.toLowerCase() } // add 'low' method to String's metaclass<br>assert String.metaClass =~ /ExpandoMetaClass/  // new metaclass is ExpandoMetaClass<br>assert 'RoBeRt'.low() = 'robert' // invoke the new method<br></pre>
+</div>
+
+<br>
+
+Metaclass Facts<br>
+
+<ul>
+
+  <li>all method calls from Groovy code go through a metaclass</li>
+  <li>meta classes can change for all instances or per single instance</li>
+  <li>meta class changes affect all future instances of all running
+threads</li>
+  <li>meta class changes can change a access to Java final classes
+(e.g. String)</li>
+  <li>meta class changes can take the form of <span style="font-style: italic;">pretended</span> properties and <span style="font-style: italic;">pretended</span> methods</li>
+</ul>
+
+<hr>
+Category Classes<br>
+
+<ul>
+
+  <li>technique for limiting the scope of meta class change</li>
+  <li>Groovy adds a 'use' method to java.lang.Object</li>
+  <ul>
+    <li>two parameters: a category class and a closure</li>
+  </ul>
+  <li>when closure is executed the MOP is modified as defined by the
+category</li>
+  <li>at end of closure is executed the MOP is reset to previous state</li>
+</ul>
+
+Binding<br>
+
+<ul>
+
+  <li>context that is passed to Groovy scripts</li>
+  <li>facilitates predeclared variables and predeclared methods</li>
+</ul>
+
+Advanced Features (Groovy 1.8)<br>
+
+<ul>
+
+  <li>compile time transformations</li>
+  <li>ability to create custom operators</li>
+  <li>ability to secure (restrict language features) DSLs</li>
+</ul>
+
+<hr>
+Writing a Card Trick DSL<br>
+
+<ul>
+
+  <li>use case: make a valuable Java library (card.core package)
+accessible to a wider audience</li>
+  <li>assume general programming skills, but not java specific skills</li>
+  <li>must know how to read javadoc</li>
+</ul>
+
+Insert JPG of CardTrick UML diagram here<br>
+
+Note: Programmer assumes the role of Magician and Participant<br>
+
+<br>
+
+Card Tricks<br>
+
+<ul>
+
+  <li>Perform Predict A Pair</li>
+  <li>Perform Mental Agility + 1</li>
+  <li>goal: write DSL script to perform these<br>
+  </li>
+</ul>
+
+<hr>
+Mental Agility Plus 1<br>
+
+<br>
+
+<div class="code">
+<pre>// Mental Agility Plus 1<br>// see http://www.card-trick.com/mathematical_card_tricks/mental_agility_plus_1_math_card_trick.htm<br><br>deck.shuffle()<br>initialCard = deck.removeCard TOP_CARD<br>print 'initial card: '<br>initialCard.show()<br>println()<br>pile1 = deck.deal 4.cards <br>pile2 = deck.deal 4.cards<br>pile1.add initialCard  	// adds to end<br>deck.addCards pile1,ADD_TO_TOP<br>pile15 = deck.deal 15.cards<br>pile15.reverse true <br>deck.addCards pile15, ADD_TO_TOP<br>deck.addCards pile2, ADD_TO_TOP<br>finalCard = deck.removeCard 14<br>print 'final card (after gyrations): ' <br>finalCard.show()<br>println()<br></pre>
+</div>
+
+<br>
+
+Predict A Pair<br>
+
+<br>
+
+<div class="code">
+<pre>// Predict A Pair<br>// See http://www.card-trick.com/mathematical_card_tricks/predicta_pair_math_card%20_trick.htm<br>cardsToRemove = [TEN_CLUB,JACK_CLUB,QUEEN_CLUB,KING_CLUB,ACE_CLUB,TEN_HEART,JACK_HEART,QUEEN_HEART,KING_HEART,ACE_HEART,<br>   TEN_SPADE,JACK_SPADE,QUEEN_SPADE,KING_SPADE,ACE_SPADE,TEN_DIAMOND,JACK_DIAMOND,QUEEN_DIAMOND,KING_DIAMOND,ACE_DIAMOND]<br>deck - cardsToRemove   // deck.removeCard cardsToRemove<br>// now shuffle the deck<br>deck.shuffle()<br>// pick a random card<br>pick1 = deck.removeCard RANDOM_CARD<br>println "Random pick1: " + pick1<br>// place card back in the deck<br>deck + pick1     //deck.addCards([pick1], ADD_TO_RANDOM)<br>// pick another random card<br>pick2 = deck.removeCard RANDOM_CARD<br>println "Random pick2: " + pick2<br>v1 = pick1.value<br>v1 = (((2 * v1) + 5) * 5) + pick2.value - 25<br>println "Numeric prediction: " + v1<br></pre>
+</div>
+
+<hr>Foundation<br>
+
+<ul>
+
+  <li>Java library card.core package</li>
+  <li>javadoc<br>
+  </li>
+</ul>
+
+Natural Syntax<br>
+
+<ul>
+
+  <li>numbers have 'card' and 'cards' property</li>
+  <li>deck has '+' and '-' operators<br>
+  </li>
+</ul>
+
+<div class="code">
+<pre>// add 'cards' as property	<br>Number.metaClass.getCards = {  -&gt;  delegate}<br>// add 'card' as property<br>Number.metaClass.getCard = {  -&gt;  delegate}<br>// add the 'minus' operator to Deck.<br>Deck.metaClass.minus = { list -&gt; delegate.removeCard list }<br>// add the 'minus' operator to Deck.<br>Deck.metaClass.plus = { list -&gt;<br>  if (list.class == card.core.Card) {<br>	delegate.addCards([list],ADD_TO_RANDOM)<br>  } else {<br>	delegate.addCards(list, ADD_TO_RANDOM)<br>  }<br>}<br></pre>
+</div>
+
+<br>
+
+Remove boilerplate<br>
+
+<ul>
+
+  <li>No imports</li>
+  <li>No types</li>
+</ul>
+
+<br>
+
+<div class="code">
+def importCustomizer = new ImportCustomizer()
+importCustomizer.addStaticStars card.core.Card.class.name
+importCustomizer.addStaticStars card.core.DeckOrder.class.name
+importCustomizer.addStaticStars card.core.AddToDeck.class.name
+importCustomizer.addStaticStars card.core.RemoveACard.class.name
+importCustomizer.addStaticStars card.game.PokerRank.class.name
+importCustomizer.addImports card.game.PokerHand.name
+importCustomizer.addImports card.game.PokerPlayer.name
+importCustomizer.addImports card.game.Player.name
+def conf = new CompilerConfiguration()
+conf.addCompilationCustomizers(importCustomizer)
+</div>
+
+<br>
+
+Binding<br>
+
+<ul>
+
+  <li>declares important instance variables</li>
+  <li>contains additional methods</li>
+  <li>how to do this?<br>
+  </li>
+</ul>
+
+<br>
+
+Demo: visit javadoc for Card and Deck classes and enum classes<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<br>
+
+<address>Made 23 January 2012<br>
+<br>
+by R Rodini.</address>
+
+</body></html>
