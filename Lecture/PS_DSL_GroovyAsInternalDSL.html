@@ -26,7 +26,7 @@
 <h1>Groovy as an (excellent) Internal DSL<br>
 </h1>
 
-Groovy is good for a DSL because:<br>
+Groovy is good for a DSL for these reasons:<br>
 
 <ul>
 
@@ -45,9 +45,9 @@ Basic Features<br>
   <li>less boilerplate</li>
   <ul>
     <li>semicolons optional</li>
-    <li>return keyword optional</li>
+    <li>'return' keyword optional</li>
     <li>Caveat: empty parens needed for method w/ no parameters</li>
-    <li>Example:&nbsp; println()</li>
+    <li>Example:&nbsp; <span style="font-family: Courier New,Courier,monospace;">println()</span></li>
   </ul>
   <li>dynamic typing</li>
   <ul>
@@ -329,18 +329,7 @@ Remove boilerplate<br>
 <br>
 
 <div class="code">
-def importCustomizer = new ImportCustomizer()
-importCustomizer.addStaticStars card.core.Card.class.name
-importCustomizer.addStaticStars card.core.DeckOrder.class.name
-importCustomizer.addStaticStars card.core.AddToDeck.class.name
-importCustomizer.addStaticStars card.core.RemoveACard.class.name
-importCustomizer.addStaticStars card.game.PokerRank.class.name
-importCustomizer.addImports card.game.PokerHand.name
-importCustomizer.addImports card.game.PokerPlayer.name
-importCustomizer.addImports card.game.Player.name
-def conf = new CompilerConfiguration()
-conf.addCompilationCustomizers(importCustomizer)
-</div>
+<pre>def importCustomizer = new ImportCustomizer()<br>importCustomizer.addStaticStars card.core.Card.class.name<br>importCustomizer.addStaticStars card.core.DeckOrder.class.name<br>importCustomizer.addStaticStars card.core.AddToDeck.class.name<br>importCustomizer.addStaticStars card.core.RemoveACard.class.name<br>importCustomizer.addStaticStars card.game.PokerRank.class.name<br>importCustomizer.addImports card.game.PokerHand.name<br>importCustomizer.addImports card.game.PokerPlayer.name<br>importCustomizer.addImports card.game.Player.name<br>def conf = new CompilerConfiguration()<br>conf.addCompilationCustomizers(importCustomizer)<br></pre></div>
 
 <br>
 
