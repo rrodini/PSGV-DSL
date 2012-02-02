@@ -45,7 +45,7 @@ Basic Features<br>
   <li>less boilerplate</li>
   <ul>
     <li>semicolons optional</li>
-    <li>'return' keyword optional</li>
+    <li><span style="font-family: Courier New,Courier,monospace;">return</span> keyword optional</li>
     <li>Caveat: empty parens needed for method w/ no parameters</li>
     <li>Example:&nbsp; <span style="font-family: Courier New,Courier,monospace;">println()</span></li>
   </ul>
@@ -86,7 +86,7 @@ Closures<br>
   </ul>
 </ul>
 
-Insert diagram closure sequence diagram.jpg here<br>
+<img style="width: 652px; height: 484px;" alt="UML diagram for closure" src="images/closure%20%28uml%20specific%29.jpg"><br>
 
 <ul>
 
@@ -114,12 +114,7 @@ Meta Object Protocol<br>
 
   <li>extra level of indirection on each method call</li>
 </ul>
-
-<div class="code">
-println 'Hello'&nbsp; // Groovy<br>
-InvokerHelper.invokeMethod(this,"println",{"Hello"}); // Java
-</div>
-
+<div class="code"><pre>println 'Hello'&nbsp; // Groovy<br><br>InvokerHelper.invokeMethod(this,"println",{"Hello"}); // Java<br></pre></div>
 <ul>
 
   <li>opens a world of possibilities</li>
