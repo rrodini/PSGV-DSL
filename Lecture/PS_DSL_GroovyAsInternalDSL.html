@@ -175,7 +175,7 @@ Expando class<br>
 </ul>
 
 <div class="code">
-<pre>def boxer = new Expando()<br>boxer.takeThis = 'ouch' // new property added<br>boxer.fightBack = { times -&gt; takeThis * times } // new method added<br>assert boxer.fightBack(3) == 'ouch!ouch!ouch!'<br></pre>
+<pre>def boxer = new Expando()<br>boxer.takeThis = 'ouch!' // new property added<br>boxer.fightBack = { times -&gt; takeThis * times } // new method added<br>assert boxer.fightBack(3) == 'ouch!ouch!ouch!'<br></pre>
 </div>
 
 &nbsp;
@@ -202,7 +202,7 @@ Metaclass Facts<br>
 
 <ul>
 
-  <li>all method calls from Groovy code go through a metaclass</li>
+  <li>all method calls from Groovy code go through a meta class</li>
   <li>meta classes can change for all instances or per single instance</li>
   <li>meta class changes affect all future instances of all running
 threads</li>
@@ -217,7 +217,7 @@ Category Classes<br>
 <ul>
 
   <li>technique for limiting the scope of meta class change</li>
-  <li>Groovy adds a 'use' method to java.lang.Object</li>
+  <li>Groovy adds a <span style="font-family: Courier New,Courier,monospace;">use()</span> method to <span style="font-family: Courier New,Courier,monospace;">java.lang.Object</span></li>
   <ul>
     <li>two parameters: a category class and a closure</li>
   </ul>
@@ -254,7 +254,7 @@ accessible to a wider audience</li>
   <li>must know how to read javadoc</li>
 </ul>
 
-Insert JPG of CardTrick UML diagram here<br>
+<img style="width: 228px; height: 258px;" alt="Card Trick UML" src="images/CardTrickClassDiagram.jpg"><br>
 
 Note: Programmer assumes the role of Magician and Participant<br>
 
@@ -264,11 +264,10 @@ Card Tricks<br>
 
 <ul>
 
-  <li>Perform Predict A Pair</li>
   <li>Perform Mental Agility + 1</li>
-  <li>goal: write DSL script to perform these<br>
-  </li>
+  <li>Perform Predict A Pair</li>
 </ul>
+
 
 <hr>
 Mental Agility Plus 1<br>
