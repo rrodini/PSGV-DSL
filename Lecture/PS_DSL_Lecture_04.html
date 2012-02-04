@@ -1,133 +1,131 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head><title>DSL Lecture 4</title>
+<html><head>
+  <title>DSL Lecture 4</title>
 
-<link rel="stylesheet" href="PS_Lecture.css"></head>
-<body>
+  
+  
+  <link rel="stylesheet" href="PS_Lecture.css">
+
+</head><body>
 <!-- Site navigation menu -->
 <ul class="navbar">
-<li><a href="PS_DSL_Syllabus.html">Syllabus</a></li>
-<li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
-<li><a href="PS_DSL_Lecture_02.html">Lecture 2</a></li>
-<li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
-<li><a href="PS_DSL_Lecture_05.html">Lecture 5</a></li>
-<li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
-<li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
-<li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
-<li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
-<li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
+
+  <li><a href="PS_DSL_Syllabus.html">Syllabus</a></li>
+  <li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
+  <li><a href="PS_DSL_Lecture_02.html">Lecture 2</a></li>
+  <li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
+  <li><a href="PS_DSL_Lecture_05.html">Lecture 5</a></li>
+  <li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
+  <li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
+  <li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
+  <li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
+  <li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
 </ul>
+
 <!-- Main content -->
 <h1>Penn State Great Valley<br>
 DSL Course - Lecture 4</h1>
-<h2><span style="text-decoration: underline;">Anatomy of Computer Languages</span></h2>
+
+<img style="width: 600px; height: 391px;" alt="aurora" src="images/aurora/aurora/aurora-borealis-over-snow-covered-road-600w.jpg"><br>
+
+<br>
+
+<h2>Implementing External DSLs</h2>
+
+Implementing an external DSL differs
+from internal DSLs in that the parsing process operates on pure text
+input which is not constrained by any particular language. &nbsp;The
+techniques we can use to parse text are essentially those that have
+been in use for decades in parsing programming languages. &nbsp;There
+is also a long-running language community developing these tools and
+techniques.<br>
+
+<br>
+
+But there is a catch. &nbsp;The tools and writings
+of the programming language community almost always assume your are
+working with a general-purpose language. &nbsp;DSLs are lucky to get
+mention in passing. &nbsp;While many of the principles apply equally to
+general-purpose and domain-specific languages, there are differences.
+&nbsp;In addition, you don't need to go all the way up the learning
+curve that you'd need to go for a general-purpose language.
+<h2><span style="text-decoration: underline;">Syntactic Analysis
+Strategy</span></h2>
+
+Initially
+we must parse an external DSL. &nbsp;We need to take the stream of text
+and break it up into some kind of structure that we can use to figure
+out what that text says. &nbsp;This initial structuring is referred to
+as syntactic analysis.<br>
+
+<br>
+
+<h2>Let's start simple!</h2>
+The simplest of options that you have when designing an external DSL is
+when you have a custom syntax that you've developed a parser for.&nbsp;
+The parsing engine first lexicalizes the input stream, converting them
+to recognizable tokens.&nbsp; These tokens are alos known as the
+terminals of the grammar.&nbsp; The tokens are then fed on to the
+production rules and parsed as valid sentences of the grammar.<br>
+<br>
+The parsing infrastructure is the only processor that does everything
+required to process the input DSL script and generate the necessary
+output.<br>
+<br>
+<br>
+
+<br>
+
+<br>
+
+<br>
+
 <p>A
 language is just a set of valid sentences. &nbsp;Every language
-application will have a parser (recognizer) component. &nbsp;The
+appllication will have a parser (recognizer) component. &nbsp;The
 whole
 point to writing a grammar or Semantic Model is so you
 can&nbsp;build a
-program that recognizes sentences in that language. </p>
+programthat recognizes sentences in that language. </p>
+
 <p>Language
 applications can be complicated and with anything complicated we want
-to break them down into bite-size chunks. &nbsp;The goal is to get
+to break them down into bite-size chuncks. &nbsp;The goal is to get
 the
 components to fit together in a multistage pipeline that analyzes or
 manipulates an input stream. &nbsp;The pipeline gradually converts
 an
 input sentence (valid input sentence) to a handy internal data
 structure or translates it to a sentence in another language.</p>
-In
-computing, a parser is one of the components in an interpreter or
-compiler that checks for correct syntax and builds a data structure
-(often some kind of parse tree, abstract syntax tree or other
-hierarchical structure) implicit in the input tokens. The parser often
-uses a separate lexical analyzer to create tokens from the sequence of
-input characters. Parsers may be programmed by hand or may be
-(semi-)automatically generated (in some programming languages) by a
-tool.
-<h2><span style="text-decoration: underline;">Programming
-Language Parsing</span></h2>
-The
-most common use of a parser is as a component of a compiler or
-interpreter. This parses the source code of a computer programming
-language to create some form of internal representation. Programming
-languages tend to be specified in terms of a context-free grammar
-because fast and efficient parsers can be written for them. Parsers are
-written by hand or generated by parser generators.<br>
-<p><br>
-Context-free
-grammars are limited in the extent to which they can express all of the
-requirements of a language. Informally, the reason is that the memory
-of such a language is limited. The grammar cannot remember the presence
-of a construct over an arbitrarily long input; this is necessary for a
-language in which, for example, a name must be declared before it may
-be referenced. More powerful grammars that can express this constraint,
-however, cannot be parsed efficiently. Thus, it is a common strategy to
-create a relaxed parser for a context-free grammar which accepts a
-superset of the desired language constructs (that is, it accepts some
-invalid constructs); later, the unwanted constructs can be filtered out.</p>
-<h3>Overview of Parsing Process</h3>
-<img style="width: 147px; height: 409px; float: right;" alt="Parse Flow" src="images/Parser_Flow2.gif">The
-following example demonstrates the common case of parsing a computer
-language with two levels of grammar: lexical and syntactic.<br>
-<br>
-The
-first stage is the token generation, or lexical analysis, by which the
-input character stream is split into meaningful symbols defined by a
-grammar of regular expressions. For example, a calculator program would
-look at an input such as "12*(3+4)^2" and split it into the tokens 12,
-*, (, 3, +, 4, ), ^, 2, each of which is a meaningful symbol in the
-context of an arithmetic expression. The lexer would contain rules to
-tell it that the characters *, +, ^, ( and ) mark the start of a new
-token, so meaningless tokens like "12*" or "(3" will not be generated.<br>
-<br>
-The
-next stage is parsing or syntactic analysis, which is checking that the
-tokens form an allowable expression. This is usually done with
-reference to a context-free grammar which recursively defines
-components that can make up an expression and the order in which they
-must appear. However, not all rules defining programming languages can
-be expressed by context-free grammars alone, for example type validity
-and proper declaration of identifiers. These rules can be formally
-expressed with attribute grammars.<br>
-<br>
-The final phase is semantic
-parsing or analysis, which is working out the implications of the
-expression just validated and taking the appropriate action. In the
-case of a calculator or interpreter, the action is to evaluate the
-expression or program, a compiler, on the other hand, would generate
-some kind of code. Attribute grammars can also be used to define these
-actions.<br>
-<br>
-As you can see, there are several tasks and components
-that can be put together to create your parsing and translation
-program. &nbsp;Some of these can be as simple as XML parsing while
-others can be as complex as general programming language parsers.
-&nbsp;We will stick to the easy stuff, if you want to dig deeper
-feel
-free.<br>
-<br>
-<h3>Basic Parsing Patterns</h3>
+
 <img style="width: 779px; height: 223px;" alt="Multi-stage Pipeline" src="images/Pipeline.jpg">
 <p>The
 basic idea is the reader recognizes the input and builds an
 intermediate representation (IR) that feeds the rest of the
-application. &nbsp;The intermediate stages form the semantic
+application. &nbsp;The intermedeiate stages form the semantic
 analyzer
 which figures out what the input means. &nbsp;At the end, a
 generator
 emits output based upon the IR and what the application learned in the
 intermediate stages.</p>
-<p>There are four broad application categories to the pipeline
+
+<p>There are four broad application catagories to the pipeline
 described above:</p>
+
 <ol>
-<li>Reader
+
+  <li>Reader
 - A reader builds a data structure from one or more input streams.
 &nbsp;The input streams are usually text but can be binary data as
 well. &nbsp;Examples include configuration file readers, program
 analysis tools such as a method cross-reference tool, and class file
 loaders.</li>
-<li>Translator or Rewriter - A translator
+  <li>Generator - A generator walks an internal data
+structure and emits output. &nbsp;Examples include
+object-to-relational
+database mapping tools, object serializers, source code generators, and
+web page generators.</li>
+  <li>Translator or Rewriter - A translator
 reads text or binary input and emits output conforming to the same or a
 different language. &nbsp;It is essentially a combined reader and
 generator. &nbsp;Examples include translators from extinct
@@ -137,27 +135,26 @@ profilers that instrument code, log file report generators, pretty
 printers, and macro preprocessors. &nbsp;Some translators, such as
 assemblers and compilers, are so common that they warrant their own
 subcategories.</li>
-<li>Interpreter - An interpreter reads, decodes, and
+  <li>Interpreter - An interpreter reads, decodes, and
 executes instructions. &nbsp;Interpreters range from simple
 calculators
 and POP protocol servers all the way up to programming language
 implementations such as those for Java, Ruby, and Python.</li>
-<li>Generator - A generator walks an internal data
-structure and emits output. &nbsp;Examples include
-object-to-relational
-database mapping tools, object serializers, source code generators, and
-web page generators.</li>
 </ol>
-<h3>Parsing Input Sentences&nbsp;</h3>
-<h3 style="text-decoration: underline;">Readers</h3>
+
+<h3>Parsing Input Sentences - Readers</h3>
+
 The most basic reader component and probably something most of you have
 already done in some form, most likely with XML. &nbsp;So here are
 a couple of short examples with of parsing an XML file with Python.<br>
+
 <br>
+
 This example uses Document object model:<br>
+
 <br>
-<span class="code">
-<br>
+
+<code><br>
 &nbsp;&nbsp;from xml.dom import minidom, Node<br>
 &nbsp;&nbsp;def scanNode(node, level = 0):<br>
 &nbsp;&nbsp;&nbsp;&nbsp;msg = node.__class__.__name__<br>
@@ -174,12 +171,12 @@ level + 1)<br>
 <br>
 &nbsp;&nbsp;doc = minidom.parse('planets.xml')<br>
 &nbsp;&nbsp;scanNode(doc)<br>
+</code><br>
+
+This example uses tree structure:
+<code><br>
 <br>
-</span>
-<br>
-This example uses tree structure:<br>
-&nbsp;<span class="code">&nbsp; <br>
-&nbsp; from xml.etree import ElementTree as etree<br>
+&nbsp;&nbsp;from xml.etree import ElementTree as etree<br>
 <br>
 &nbsp;&nbsp;def main():<br>
 &nbsp;&nbsp;&nbsp;&nbsp;tree =
@@ -201,225 +198,50 @@ grandchild: ")<br>
 &nbsp;&nbsp;&nbsp;&nbsp;# Someone is launching this
 directly<br>
 &nbsp;&nbsp;&nbsp;&nbsp;main()<br>
+</code>
 <br>
-</span>
+
 <br>
-You can see from these two snippets of code that tools are available
-for parsing and navigating XML in Python. &nbsp;Tools for XML
-processing are available for most programming languages today.<br>
+
+<h3>Generating Sentences with State Machines</h3>
+
+
+<h3>The Requirements for Generating Complex Language</h3>
+
 <br>
-The tricks come out when you want to create something outside of XML...<br>
+
 <br>
-<h3 style="text-decoration: underline;">Translator or Re-Writer</h3>
-A
-translator is a program that maps input constructs to output
-constructs. &nbsp;Sometimes we can do this purely with syntax.
-&nbsp;For example, translating a scalar multiply like a x b in a
-mathematics DSL to a*b in Java doesn't require semantic information.
-&nbsp;But it's never quite that simple! &nbsp;If a DSL has
-matrices (2D
-arrays), we need to alter the translation based on type information.
-&nbsp;For example, to translate matrix multiply A x B, we need to
-generate a nested <span style="font-family: Courier New; font-weight: bold;">for</span>
-loop in Java.<br>
+
+<h3>Enforcing Sentence Tree Structure with Pushdown Machines</h3>
+
+
+<h3>Ambiguous Languages</h3>
+
 <br>
-Translators
-vary in difficulty depending on a number of factors including the
-relative order of input and output constructs, the presence of forward
-references, whether we need to preserve comments and formating, sheer
-input file size, and so on. &nbsp;Regardless of the translation
-strategy, keep in mind an important design principle:<br>
+
+<h3>Vocabulary Symbols Are Structured Too</h3>
+
+<h3>Recognizing Computer Language Sentences</h3>
+
 <br>
-<span style="font-style: italic; font-weight: bold;">Translation
-involves fully understanding each input phrase, picking an appropriate
-output construct, and filling it with elements from the input model.</span><br>
-<br>
-Trying to cleverly replace input symbols with output symbols rarely
-works well. &nbsp;You end up with what we call a <span style="font-weight: bold; font-style: italic;">literal
-translation</span>
-in a natural language. &nbsp;For example, faire un canard in French
-means literally "to make a duck." The real translation is "to hit a
-wrong note."<br>
-<br>
-In a computer translator, to "understand" a phrase
-means to syntactically and semantically analyze it. &nbsp;We
-usually
-have to create an input model like an Abstract Syntax Tree because we
-can't always do semantic analysis properly as we parse, creating symbol
-tables and compute expression types from the input model.
-&nbsp;According to the needs of the task at hand, we compute
-everything
-we need to know about the input and then make a decision about mapping
-an input phrase to an output phrase. &nbsp;Sometimes this take
-several
-passes.<br>
-<br>
-Translation is a huge topic, and we can devote only
-limited time and resources to it. &nbsp;Depending upon the
-complexity
-of your DSL will determine if you need to do more complicated
-translations. &nbsp;Let's look a few of the most common translator
-patterns:<br>
-<br>
-<span style="font-weight: bold; font-style: italic;">Syntax-Directed
-Translator</span>
-- This translator consists of a parser with embedded actions that
-immediately generate output. &nbsp;The key distinguishing feature
-is
-that the syntax-directed translators don't build an internal
-representation. &nbsp;They do everything in one pass.<br>
-<br>
-<span style="font-weight: bold; font-style: italic;">Rule-Based
-Translator</span>
-- Uses the DSL of a particular rule engine to specify a set of "this
-goes to that" translation rules. &nbsp;Combined with a grammar
-describing the input syntax, a rule engine can automatically perform
-translations.<br>
-<br>
-<span style="font-weight: bold; font-style: italic;">Model-Driven
-Translator</span>
-- There are lots of variations within the model-driven translator
-strategy, but they all have one thing in common: an internal
-representation of the input. &nbsp;From the input model, a
-translator
-can emit output directly, build up strings, build up templates or build
-up specialized output objects. &nbsp;Depending on the complexity of
-the
-translation, the translator might need multiple passes over the input
-model before generation phase. &nbsp;Most industrial translators
-use
-the model-driven approach.<br>
-<br>
-<h3 style="text-decoration: underline;">Interpreter</h3>
-We have all heard
-of the term "interpreter" in computer science. &nbsp;It is also
-another
-overloaded term. &nbsp;An interpreter normally means a computer
-program
-that executes, i.e. performs, instructions written in a programming
-language. An interpreter may be a program that either<br>
-<br>
-<ol>
-<li>executes the source code directly</li>
-<li>translates source code into some efficient intermediate
-representation (code) and immediately executes this code</li>
-<li>explicitly executes stored precompiled code made by a
-compiler which is part of the interpreter system<br>
-</li>
-</ol>
-Early
-versions of the Lisp programming language and Dartmouth BASIC would be
-examples of type 1. Perl, Python, MATLAB, and Ruby are examples of type
-2, while UCSD Pascal is type 3: Source programs are compiled ahead of
-time and stored as machine independent code, which is then linked at
-run-time and executed by an interpreter and/or compiler (for JIT
-systems). Some systems, such as Smalltalk, contemporary versions of
-BASIC, Java and others, may also combine styles 2 and 3.<br>
-<br>
-For our
-discussion here with DSLs we are really talking about #2 in that we
-want to execute a program not written in machine language by
-'interpreting' the program or translating it tot he equivalent program
-in a language that already runs on that machine.<br>
-<br>
-We will look at
-two type of interpreters - high-level interpreters and low-level
-interpreters. &nbsp;High-level interpreters directly execute source
-code instructions or abstract syntax tree equivalent.
-&nbsp;Low-level
-interpreters execute instructions called bytecodes that are close to
-the CPU machine instructions. &nbsp;High-level interpreters fall
-into&nbsp;two&nbsp;basic interpreter design patterns:
-syntax-directed
-interpreters and tree-based interpreters. <br>
-<br>
-There high-level
-patterns are best suited to building DSLs rather than general-purpose
-programming languages. &nbsp;Usually, simplicity and low cost
-implementation trump execution efficiency for DSLs. &nbsp;This
-leads to
-simpler implementations and a natural tendency to use dynamically typed
-languages because of the minimal machinery needed to interpret a
-high-level language.<br>
-<br>
-Essentially, an interpreter simulates an
-idealized computer in software. &nbsp;Such "computers" have a
-processor, code memory, data memory, and a stack. &nbsp;The
-processor
-pulls instructions from the code memory, decodes them, and executes
-them. &nbsp;An instruction can read or write to the data memory or
-onto
-the stack. &nbsp;Function calls save return addresses so they can
-return to the instruction following the function call.<br>
-<br>
-There are three things to consider when building an interpreter:<br>
-<ul>
-<li>how to store the data</li>
-<li>how and when to track the symbols</li>
-<li>how to execute the instructions</li>
-</ul>
-Getting into the details of any interpreter is beyond the scope of this
-lecture but I'll leave you with some of the common design patterns for
-developing interpreters and you should see how prevalent interpreters
-are in your day-to-day tools suite:<br>
-<br>
-<span style="font-weight: bold; color: white;">Syntax-Directed
-Interpreter</span>: directly executes source code without
-building an intermediate representation and without translating into
-another language. &nbsp;This pattern works best with small
-languages that are really just lists of instructions and declarations.
-&nbsp;It's not super-efficient but has the fewest components to
-build.<br>
-<br>
-<span style="font-weight: bold; color: white;">Tree-Based
-Interpreter</span>: also directly executes source code without
-building an intermediate representation and without translating into
-another language. &nbsp;However, this pattern performs a
-preprocessing pass to build and abstract syntax tree and scope tree.
-&nbsp;It supports forward references. &nbsp;Before execution,
-optimizations are performed, information from analysis is squirreled
-away, or rewrites are done on the abstract syntax tree to change <span style="font-weight: bold; color: white;">x</span> to <span style="font-weight: bold; color: white;">this.x</span>. This pattern is typically
-faster than a source-level interpreter because it doesn't
-&nbsp;waste time reparsing input. &nbsp;An entire subtree can
-be skipped by moving &nbsp;a pointer instead of parsing over it.<br>
-<br><span style="color: white; font-weight: bold;">
-Byte-Code Interpreters</span>:&nbsp;
-This is whole other category of interpreter and it is represents some
-of the more industrial strength languages used today such as Java,
-Python, Ruby 1.9+ and C#. &nbsp;There interpreters translate high-level
-source code down into low-level instructions called bytecode
-instructions. &nbsp;These bytecodes are then executed on an efficient
-interpreter called a virtual machine (VM).<br>
-<h3 style="text-decoration: underline;">Generators</h3>
-<p>We've talked about translators and re-writers, you should be able to
-come up with loads of examples of these tools. &nbsp;Generally, a
-translators input to output relationship classifies it into one of two
-overall categories in the translation taxonomy: either the output looks
-like the input, or it does not. &nbsp;In the first case the translator
-just tweaks the input, in the second case the output looks very
-different from the input. &nbsp;In this case the translator might
-condense the input into a report such as a set of source code metrics
-or might generate Javadoc comments from Java source code. &nbsp;The
-input is basically highly processed and reorganized.</p><p>So
-what is a
-generator and how is it different from what we have discussed?
-&nbsp;Good question! &nbsp;This category usually generates and then
-buffers up bits of translated input that is subsequently organizes into
-larger and larger chunks, leading to the final chunk representing the
-complete output. &nbsp;However, we can generate code in one of two
-ways: &nbsp;straight from our translator or through a template.</p><p>Translation
-Generation simply generates statements in the target source code from
-the Semantic Model or Abstract Syntax Tree.&nbsp;</p><p>Template Generation is
-exactly as its name implies, write a sample output file then when there
-is something specific to a particular state or event you place special
-markers that allow you to call out to the Semantic Model to generate
-the appropriate code. &nbsp;This is similar to templated web pages with
-tools like ASP and JSP. &nbsp;When you process the templates, it
-replaces the template references with generated code.</p><p>With
-Templated Generation you are driven by the structure of your output.
-&nbsp;With Translation Generation, you may be driven by either input,
-output or both.</p><br>
-<br>
-<address>Made 10 January 2012<br>
+
+<p>A generic template for displaying HTML for a lecture!
+</p>
+
+<p>It lacks images, but at least it has style.
+And it has links, even if they don't go
+anywhere&#8230;
+</p>
+
+<p><code>int x = rand()*17;</code>
+</p>
+
+<p>There should be more here, but I don't know
+what yet.
+<!-- Sign and date the page, it's only polite! --></p>
+
+<address>Made 31 August 2011<br>
 by D Bartlett.</address>
+
+=
 </body></html>
