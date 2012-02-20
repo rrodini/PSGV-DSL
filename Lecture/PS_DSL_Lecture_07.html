@@ -26,8 +26,9 @@
 <h1>Penn State Great Valley</h1>
 
 <h1>DSL Course - Lecture 7</h1>
-<span style="font-weight: bold;">
-Delimiter-Directed and Syntax-Directed Translation</span><br>
+
+<span style="font-weight: bold;">Delimiter-Directed and Syntax-Directed
+Translation</span><br>
 
 <br>
 
@@ -187,7 +188,9 @@ Here's a potential grammar for the "offers" language.<br>
 
 <br>
 
-<div class="code"><pre>offer : reward-phrase activity-phrase location-phrase ;<br>reward-phrase : number per-phrase? 'for' ;<br>per-phrase : 'per' ('day' | 'dollar') ;<br>activity-phrase : ('stay' duration | 'dinner' | 'spa treatment' ) ;<br>duration : number ('night' | 'nights' ) ;<br>number : ('0'..'9')+ ;<br>location : at ( 'Bree' | 'Dol Amroth' | ...) ;<br></pre></div>
+<div class="code">
+<pre>offer : reward-phrase activity-phrase location-phrase ;<br>reward-phrase : number per-phrase? 'for' ;<br>per-phrase : 'per' ('day' | 'dollar') ;<br>activity-phrase : ('stay' duration | 'dinner' | 'spa treatment' ) ;<br>duration : number ('night' | 'nights' ) ;<br>number : ('0'..'9')+ ;<br>location : at ( 'Bree' | 'Dol Amroth' | ...) ;<br></pre>
+</div>
 
 <br>
 
@@ -198,14 +201,20 @@ and should steer you toward a SDT.<br>
 
 <hr>
 <span style="font-weight: bold;">Syntax-Directed Translator</span><br>
+
 <br>
-How it Works<br>
+
+<span style="font-weight: bold;">How it Works</span><br>
+
 <br>
+
 At this point your DSL is no longer a "micro language" and it needs a
 grammar.&nbsp; A grammar is a set of formal rules that specify what are
 legal sentences in your language.&nbsp;&nbsp; Since the grammar plays a
 key role is cannot be omitted.<br>
+
 <br>
+
 The grammar can be incorporated into the SDT in two ways.&nbsp; It can
 be directly implemented via a technique known as Recursive Descent
 Parser (custom program) or it can be processed by a Parser Generator
@@ -213,10 +222,69 @@ which generates a program for you.&nbsp; The result of parsing is a
 syntax-tree representation of the language.&nbsp; The syntax-tree, as
 we will see later, can be further processed into a form that meets the
 goals of the DSL.<br>
+
 <br>
+
 Both approaches are shown in the diagram below.<br>
+
+<br>
+
+&lt;p. 219 image here&gt;<br>
+
+<br>
+
+When using a SDT you will almost always see a separation between a
+lexer and a parser.&nbsp; A lexer, also called a tokenizer or a
+scanner, is the first stage in processing the input text.&nbsp;&nbsp;
+The tokens are generally defined using regular expressions.&nbsp; Once
+a token is recognized it is process by the parser to determine how it
+fits in the syntax tree.<br>
+
+<br>
+
+Despite its simplicity of purpose the lexer must deal with line
+continuation problems, white-space elimination, and comment
+processing.&nbsp; Sometime (actually frequently) comments are
+eliminated before the parser can see them.&nbsp; This is not a good
+approach when your DSL represents a translator from one language form
+to another and you want to see your comments preserved in the new
+language.<br>
+
+<br>
+
+The next part of SDT is the parser itself.&nbsp; The parser's behavior
+can be divided into two main sections: syntactic analysis and
+actions.&nbsp; Syntactic analysis takes the stream of tokens and
+arranges them into a parse tree.&nbsp; The actions take that tree and
+do something with it, like populating a Semantic Model.<br>
+
+<br>
+
+<hr>
+<br>
+
+<span style="font-weight: bold;">When to Use It</span><br>
+
+<br>
+
+Syntax Directed Translation used when you move beyond line-oriented
+Delimiter-Directed Translation.&nbsp; It is a more sophisticated
+approach requiring the definition of a grammar.<br>
+
+<br>
+
+A grammar has the benefit of making clear what are legal sentences and
+phrases in the language.&nbsp; It provides clear documentation of the
+syntactic structure of the DSL it's processing.&nbsp; This makes it
+easier to evolve the syntax of the DSL over time.<br>
+
+<br>
+
+<hr>
+<span style="font-weight: bold;">SDT Example:&nbsp; Fowler's state transition?</span><br>
 <br>
 <br>
+
 <br>
 
 <br>
