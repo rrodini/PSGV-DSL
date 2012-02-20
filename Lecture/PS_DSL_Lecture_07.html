@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html><head>
+  <title>DSL Lecture 7</title>
+
+  
+  
+  <link rel="stylesheet" href="PS_Lecture.css">
+
+</head><body>
+<!-- Site navigation menu -->
+<ul class="navbar">
+
+  <li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
+  <li><a href="PS_DSL_Lecture_02.html">Lecture 2</a></li>
+  <li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
+  <li><a href="PS_DSL_Lecture_04.html">Lecture 4</a></li>
+  <li><a href="PS_DSL_Lecture_05.html">Lecture 5</a></li>
+  <li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
+  <li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
+  <li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
+  <li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
+  <li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
+</ul>
+
+<!-- Main content -->
+<h1>Penn State Great Valley</h1>
+
+<h1>DSL Course - Lecture 7</h1>
+<span style="font-weight: bold;">
+Delimiter-Directed and Syntax-Directed Translation</span><br>
+
+<br>
+
+If a DSL is a "mini-language" then Delimiter-Directed translators
+process "micro-languages."&nbsp; This type of translation is so
+routinized that there typically are Operating System apis or language
+apis that implement them.&nbsp; There is a very big step up to
+Syntax-Directed translators.&nbsp; This step usually entails the
+definition of a language grammar and possibly the use of compiler tools
+like a parser generator.<br>
+
+<br>
+
+Let's start with the easy approach of Delimiter-Directed Translation<br>
+
+<hr>
+<span style="font-weight: bold;">How It Works</span><br>
+
+<br>
+
+Delimiter-Directed Translation works by taking the input and breaking
+it down into small chunks based on a small set of delimiter
+characters.&nbsp; Usually the input is line-oriented so the individual
+lines are isolated and then delimiter characters are used to isolate
+tokens within the line.<br>
+
+<br>
+
+Due to the line-orientation there is a the fundamental problem of
+distinguishing between a "logical line" and one or more "physical
+lines".&nbsp; To solve this problem most DDT (Delimiter-Directed
+Translators) recognize some kind of line continuation characters
+(Example: \ character in Korn shell scripts).<br>
+
+<br>
+
+Another characteristic here is that each line is autonomous and can be
+processed independently of other lines.&nbsp;&nbsp; This is the easiest
+case for a DDL, but a sophisticated DDL can still handle
+semi-autonomous lines where context is important.<br>
+
+<br>
+
+Once a line has been read then next step is to tokenize (break it into
+token) based on an established set of delimiter characters (you can
+consider these punctuation characters).&nbsp; During this process you
+want to ignore white space characters (examples: blanks and tabs) and
+comment lines.<br>
+
+<hr><span style="font-weight: bold;">
+When To Use It</span><br>
+
+<br>
+
+The great strength of DDT is that it is a technique that is very simple
+for people to use.&nbsp; As mentioned before the next step is a big one
+to Syntax-Directed Translation (SDT).<br>
+
+<br>
+
+There is always that danger that a simple DDT type language grows and
+grows in complexity.&nbsp; This is matched by the growing complexity of
+the DDT itself which may become unmaintainable.<br>
+
+<hr>
+<span style="font-weight: bold;">DDT Example: Windows .ini file</span><br>
+
+<br>
+
+Although .ini files are obsolete they represent an example of a
+micro-language processed by a DDT.&nbsp; A line can be:<br>
+
+<ul>
+
+  <li>A comment</li>
+</ul>
+
+<div class="code">; comment-text<br>
+</div>
+
+<ul>
+
+  <li>A section header</li>
+</ul>
+
+<div class="code">[section]<br>
+</div>
+
+<ul>
+
+  <li>A property definition</li>
+</ul>
+
+<div class="code">name = value<br>
+</div>
+
+<br>
+
+Since .ini files have such a simple format there is a Windows api that
+implements a DDT for them,&nbsp; <big><code>GetPrivateProfileString</code></big>.<br>
+
+<hr>
+<span style="font-weight: bold;">DDT Example: Java properties file</span><br>
+
+<br>
+
+Java .properties files also exemplify a micro-language processed by a
+DDT.&nbsp; <br>
+
+<br>
+
+A line can be:<br>
+
+<ul>
+
+  <li>A comment</li>
+</ul>
+
+<div class="code"># comment-text <br>
+! more comment-text<br>
+</div>
+
+<ul>
+
+  <li>A property definition</li>
+</ul>
+
+<div class="code">name = value<br>
+name1 = a very \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; long property \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; value<br>
+</div>
+
+<br>
+
+The class used to read and write properties files is <big><code>java.util.Properties</code></big>.&nbsp;
+As of version 1.5 Java property files can be represented in XML syntax.<br>
+
+<br>
+
+<hr>
+<span style="font-weight: bold;">DDT Example -&nbsp; Frequent&nbsp;
+Customer Points</span><br>
+
+<br>
+
+This is the example given by Fowler (pp. 205 - 210) and I believe it
+pushes the limit of what can be down with a DDT.&nbsp; Each "offer" is
+line-oriented and each line is autonomous.&nbsp; The processing of each
+line is non-trivial.&nbsp; Note that the processing program consists of
+two distinct&nbsp; set of classes:&nbsp; those related to the semantic
+model and those which implement the DDT.<br>
+
+<br>
+
+Here's a potential grammar for the "offers" language.<br>
+
+<br>
+
+<div class="code"><pre>offer : reward-phrase activity-phrase location-phrase ;<br>reward-phrase : number per-phrase? 'for' ;<br>per-phrase : 'per' ('day' | 'dollar') ;<br>activity-phrase : ('stay' duration | 'dinner' | 'spa treatment' ) ;<br>duration : number ('night' | 'nights' ) ;<br>number : ('0'..'9')+ ;<br>location : at ( 'Bree' | 'Dol Amroth' | ...) ;<br></pre></div>
+
+<br>
+
+Fowler's next example of Miss Grant's Controller is even more complex
+and should steer you toward a SDT.<br>
+
+<br>
+
+<hr>
+<span style="font-weight: bold;">Syntax-Directed Translator</span><br>
+<br>
+How it Works<br>
+<br>
+At this point your DSL is no longer a "micro language" and it needs a
+grammar.&nbsp; A grammar is a set of formal rules that specify what are
+legal sentences in your language.&nbsp;&nbsp; Since the grammar plays a
+key role is cannot be omitted.<br>
+<br>
+The grammar can be incorporated into the SDT in two ways.&nbsp; It can
+be directly implemented via a technique known as Recursive Descent
+Parser (custom program) or it can be processed by a Parser Generator
+which generates a program for you.&nbsp; The result of parsing is a
+syntax-tree representation of the language.&nbsp; The syntax-tree, as
+we will see later, can be further processed into a form that meets the
+goals of the DSL.<br>
+<br>
+Both approaches are shown in the diagram below.<br>
+<br>
+<br>
+<br>
+
+<br>
+
+<address>Made 18 February 2012<br>
+by R Rodini.</address>
+
+</body></html>
