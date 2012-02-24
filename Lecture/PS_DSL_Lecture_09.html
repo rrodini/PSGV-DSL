@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html><head>
+  <title>DSL Lecture 9</title>
+
+  
+  
+  <link rel="stylesheet" href="PS_Lecture.css">
+
+</head><body>
+<!-- Site navigation menu -->
+<ul class="navbar">
+
+  <li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
+  <li><a href="PS_DSL_Lecture_02.html">Lecture 2</a></li>
+  <li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
+  <li><a href="PS_DSL_Lecture_04.html">Lecture 4</a></li>
+  <li><a href="PS_DSL_Lecture_05.html">Lecture 5</a></li>
+  <li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
+  <li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
+  <li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
+  <li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
+  <li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
+</ul>
+
+<!-- Main content -->
+<h1>Penn State Great Valley - DSL Course - Lecture 9<br>
+</h1>
+
+<h2>Patterns for Internal DSLs</h2>
+
+Remember that internal DSLs are built using the syntax and semantics of
+a given language (e.g. what is a "block" in the language?&nbsp; how do
+you pass parameters to a method?&nbsp; does the language support
+closures or lambda functions?).&nbsp; This may appear to be a
+constraint imposed on the&nbsp; DSL&nbsp; designer but&nbsp; sometimes
+constraints&nbsp; are&nbsp; good&nbsp; (consider the "paradox of
+choice" if the DSL designer could choose any syntax).<br>
+
+<br>
+
+The goal of this lecture is to demonstrate common patterns found in
+DSLs.&nbsp; Some common patterns are:<br>
+
+<ul>
+
+  <li>Expression Builder</li>
+  <li>Function Sequence</li>
+  <li>Nested Function</li>
+  <li>Method Chaining</li>
+  <li>Closure</li>
+  <li>Dynamic Reception</li>
+</ul>
+
+<hr><span style="font-weight: bold;">Expression Builder</span><br>
+
+<br>
+
+<span style="font-style: italic;">An object, or family of objects, that
+provides a fluent interface over a normal command-query API.</span><br>
+
+<br>
+
+Example - A Fluent Calendar with a Builder (Java)<br>
+
+<br>
+
+In the code below the builder object has a number of api calls tacked
+onto it.&nbsp; These calls only work semantically when then return an
+object of the correct type (remember Java is a statically typed
+language).&nbsp; <br>
+
+<br>
+
+<div class="code">
+<pre>CalendarBuilder builder = new CalendarBuilder();<br>builder<br> .add("DSL tutorial")<br>  .on (2009, 11, 8)<br>  .from("09:00")<br>  .to("16:00")<br>  .at("Aarhus Music Hall")<br>;<br><br>calendar = builder.getContent();</pre>
+</div>
+
+<br>
+
+<span style="font-weight: bold;"><span style="font-weight: bold;"></span></span>At
+the last statement a calendar object is returned that has a traditional
+command-query interface.<br>
+
+<br>
+
+The implementation of CalendarBuilder might look like the code below.<br>
+
+<br>
+
+<div class="code">
+<pre>class CalendarBuilder {<br> private Calendar content = new Calendar();  // custom Calendar class here!<br> public CalendarBuilder add(String name) {<br>  content.addEvent(new Event);<br>  getCurrentEvent().setName(name);<br>  return this;<br> }<br><br> private Event getCurrentEvent() {<br>  return content.getEvents().get(content.getEvents().size() - 1);<br> }<br><br> public CalendarBuilder on(int year, int month, int day) {<br>  getCurrentEvent().setDate(new LocalDate(year, month, day));<br>  return this;<br> }<br><br> public CalendarBuilder from (String startTime) {<br>  getCurrentEvent().setStartTime(parseTime(startTime));<br>  return this;<br> }<br><br>// etc.<br> <br></pre>
+</div>
+
+<br>
+
+The important point about the way the CalendarBuilder api works here is
+that each method returns 'this' which is an object of type
+'CalendarBuilder.'<br>
+
+<br>
+
+<span style="font-weight: bold;">How It Works</span><br>
+
+<br>
+
+An Expression Builder is an object that provides a fluent interface
+which it then translates into calls on an underlying command query
+API.&nbsp; Frequently you will use several Expression Builders as you
+typically build several different semantic objects within the language
+domain.<br>
+
+<br>
+
+<span style="font-weight: bold;">When to Use It</span><br>
+
+<br>
+
+Just about anytime as it's a fundamental pattern.<br>
+
+<hr>
+<span style="font-weight: bold;">Function Sequence</span><br>
+
+<br>
+
+<span style="font-style: italic;">A combination of function calls as a
+sequence of statements.</span><br>
+
+<br>
+
+Example - Simple Computer Configuration (Java)<br>
+
+<br>
+
+Here's a specification for a computer configuration.&nbsp; Note that we
+have procedure calls (methods returning void) here.<br>
+
+<br>
+
+<div class="code">
+<pre>// identation is just an aid here<br>computer();<br> processor();<br>  cores(2);<br>  speed(2500);<br>  i386();<br> disk();<br>  size(150);<br> disk();<br>  size(75);<br>  speed(7200);<br>  sata();<br></pre>
+</div>
+
+<br>
+
+In order to avoid global variables for the computer object and its
+components we use the class ComputerBuilder as a context
+variable.&nbsp;&nbsp; We then define functions for computer, processor,
+etc.&nbsp; As shown below.<br>
+
+<br>
+
+<div class="code">
+<pre>class ComputerBuilder {<br> private ProcessorBuilder processor;<br> private List<DiskBuilder> disks = new ArrayList<DiskBuilder>();<br> private ProcessorBuilder currentProcessor;<br> private DiskBuilder currentDisk;<br><br> void computer() {<br>  currentDisk = null;<br>  currentProcessor = null;<br> }<br><br> void processor() {<br>  currentProcessor = new ProcessorBuilder();<br>  processor = currentProcessor;<br>  currentDisk = null;<br> }<br> <br> void disk() {<br>  currentDisk = new DiskBuilder();<br>  disks.add(currentDisk);<br>  currentProcessor = null; // done with processor stuff<br> }<br> // etc.<br><br><br> // this method returns the completed computer<br> Computer getValue() {<br>  return new Computer(processor.getValue(), getDiskValues());<br> }<br><br>} <br></DiskBuilder></DiskBuilder></pre>
+</div>
+
+<br>
+
+Now to gain access to the&nbsp; methods the&nbsp; DSL script must
+extend ComputerBuilder.&nbsp; Obviously the order of the statements is important.<br>
+
+<br>
+
+<div class="code"><pre>public class Script extends ComputerBuilder {<br> protected void build() { <br>  computer();<br>   processor();<br>    cores(2);<br>    speed(2500);<br>    i386();<br>   disk();<br>    size(150);<br>   disk();<br>    size(75);<br>    speed(7200);<br>    sata();<br> }<br></pre></div>
+
+<br>
+
+<span style="font-weight: bold;">How It Works</span><br>
+<br>
+Function Sequence produces a series of calls, unrelated to each other
+except ordered in a sequence in time; most importantly, there is no
+data relationship between them.&nbsp; However, you do need a Context
+Variable(s) to hold intermediate values of the object under
+construction.<br>
+<br>
+<span style="font-weight: bold;">When to Use It</span><br>
+<br>
+Perhaps the biggest reason to use Function Sequence is that you always
+have to start your DSL with something, and that something can be a
+Function Sequence even if there's only one call in the sequence.<br>
+<br>
+<br>
+
+<address>Made 23 February 2012<br>
+by R Rodini.<br>
+</address>
+
+</body></html>
