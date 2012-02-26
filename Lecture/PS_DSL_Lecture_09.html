@@ -47,8 +47,6 @@ DSLs.&nbsp; Some common patterns are:<br>
   <li>Function Sequence</li>
   <li>Nested Function</li>
   <li>Method Chaining</li>
-  <li>Closure</li>
-  <li>Dynamic Reception</li>
 </ul>
 
 <hr><span style="font-weight: bold;">Expression Builder</span><br>
@@ -156,27 +154,131 @@ etc.&nbsp; As shown below.<br>
 <br>
 
 Now to gain access to the&nbsp; methods the&nbsp; DSL script must
-extend ComputerBuilder.&nbsp; Obviously the order of the statements is important.<br>
+extend ComputerBuilder.&nbsp; Obviously the order of the statements is
+important.<br>
 
 <br>
 
-<div class="code"><pre>public class Script extends ComputerBuilder {<br> protected void build() { <br>  computer();<br>   processor();<br>    cores(2);<br>    speed(2500);<br>    i386();<br>   disk();<br>    size(150);<br>   disk();<br>    size(75);<br>    speed(7200);<br>    sata();<br> }<br></pre></div>
+<div class="code">
+<pre>public class Script extends ComputerBuilder {<br> protected void build() { <br>  computer();<br>   processor();<br>    cores(2);<br>    speed(2500);<br>    i386();<br>   disk();<br>    size(150);<br>   disk();<br>    size(75);<br>    speed(7200);<br>    sata();<br> }<br></pre>
+</div>
 
 <br>
 
 <span style="font-weight: bold;">How It Works</span><br>
+
 <br>
+
 Function Sequence produces a series of calls, unrelated to each other
 except ordered in a sequence in time; most importantly, there is no
 data relationship between them.&nbsp; However, you do need a Context
 Variable(s) to hold intermediate values of the object under
 construction.<br>
+
 <br>
+
 <span style="font-weight: bold;">When to Use It</span><br>
+
 <br>
+
 Perhaps the biggest reason to use Function Sequence is that you always
 have to start your DSL with something, and that something can be a
 Function Sequence even if there's only one call in the sequence.<br>
+
+<br>
+
+<span style="font-weight: bold;">Notes</span><br>
+
+<br>
+
+Function Sequence forces the user to call api in the correct order.<br>
+
+<hr>
+<span style="font-weight: bold;">Method Chaining</span><br>
+
+<br>
+
+<span style="font-style: italic;">Make modifiers return the host
+object, so that multiple modifiers can be invoked in a single
+expression.</span><br>
+
+<br>
+
+Example - Simple Computer Configurator (Java)<br>
+
+<br>
+
+Here is the computer configurator using Method Chaining.<br>
+
+<br>
+
+<div class="code">
+<pre>computer()<br> .processor()<br>  .cores(2)<br>  .speed(2500)<br>  .i386()<br> .disk()<br>  .size(75)<br> .disk()<br>  .size(75)<br>  .speed(7200)<br>  .sata()<br> .end();</pre>
+</div>
+
+<br>
+
+<br>
+
+In order for this to work the computer() method must return a type that
+processor() and disk() applies to.&nbsp; The processor and disk method
+must themselves return types that their nested methods can operate
+on.&nbsp; Below is the implementation.<br>
+
+<br>
+
+<div class="code">
+<pre>class ComputerBuilder {<br> private ProcessorBuilder currentProcessor;<br><br> public ComputerBuilder() {<br>  currentProcessor = new ProcessorBuilder();<br>  return this;<br> }<br><br> public ComputerBuilder cores(int arg) {<br>  currentProcessor.cores = arg;<br>  return this;<br> }<br><br> public ComputerBuilder i386() {<br>  currentProcessor.type = Processor.Type.i386;<br>  return this;<br> }<br><br>// etc.<br>}<br><br>class ProcessorBuilder {<br> private static final int DEFAULT_CORES = 1;<br> private static final int DEFAULT_SPEED = -1;<br><br> int cores = DEFAULT_CORES;<br> int speed = DEFAULT_SPEED;<br> Processor.Type type;<br><br> Processor getValue() {<br>  return new Processor(cores, speed, type);<br> }<br>// etc.<br>}<br><br>class DiskBuilder {<br>// not shown<br>}<br></pre>
+</div>
+
+<br>
+
+Finally to get the final assemblage of the computer we add an end()
+method to terminate the method chain.<br>
+
+<br>
+
+<div class="code">
+<pre>class ComputerBuilder {<br>// etc.<br> public Computer end() {<br>  return new Computer(currentProcessor.getValue(), disks());<br> }<br><br>}</pre>
+</div>
+
+<br>
+
+<span style="font-weight: bold;">How It Works</span><br>
+
+<br>
+
+This pattern is closely related to Expression Builder.&nbsp; It is
+commonly used in DSL languages and it works by breaking the
+command-query api paradigm.&nbsp; The trick is to return an object of
+whose type you can continue to call methods on.<br>
+
+<br>
+
+<span style="font-weight: bold;">When to Use It</span><br>
+
+<br>
+
+Method Chaining can add a great deal to the readability of an internal
+DSL and, as a result, has become almost a synonym for internal
+DSLs.&nbsp; It is best used in conjunction with other function
+combinations.<br>
+
+<br>
+
+<span style="font-weight: bold;">Notes</span><br>
+
+<br>
+
+Method Chaining violates the principles of command query api<br>
+
+1) naming conventions violated<br>
+
+2) formatting conventions violated<br>
+
+3) need to stop method chain with end()<br>
+
+<hr>
 <br>
 <br>
 
