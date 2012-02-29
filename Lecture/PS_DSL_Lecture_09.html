@@ -194,7 +194,58 @@ Function Sequence even if there's only one call in the sequence.<br>
 Function Sequence forces the user to call api in the correct order.<br>
 
 <hr>
-<span style="font-weight: bold;">Method Chaining</span><br>
+<span style="font-weight: bold;">Nested Function<br>
+<br>
+</span><span style="font-style: italic;">Compose functions by nesting
+function calls as arguments of other calls.</span><br>
+
+<br>
+
+Example - Simple Computer Configurator (Java)<br>
+
+<br>
+Here is the computer configurator using Nested Function.&nbsp; Assume
+that the Java static import feature is used at the top of this script
+(not shown) to import the Builders static functions.<br>
+
+<br>
+
+<div class="code">
+<pre>computer(<br> processor(<br>  cores(2),<br>  speed(2500),<br>  i386<br> ),<br> disk(<br>  size(150),<br> ),<br> disk(<br>  size(75),<br>  speed(7200),<br>  SATA<br> )<br>);<br></pre>
+</div>
+
+<br>
+
+These look like a bunch of nested function calls and indeed they are
+except that i386 and SATA are static values of the appropriate type.<br>
+
+<br>
+Here is the implementation in Java.&nbsp; Note that functions like
+"cores" and "speed" don't really do anything.&nbsp; They just make it
+clear what the value stands for.<br>
+
+<br>
+
+<div class="code"><pre>class Builder {<br> static Processor processor(int cores, int speed, Processor.Type type) {<br>  return new Processor(cores, speed, type);<br> }<br> static int cores(int value){<br>  return value;<br> }<br> static int speed(int value){<br>  return value;<br> }<br> static final Processor.Type i386 = Processor.Type.i386;<br> // disk functions skipped<br> static Computer computer(Processor p, Disk... d) {<br>  return new Computer(p, d);<br> }<br>}<br></pre></div>
+
+<br>
+<span style="font-weight: bold;">How It Works</span><br>
+<br>
+Well, it works by nesting function calls such that the stack holds the
+assemblage of the Semantic Model under construction.&nbsp;&nbsp; The
+top-most function call picks these component objects off the stack and
+returns the final object. <br>
+<br>
+<span style="font-weight: bold;">When to Use It</span><br>
+<br>
+Nested Function struggles with optional arguments and multiple varied
+arguments.&nbsp; It expects you to say what you want and in the precise
+order you want, so if you need greater flexibility you'll need to look
+for another pattern.<br>
+<br>
+
+<span style="font-weight: bold;">
+<hr>Method Chaining</span><br>
 
 <br>
 
@@ -270,7 +321,7 @@ combinations.<br>
 
 <br>
 
-Method Chaining violates the principles of command query api<br>
+Method Chaining violates the principles of command query api:<br>
 
 1) naming conventions violated<br>
 
@@ -278,10 +329,9 @@ Method Chaining violates the principles of command query api<br>
 
 3) need to stop method chain with end()<br>
 
-<hr>
-<br>
 <br>
 
+<hr>
 <address>Made 23 February 2012<br>
 by R Rodini.<br>
 </address>
