@@ -30,7 +30,7 @@
 </h2>
 
 This is a continuation of Lecture 9 topics but now we move on to more
-advanced (and critical) topics.<br>
+advanced topics.<br>
 
 <br>
 
@@ -54,24 +54,41 @@ DSLs.&nbsp; Some of these are:<br>
 
 <br>
 
-<span style="font-style: italic;">Represent language expression with a literal list.</span><br>
+<span style="font-style: italic;">Represent language expression with a
+literal list.</span><br>
+
 <br>
+
 If you're thinking in Java this is an ArrayList type.&nbsp; However
 Java lacks a literal form for an ArrayList (a Java array initializer is
 similar but different).<br>
-<br>
-Example - Literal List of Strings (Groovy)<br>
-<br>
-def candidates = ["Romney", "Santorum","Gingrich","Paul"]<br>
 
 <br>
-<span style="font-weight: bold;">How It Works</span><br>
+
+Example - Literal List of Strings (Groovy)<br>
+
 <br>
-A Literal List is a language construct for forming a list data structure.<br>
+
+<div class="code">
+<pre>def candidates = ["romney","santorum","gingrich","paul"]<br></pre>
+</div>
+
+<span style="font-weight: bold;"><br>
+How It Works</span><br>
+
 <br>
+
+A Literal List is a language construct for forming a list data
+structure.<br>
+
+<br>
+
 <span style="font-weight: bold;">When To Use It</span><br>
+
 <br>
-You probably use ArrayList now.&nbsp; If you had Literal List in Java you would definitely use it.<br>
+
+You probably use ArrayList now.&nbsp; If you had Literal List in Java
+you would definitely use it.<br>
 
 <br>
 
@@ -79,22 +96,36 @@ You probably use ArrayList now.&nbsp; If you had Literal List in Java you would 
 
 <br>
 
-<span style="font-style: italic;">Represent an expression as a literal map (key/value pairing).</span><br>
+<span style="font-style: italic;">Represent an expression as a literal
+map (key/value pairing).</span><br>
+
 <br>
+
 Example - Computer Configuration (Groovy)<br>
+
 <br>
-["computer": ["processor" : ["cores":2, "type":i386]], ["disk": ["size":150],"disk": ["size":75,"speed": 7200]]]<br>
+
+<div class="code">
+<pre>["computer": ["processor" : ["cores":2, "type":"i386"], "disk1": ["size":150],<br>"disk2": ["size":75,"speed": 7200,"type": "sata"]]]<br></pre>
+</div>
+
+<span style="font-weight: bold;"><br>
+How It Works</span><br>
+
 <br>
-<span style="font-weight: bold;">How It Works</span><br>
+
+A Literal Map is a language construct that allows you to form a map
+data structure (aka dictionary, hashmap, associative array).<br>
+
 <br>
-A Literal Map is a language construct that allows you to form a map data structure (aka dictionary, hashmap, associative array).<br>
-<br>
+
 When To Use It<br>
+
 <br>
+
 Literal Map is great choice when you need a list of different elements
 where each element should appear only once (the keys form a set and a
 set does not allow duplicates).<br>
-<br>
 
 <br>
 
@@ -115,7 +146,7 @@ String<br>
 
 <br>
 
-Let's contrast this simple task programmed in Java versus programmed in
+Let's contrast this simple task programmed in Java versus the task programmed in
 Groovy.&nbsp; First the Java code.&nbsp; Remember that everything
 enclosed in curly braces in Java is considered a block.&nbsp; This code
 counts the frequency of the letters in a string (in this case the
@@ -130,7 +161,7 @@ string is the alphabet which makes it easy to check for accuracy).<br>
 <br>
 
 Now the same program in Groovy but, be careful, Groovy uses the curly
-braces to delimit in-line closures.&nbsp; To call this out the program
+braces to delimit closures.&nbsp; To call this out the program
 iterates twice over the string with the last iterations using Closure
 objects.<br>
 
@@ -149,7 +180,7 @@ objects.<br>
 A closure is a code fragment that can be treated as an
 object.&nbsp;&nbsp; This concept has been incorporated in programming
 languages for a very long time, but was ignored by many mainstream
-languages (Java alert - closures are coming in Java v. 8).&nbsp;&nbsp;
+languages (Java alert -- closures are coming in Java v. 8).&nbsp;&nbsp;
 The closest thing that Java has to a closure now is an anonymous class;
 however, if you've every passed a pointer function in C then you have
 passed code as an object.<br>
@@ -328,22 +359,34 @@ This is what the script prints.<br>
 
 <br>
 
-These techniques are used extensively in variously Groovy builders: MarkupBuilder, XMLBuilder, JMXBuilder, SwingBuilder.<br>
+These techniques are used extensively in variously Groovy builders:
+MarkupBuilder, XMLBuilder, JMXBuilder, SwingBuilder.<br>
+
 <br>
+
 <span style="font-weight: bold;">How It Works</span><br>
+
 <br>
+
 Many dynamic languages react to an unknown method invocation by calling
 a special error-handling method at the top of the object
 hierarchy.&nbsp; You can introduce your own processing method for this
 method.<br>
+
 <br>
+
 <span style="font-weight: bold;">When to Use It</span><br>
+
 <span style="font-weight: bold;"><br>
 </span>Use this when there are many similar, but slightly different,
 queries to be issued.&nbsp; For example, the simplest WHERE clause of
 an SQL statement varies little from query to query. <br>
+
 <br>
-Also consider its use when you have to build well-understood hierarchical structures.<br>
+
+Also consider its use when you have to build well-understood
+hierarchical structures.<br>
+
 <span style="font-weight: bold;"></span>
 <address>Made 27 February 2012<br>
 by R Rodini</address>
