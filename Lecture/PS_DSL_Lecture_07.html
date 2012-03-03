@@ -35,7 +35,8 @@ Translation</span><br>
 If a DSL is a "mini-language" then Delimiter-Directed translators
 process "micro-languages."&nbsp; This type of translation is so
 routinized that there typically are Operating System apis or language
-apis that implement them.&nbsp; There is a very big step up to
+apis that implement them.&nbsp; From Delimiter-Directed translators
+there is a very big step up to
 Syntax-Directed translators.&nbsp; This step usually entails the
 definition of a language grammar and possibly the use of compiler tools
 like a parser generator.<br>
@@ -45,11 +46,13 @@ like a parser generator.<br>
 Let's start with the easy approach of Delimiter-Directed Translation<br>
 
 <hr>
-<span style="font-weight: bold;">How It Works</span><br>
+<span style="font-weight: bold;">Delimiter-Directed Translation<br>
+<br>
+How It Works</span><br>
 
 <br>
 
-Delimiter-Directed Translation works by taking the input and breaking
+Delimiter-Directed Translation (DDT) works by taking the input and breaking
 it down into small chunks based on a small set of delimiter
 characters.&nbsp; Usually the input is line-oriented so the individual
 lines are isolated and then delimiter characters are used to isolate
@@ -59,8 +62,7 @@ tokens within the line.<br>
 
 Due to the line-orientation there is a the fundamental problem of
 distinguishing between a "logical line" and one or more "physical
-lines".&nbsp; To solve this problem most DDT (Delimiter-Directed
-Translators) recognize some kind of line continuation characters
+lines".&nbsp; To solve this problem most DDTs recognize some kind of line continuation characters
 (Example: \ character in Korn shell scripts).<br>
 
 <br>
@@ -228,10 +230,8 @@ goals of the DSL.<br>
 Both approaches are shown in the diagram below.<br>
 
 <br>
-
-&lt;p. 219 image here&gt;<br>
-
-<br>
+<img style="width: 457px; height: 357px;" alt="basic-parsing" src="images/basic-parsing.jpg"><br>
+<img alt="basic-parsing" src="images/basic-parsing.tiff"><br>
 
 When using a SDT you will almost always see a separation between a
 lexer and a parser.&nbsp; A lexer, also called a tokenizer or a
@@ -281,8 +281,59 @@ easier to evolve the syntax of the DSL over time.<br>
 <br>
 
 <hr>
-<span style="font-weight: bold;">SDT Example:&nbsp; Fowler's state transition?</span><br>
+<span style="font-weight: bold;">SDT Example: Nested Name List</span><br>
+
 <br>
+
+Our SDT will parse name lists.&nbsp; What is a name list, you
+ask?&nbsp; Here's one: [a, b, c].&nbsp; Here's one with a nested list: <br>
+
+[a, [b, c], d].&nbsp; Here's that the parse tree for each of these
+examples looks like.<br>
+
+<br>
+
+<img style="width: 581px; height: 417px;" alt="list parse tree" src="images/list-parse-tree.jpg"><br>
+
+<br>
+
+We need a grammar for this minute language and here it is.<br>
+
+<br>
+
+<div class="code">
+<pre>list     : '[' elements ']' ;       // match bracketed list<br><br>elements : element (',' element)* ; // match comma-separated list<br><br>element  :  NAME | list ;           // element is name or nested list<br><br>NAME     : ('a'..'z'|'A'..'Z')+ ;   // NAME is a sequence of at least 1 letter</pre>
+</div>
+
+<br>
+
+The lexer will have to recognize the punctuation tokens of left/right
+bracket, commas, and name tokens.&nbsp; It will have to skip white
+space and to know when to stop as indicated by EOF in the input stream.<br>
+
+<br>
+
+Here is the main loop within the lexer.<br>
+
+<br>
+
+<div class="code">
+<pre>    public Token nextToken() {<br>        while ( c!=EOF ) {<br>            switch ( c ) {<br>                case ' ': case '\t': case '\n': case '\r': WS(); continue;<br>                case ',' : consume(); return new Token(COMMA, ",");<br>                case '[' : consume(); return new Token(LBRACK, "[");<br>                case ']' : consume(); return new Token(RBRACK, "]");<br>                default:<br>                    if ( isLETTER() ) return NAME();<br>                    throw new Error("invalid character: "+c);<br>            }<br>        }<br>        return new Token(EOF_TYPE,"<EOF>");<br>    }<br></EOF></pre>
+</div>
+
+<br>
+
+As you can see there is no rocket science here.&nbsp; The parser is not
+much more complicated, however, recursion is involved (how did you
+think that nested list was going to be processed?).&nbsp; Notice how
+the parsing code calls upon the lexer to move to the next input token when the current token matches the expected token.<br>
+
+<br>
+
+<div class="code"><pre>public class ListParser extends Parser {<br>    public ListParser(Lexer input) { super(input); }<br>    <br>    /** list : '[' elements ']' ; // match bracketed list */<br>    public void list() {<br>        match(ListLexer.LBRACK); elements(); match(ListLexer.RBRACK);<br>    }<br>    /** elements : element (',' element)* ; */<br>    void elements() {<br>        element();<br>        while ( lookahead.type==ListLexer.COMMA ) {<br>            match(ListLexer.COMMA); element();<br>        }<br>    }<br>    /** element : name | list ; // element is name or nested list */<br>    void element() {<br>        if ( lookahead.type==ListLexer.NAME ) match(ListLexer.NAME);<br>        else if ( lookahead.type==ListLexer.LBRACK ) list();<br>        else throw new Error("expecting name or list; found "+lookahead);<br>    }<br>}<br></pre></div>
+
+<br>
+
 <br>
 
 <br>

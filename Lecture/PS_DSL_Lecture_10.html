@@ -1,0 +1,394 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html><head>
+  <title>DSL Lecture 10</title>
+
+  
+  
+  <link rel="stylesheet" href="PS_Lecture.css">
+
+</head><body>
+<!-- Site navigation menu -->
+<ul class="navbar">
+
+  <li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
+  <li><a href="PS_DSL_Lecture_02.html">Lecture 2</a></li>
+  <li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
+  <li><a href="PS_DSL_Lecture_04.html">Lecture 4</a></li>
+  <li><a href="PS_DSL_Lecture_05.html">Lecture 5</a></li>
+  <li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
+  <li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
+  <li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
+  <li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
+  <li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
+</ul>
+
+<!-- Main content -->
+<h1>Penn State Great Valley - DSL Course - Lecture 10<br>
+</h1>
+
+<h2>Patterns for Internal DSLs (Continued)<br>
+</h2>
+
+This is a continuation of Lecture 9 topics but now we move on to more
+advanced topics.<br>
+
+<br>
+
+The goal of this lecture is to demonstrate advanced patterns found in
+DSLs.&nbsp; Some of these are:<br>
+
+<ul>
+
+  <li>Literal List<br>
+  </li>
+  <li>Literal Map<br>
+  </li>
+  <li>Closure</li>
+  <li>Nested Closure<br>
+  </li>
+  <li>Dynamic Method Reception<br>
+  </li>
+</ul>
+
+<hr><span style="font-weight: bold;">Literal List</span><br>
+
+<br>
+
+<span style="font-style: italic;">Represent language expression with a
+literal list.</span><br>
+
+<br>
+
+If you're thinking in Java this is an ArrayList type.&nbsp; However
+Java lacks a literal form for an ArrayList (a Java array initializer is
+similar but different).<br>
+
+<br>
+
+Example - Literal List of Strings (Groovy)<br>
+
+<br>
+
+<div class="code">
+<pre>def candidates = ["romney","santorum","gingrich","paul"]<br></pre>
+</div>
+
+<span style="font-weight: bold;"><br>
+How It Works</span><br>
+
+<br>
+
+A Literal List is a language construct for forming a list data
+structure.<br>
+
+<br>
+
+<span style="font-weight: bold;">When To Use It</span><br>
+
+<br>
+
+You probably use ArrayList now.&nbsp; If you had Literal List in Java
+you would definitely use it.<br>
+
+<br>
+
+<hr><span style="font-weight: bold;">Literal Map</span><br>
+
+<br>
+
+<span style="font-style: italic;">Represent an expression as a literal
+map (key/value pairing).</span><br>
+
+<br>
+
+Example - Computer Configuration (Groovy)<br>
+
+<br>
+
+<div class="code">
+<pre>["computer": ["processor" : ["cores":2, "type":"i386"], "disk1": ["size":150],<br>"disk2": ["size":75,"speed": 7200,"type": "sata"]]]<br></pre>
+</div>
+
+<span style="font-weight: bold;"><br>
+How It Works</span><br>
+
+<br>
+
+A Literal Map is a language construct that allows you to form a map
+data structure (aka dictionary, hashmap, associative array).<br>
+
+<br>
+
+When To Use It<br>
+
+<br>
+
+Literal Map is great choice when you need a list of different elements
+where each element should appear only once (the keys form a set and a
+set does not allow duplicates).<br>
+
+<br>
+
+<hr><span style="font-weight: bold;">Closure</span><br>
+
+<br>
+
+<span style="font-style: italic;">A block of code that&nbsp; can be
+represented&nbsp; as an object&nbsp; (or first-class data&nbsp;
+structure)&nbsp; and placed seamlessly&nbsp; into the flow&nbsp; of
+code by&nbsp; allowing&nbsp; it to reference&nbsp; its lexical
+scope.&nbsp; Also:&nbsp; lambda,&nbsp; or anonymous function.</span><br style="font-style: italic;">
+
+<br>
+
+Example - Iterating Over Characters in
+String<br>
+
+<br>
+
+Let's contrast this simple task programmed in Java versus the task programmed in
+Groovy.&nbsp; First the Java code.&nbsp; Remember that everything
+enclosed in curly braces in Java is considered a block.&nbsp; This code
+counts the frequency of the letters in a string (in this case the
+string is the alphabet which makes it easy to check for accuracy).<br>
+
+<br>
+
+<div class="code">
+<pre>		String alphabet = "abcdefghijklmnopqrstuvwxyz";<br>		LinkedHashMap<Character,Integer> letterMap = new LinkedHashMap<Character,Integer> (); <br>		<br>		for (int i=0; i&lt;alphabet.length(); i++) {<br>			int count;<br>			Character c = alphabet.charAt(i);<br>			if (letterMap.get(c) == null) {<br>				letterMap.put(c, 0);<br>			}<br>			count = letterMap.get(c);<br>			letterMap.put(c, count+1);<br>		}<br>		<br>		for (Character key : letterMap.keySet()) {<br>			System.out.println("letter: " + key + " count: " + letterMap.get(key));<br>		}<br><br></Character,Integer></Character,Integer></pre>
+</div>
+
+<br>
+
+Now the same program in Groovy but, be careful, Groovy uses the curly
+braces to delimit closures.&nbsp; To call this out the program
+iterates twice over the string with the last iterations using Closure
+objects.<br>
+
+<br>
+
+<div class="code">
+<pre>def alphabet = "abcdefghijklmnopqrstuvwxyz"<br>def letterMap = [:]<br>// "each" method below takes a closure parameter<br>alphabet.each {<br>  letterMap.put(it, letterMap.get(it,0) + 1)  // get with two parameters has a side-effect<br>}<br>// again "each" method takes a closure parameter<br>letterMap.each { key, value -&gt; println "letter: $key count: $value" }<br><br>Closure countIt = {<br>  letterMap.put(it, letterMap.get(it,0) + 1)  // get with two parameters has a side-effect<br>} <br>Closure showCount = {<br>	key, value -&gt; println "letter: $key count: $value"<br>}<br>// similar to above but now the Closure is explicit<br>alphabet.each countIt<br>letterMap.each showCount<br></pre>
+</div>
+
+<br>
+
+<span style="font-weight: bold;">How It Works</span><br>
+
+<br>
+
+A closure is a code fragment that can be treated as an
+object.&nbsp;&nbsp; This concept has been incorporated in programming
+languages for a very long time, but was ignored by many mainstream
+languages (Java alert -- closures are coming in Java v. 8).&nbsp;&nbsp;
+The closest thing that Java has to a closure now is an anonymous class;
+however, if you've every passed a pointer function in C then you have
+passed code as an object.<br>
+
+<br>
+
+<span style="font-weight: bold;">When to Use It</span><br>
+
+<br>
+
+When you program in a language with this feature you use it all of the
+time.&nbsp;&nbsp; However, many Groovy programmers don't realize that
+they are using a closure thinking it's a Java block.&nbsp; When you
+really start thinking in Groovy you see the value of closures.&nbsp;
+This will be demonstrated in Nested Closure.<br>
+
+<br>
+
+<hr><span style="font-weight: bold;">Nested Closure</span><br>
+
+<br>
+
+<span style="font-style: italic;">Express statement subelements of a
+function call by putting them into a closure in an argument.</span><br>
+
+<br>
+
+Example - Simple Computer Configuration Using Nested Closures (Groovy)<br>
+
+<br>
+
+This is a fairly complex use of closures.&nbsp; The following Groovy
+programs uses not only nested closure parameters but also other
+features of Groovy like the ability to have more than one class defined
+in a script (below is a Groovy script, not a Groovy class).&nbsp; I
+show it in its entirety as it can (and should) be cut and pasted into a
+GroovyConsole window to run.<br>
+
+<br>
+
+Also note that the closure parameter (as any parameter) requires a
+name.&nbsp; I chose 'block' just to confuse the Java programmers out
+there (not really, but Fowler calls them blocks in the text).<br>
+
+<br>
+
+<div class="code">
+<pre><br>class ComputerBuilder {<br>	Computer comp<br>	Processor proc<br>	<br>	def doBuild(Closure block) {<br>		block.setDelegate(this)<br>		block.call()<br>		return comp<br>	}<br>	<br>	def computer (Closure block) {<br>		block.setDelegate(this)<br>		block.call()<br>		comp = new Computer()<br>		comp.proc = proc<br>		return comp<br>	}<br>	<br>        def processor(Closure block) {<br>		proc = new Processor()		<br>		block.setDelegate(this)<br>		block.call()<br>	}	<br>	<br>	def cores(int n){<br>		proc.cores = n<br>	}<br><br>	def i386() {<br>	   proc.type = "i386"	<br>	}<br>	<br>	def speed(float s){<br>		proc.speed = s<br>	}<br>	<br>}<br><br>class Computer {<br>	Processor proc<br>	String toString() {<br>		"Computer( ${proc.toString()} )"<br>	}<br>	<br>}<br><br>class Processor {<br>	int cores<br>	String type<br>	float speed<br>	String toString(){<br>		"Processor( cores: $cores, type: $type, speed: $speed )"<br>	}<br>	<br>}<br><br>// main section of script here<br>ComputerBuilder cb = new ComputerBuilder()<br><br>def myComputer = cb.doBuild {<br>	computer<br>	  {<br>		processor { <br>			cores(2) <br>			i386()<br>			speed(2.2)<br>		}<br>	}<br>}<br><br>println myComputer<br></pre>
+</div>
+
+<br>
+
+What's printed at the end is a representation of Fowler's Semantic
+Model for a computer configuration.&nbsp; Here's the output from this
+program.<br>
+
+<br>
+
+<div class="code">
+<pre>Computer( Processor( cores: 2, type: i386, speed: 2.2 ) )<br></pre>
+</div>
+
+<br>
+
+<span style="font-weight: bold;">How It Works</span><br>
+
+<br>
+
+Nested closure is similar to that of Nested Function but the child
+expressions of the function call are wrapped in a closure.&nbsp; <br>
+
+<br>
+
+<span style="font-weight: bold;">When To Use It</span><br>
+
+<br>
+
+You may need to control when the arguments of closure are evaluated and
+Nested Closure gives you this.&nbsp; If your host language doesn't
+provide closures (like Java) then you're out of luck.<br>
+
+<br>
+
+<hr><span style="font-weight: bold;">Dynamic Reception</span><br>
+
+<br>
+
+<span style="font-style: italic;">Define methods on the fly during
+run-time.</span>&nbsp;<span style="font-style: italic;"> Aka "pretended
+methods."</span><br>
+
+<br>
+
+Example - Generating arbitrary markup (Groovy)<br>
+
+<br>
+
+Some internal DSL designers think Dynamic Reception is the essence of a
+DSL.&nbsp; This may not hold for all internal DSLs but the technique is
+very powerful.&nbsp; Fowler points out how Dynamic Reception is used to
+implement Ruby's Active Record dynamic finders.&nbsp;&nbsp; Grails has
+a similar concept called "dynamic finders."<br>
+
+<br>
+
+Rather than belabor this topic a more interesting one is combined use
+of Nested Closure and Dynamic Reception.&nbsp;&nbsp; First here is
+Nested Closure used again to build a tree structure.&nbsp; (The astute
+reader will notice the similarity to computer configuration previously
+discussed).<br>
+
+<br>
+
+<div class="code">
+<pre>current = null<br>def root (Closure block) {<br>	def tree = [:]<br>	def root = [:]<br>	tree["root"] = root<br>	def parent = current<br>	current = root<br>	block.call()<br>	current = parent<br>	return tree<br>}<br><br>def node (key, Closure block) {<br>	def node = [:]<br>	current[key] = node<br>	def parent = current<br>	current = node<br>	block.call()<br>	current = parent<br>}<br><br>def leaf (key, value){<br>	current[key] = value<br>}<br><br>//pseudo builder code<br>def tree = root {<br>	node("sub-tree-1") {<br>		leaf "leaf-1", "leaf-object-1"<br>	}<br>	node("sub-tree-2") {<br>		node("node-1") {<br>			leaf "leaf-1", "leaf-object-1"<br>		}<br>	}<br>}<br><br>println tree</pre>
+</div>
+
+<br>
+
+Here is the tree that is printed at the end of the script (the tree
+represents the Semantic Model). Note the liberal use of Literal Map.<br>
+
+<br>
+
+<div class="code">
+<pre>[root:[sub-tree-1:[leaf-1:leaf-object-1], sub-tree-2:[node-1:[leaf-1:leaf-object-1]]]]<br></pre>
+</div>
+
+<br>
+
+Now let's combine Nested Closure with Dynamic Reception to implement a
+simple markup generator.&nbsp; First examine the following code snippet.<br>
+
+<br>
+
+<div class="code">
+<pre>def builder = new PoorMansTagBuilder()<br><br>builder.root {<br>	level1 {<br>		level2{<br>		}<br>	}<br>}<br></pre>
+</div>
+
+<br>
+
+Looks like it's calling the root method within builder passing it an
+anonymous closure that itself has nested closures.&nbsp; Now lets see
+the class PoorMansTagBuilder.<br>
+
+<br>
+
+<div class="code">
+<pre>class PoorMansTagBuilder {<br>	def indent = 0<br>	def methodMissing(String name, args) {<br>		indent.times {print " "}<br>		println "&lt;${name}&gt;"<br>		indent++<br>		args[0].delegate = this // change delegate to the builder<br>		args[0].call()<br>		indent--<br>		indent.times { print " "}<br>		println "&lt;/${name}&gt;"<br>	}<br>}<br><br></pre>
+</div>
+
+<br>
+
+Whenever Groovy encounters a "methodMissing" exception it looks for a
+method the literally has that name.&nbsp; And it conveniently passes
+the name of the method and a variable argument array of what the parser
+considers the methods parameters.&nbsp; In this case the first missing
+method is "root" and its parameter is the anonymous closure that
+follows it which can be reference as "arg[0]".&nbsp; Before calling
+that anonymous closure its delegate is set to "this" which means that
+any nested missing method will also be caught by "methodMissing." <br>
+
+<br>
+
+I hope you like recursion because there's a healthy dose of it here.<br>
+
+<br>
+
+This is what the script prints.<br>
+
+<br>
+
+<div class="code">
+<pre>&lt;root&gt;<br> &lt;level1&gt;<br>  &lt;level2&gt;<br>  &lt;/level2&gt;<br> &lt;/level1&gt;<br>&lt;/root&gt;</pre>
+</div>
+
+<br>
+
+These techniques are used extensively in variously Groovy builders:
+MarkupBuilder, XMLBuilder, JMXBuilder, SwingBuilder.<br>
+
+<br>
+
+<span style="font-weight: bold;">How It Works</span><br>
+
+<br>
+
+Many dynamic languages react to an unknown method invocation by calling
+a special error-handling method at the top of the object
+hierarchy.&nbsp; You can introduce your own processing method for this
+method.<br>
+
+<br>
+
+<span style="font-weight: bold;">When to Use It</span><br>
+
+<span style="font-weight: bold;"><br>
+</span>Use this when there are many similar, but slightly different,
+queries to be issued.&nbsp; For example, the simplest WHERE clause of
+an SQL statement varies little from query to query. <br>
+
+<br>
+
+Also consider its use when you have to build well-understood
+hierarchical structures.<br>
+
+<span style="font-weight: bold;"></span>
+<address>Made 27 February 2012<br>
+by R Rodini</address>
+
+</body></html>
