@@ -1,20 +1,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head>
-  <title>DSL Lecture 5</title>
+<html><head><title>DSL Syllabus</title>
+
+  
 
   
   
-  <link rel="stylesheet" href="PS_Lecture.css">
-
-</head><body>
+  <link rel="stylesheet" href="PS_Lecture.css"></head><body>
 <!-- Site navigation menu -->
 <ul class="navbar">
 
-  <li><a href="PS_DSL_Syllabus.html">Syllabus</a></li>
   <li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
   <li><a href="PS_DSL_Lecture_02.html">Lecture 2</a></li>
   <li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
   <li><a href="PS_DSL_Lecture_04.html">Lecture 4</a></li>
+  <li><a href="PS_DSL_Lecture_05.html">Lecture 5</a></li>
   <li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
   <li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
   <li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
@@ -23,402 +22,351 @@
 </ul>
 
 <!-- Main content -->
-<h1>Penn State Great Valley - DSL Course - Lecture 5</h1>
+<h1><img style="width: 600px; height: 390px;" alt="lighting-up-the-sky" src="images/aurora/aurora/lighting-up-the-sky-over-a-town-600w.jpg"><br>
+</h1>
+<h1>Groovy as an (excellent) Internal DSL<br>
+</h1>
 
-<img style="width: 434px; height: 674px;" alt="Aurora" src="images/aurora/aurora/aurora_salomonsen_big.jpg" align="right"><br>
 
-<h2>The Semantic Model and Symbol Table</h2>
-
-The term Semantic Model is
-used over and over and over again in the book and throughout CS.
-&nbsp;It seems to be one of &nbsp;those overloaded terms which is used
-constantly but never really well defined at least well enough so
-students feel they have a strong grasp of the term in it's various
-contexts. &nbsp;So let's get it straight and tear it apart!<br>
-
-<br>
-
-Definition of 'semantic' - is the study of meaning. &nbsp;It is the
-study of the relationship between <span style="font-style: italic;">signifiers</span>,
-such as words, phrases, symbols and signs,&nbsp;and what they stand
-for, their <span style="font-style: italic;">denotata</span>.<br>
-
-<br>
-
-Definition of 'model':<br>
-
-<ol>
-
-  <li>a standard or example for imitation or comparison.</li>
-  <li>a representation, generally in miniature, to show the
-construction or appearance of something.</li>
-  <li>an image in clay, wax, or the like, to be reproduced in more
-durable material.</li>
-  <li>etc, etc, etc....</li>
-</ol>
-
-According to Eric Evans,
-author of Domain Driven Design, the semantic model is the model of the
-domain where you can apply all the principles that&nbsp;DDD espouses.
-&nbsp;The linguistic abstraction is a thin veneer on top of the
-underlying model. &nbsp;The more well abstracted your model is, the
-easier the construction of the layer on top of it will be.
-<p>You must realize that the term 'semantic model'
-can represent the abstract form Evan associates with the domain you are
-trying to model and the concrete representation that Fowler often works
-in when describing the development of DSLs. &nbsp;We will look at it
-from Martin Fowler's perspective but we may move between the abstract
-and the concrete during the discussion.</p>
-
-<p>In the context of a DSL,
-a semantic model is a representation, such as an in-memory object
-model, of the same subject that the DSL describes. &nbsp;The semantic
-model acts as a repository for the next action that you execute.
-&nbsp;If the DSL describes a state machine, then the Semantic Model
-might be an object model with classes for state, event, etc. &nbsp;The
-Semantic Model is the library or framework that the DSL populates.</p>
-
-<p>A
-semantic model is a notion very similar to that of a Domain Model.
-&nbsp;A Domain Model captures the core behavior of an application,
-while a Semantic Model may play a supporting role. &nbsp;A good example
-of this is an object-relational mapper that coordinates data between an
-object model and a relational database. &nbsp;You could use a DSL to
-describe object-relational mappings, and the resulting Semantic Model
-would consist of the Data Mappers, not the Domain Model that is the
-subject of the mapping.</p>
-
-<p>A Semantic Model is usually different
-from a Abstract Syntax Tree (AST) because they &nbsp;server separate
-purposes. &nbsp;A syntax tree corresponds to the structure of the DSL
-scripts. &nbsp;Although an AST may simplify and somewhat reorganize the
-input data, it still takes fundamentally the same form. &nbsp;The
-Semantic Model, however, is based on what will be done with the
-information from a DSL script. &nbsp;It often will be substantially
-different structure, and usually not a tree structure. &nbsp;There are
-occasions when an AST is an effective Semantic Model for a DSL, but
-these are the exception rather than the rule.</p>
-
-The Semantic Model can
-often precede the DSL. &nbsp;This happens when you decide that a
-portion of the Domain Model might be better populated from a DSL than
-from a regular command-query interface. &nbsp;Alternatively, you can
-build a DSL and Semantic Model together using the discussions with
-Domain experts both to refine the expressions of the DSL and the
-structure of the the Domain Model.<br>
-
-<br>
-
-The Semantic Model can either
-hold the code to execute itself (interpreter style), or be the basis
-for code generation (compiler style). &nbsp;Even if you are using code
-generation, it's useful to provide interpretation to help with testing
-and debugging.<br>
-
-<br>
-
-So let's build an Semantic Model for the fun of it...<br>
-
-<br>
-
-<h2>Tips on Building Models<br>
-</h2>
-
-<ol>
-
-  <li>Understand
-the business completely. &nbsp;In my view this is the best part of our
-job. &nbsp;I've working in manufacturing, insurance, finance, banking,
-medical devices, medical records, pharmaceuticals, &nbsp;retail and
-others.&nbsp;</li>
-  <li>Use good names for all your classes. &nbsp;If you
-can't explain an object to someone then it's probably not right.
-&nbsp;That's OK, get it right on the next iteration. &nbsp;Names should
-be consistent and some stupid overloaded computer term, it should be
-something the business understands implicitly. &nbsp;The name should be
-exact in that it defines the responsibilities of the entity in the
-model.</li>
-  <li>Use metaphors to model abstract operations/entities to
-help simplify the design of the model. &nbsp;For example, "Sticky Note"
-is a comment that hangs on to some entity as it travels through the
-order process flow.</li>
-  <li>Make the model self-contained. &nbsp;It
-should contain the raw logic of the application. &nbsp;Any additional
-logic should be contained in some layers, as for instance the
-work-flow, dependency injection, persistence....</li>
-  <li>The model
-should be independent. &nbsp;The model shouldn't change because the
-underlying persistence implementation or the UI or any other
-&nbsp;layer changes.</li>
-  <li>The model should be technically simple.
-&nbsp;It should only contain POJOs. &nbsp;The responsibilities assigned
-to an entity in the model should be limited to only those necessary for
-the software domain.</li>
-  <li>Keep the model up to date.</li>
-  <li>Make
-sure the software model matches the business model. &nbsp;The software
-domain should be easy to understand for the businessmodel expert and it
-shouldn't have any discrepancy. </li>
-  <li>Care
-for the code quality of you model because it is the foundation of your
-application. &nbsp;If it is bad the whole thing can fall apart, plus
-changes are inevitable to your model so it has to be adaptable.</li>
-  <li>Test your model independently and involve your customer in
-testing.</li>
-</ol>
-
-<h2>Card Game Semantic Model</h2>
-
-Although
-not as famous as its logical or physical data model cousins, the
-semantic model deserves generally greater consideration because of its
-unyielding focus on the user perspective. When built correctly, the
-semantic model is the user's perspective of the data-and what could be
-more important?<br>
-
-<br>
-
-In a general sense, semantics is the study of
-meanings-of the message behind the words. "Semantic" in the context of
-data and applications means "from the user's perspective." It is the
-data in context-where the meaning is. "Information" is also often
-defined as "data in context." "Semantic" therefore, while not
-synonymous with information, carries with it the same sense of data at
-work, or data in the worker's hands. <br>
-
-<br>
-
-Semantic data elements
-are deceptively similar to the entities and attributes we find in a
-logical or physical data model. They are things like "customer,"
-"product," "credit limit," "net sales," and so forth. What the semantic
-modeler must address however, is the context of the term-the data
-element- and how it relates to the data elements as present in the
-computing systems data stores. For example, is a customer an
-individual-the Purchasing Agent- or a company? Must a customer have
-actually purchased a product, or can a customer also be someone who is
-in the market for a (the) product? What in some contexts might be
-called a "prospect" might be called a "customer" in others. Is a
-customer a wholesaler or is the end consumer the customer? Is the
-wholesaler's customer also called a customer?<br>
-
-<br>
-
-The answer to
-these questions is likely to be "it depends." And that is the correct
-answer, because it does depend. It depends on who is asking and why.
-ABC company's sales department may draw a clear line between customers
-(buyers) and prospects. ABC's marketing department may simply use
-"customer" to refer to those participating in the market, whether or
-not they've actually bought ABC's product.<br>
-
-<br>
-
-The semantic modeler
-must drill down and capture the nuance of each perspective and must
-struggle to work with the business users to develop a naming convention
-or syntax that provides clarity. All perspectives are represented in
-the semantic model. <br>
-
-<br>
-
-So in our example let's create a semantic model for working with cards
-and card games. &nbsp;Obvious terms include:<br>
-
-<br>
+Groovy is good for a DSL for these reasons:<br>
 
 <ul>
 
-  <li>Card</li>
-  <li>Suit</li>
-  <li>Deck</li>
-  <li>Player</li>
-  <li>Deal</li>
-  <li>Shuffle</li>
+  <li>basic features<br>
+  </li>
+  <li>closures<br>
+  </li>
+  <li>Meta Object Protocol<br>
+  </li>
 </ul>
 
-Ok,
-sounds good, now what? &nbsp;We have to look at the relationships and
-actions. &nbsp;For example, suits (Clubs, Diamonds, Hearts, Spades)
-pertain to cards. &nbsp;Deck is a collection of cards, while shuffle is
-an action taken on a deck.<br>
+Basic Features<br>
+
+<ul>
+
+  <li>less boilerplate</li>
+  <ul>
+    <li>semicolons optional</li>
+    <li><span style="font-family: Courier New,Courier,monospace;">return</span> keyword optional</li>
+    <li>Caveat: empty parens needed for method w/ no parameters</li>
+    <li>Example:&nbsp; <span style="font-family: Courier New,Courier,monospace;">println()</span></li>
+  </ul>
+  <li>dynamic typing</li>
+  <ul>
+    <li>system infers type so user doesn&#8217;t have to declare it</li>
+  </ul>
+  <li>all Groovy classes are POGOs</li>
+  <ul>
+    <li>properties are public</li>
+    <li>implicit generation of getters and setters</li>
+  </ul>
+  <li>&#8220;multi-step&#8221; constructor</li>
+  <ul>
+    <li>call default constructor&nbsp;</li>
+    <li>set properties of new object</li>
+  </ul>
+</ul>
+
+<hr>
+Closures<br>
+
+<ul>
+
+  <li>code as objects</li>
+  <ul>
+    <li>not methods of a particular class</li>
+    <li>can be passed as parameters</li>
+  </ul>
+</ul>
+
+<ul>
+
+  <li>used within an iteration method<br>
+  </li>
+  <ul>
+    <li>callback&nbsp; behavior</li>
+  </ul>
+</ul>
+
+<img style="width: 455px; height: 337px;" alt="closure example" src="images/closure-example.jpg"><br>
+
+<ul>
+
+  <li>used as a parameter</li>
+  <ul>
+    <li>visitor pattern<br>
+    </li>
+  </ul>
+</ul>
+
+Demo: Drawing program (below)<br>
 
 <br>
 
-<img style="width: 289px; height: 248px;" alt="Card Player Use Case Diagram" src="images/CardPlayerUseCase.jpg"><br>
+<div class="code">
+<pre>class Drawing {<br>    List shapes<br>    def accept(Closure yield) { shapes.each{it.accept(yield)} }<br>}<br>class Shape {<br>    def accept(Closure yield) { yield(this) }<br>}<br>class Square extends Shape {<br>    def width<br>    def area() { width**2 }<br>}<br>class Circle extends Shape {<br>    def radius<br>    def area() { Math.PI * radius**2 }<br>}<br>def picture = new Drawing(shapes: [new Square(width:1.0), new Circle(radius:1.0)])<br>def total = 0<br><br>picture.accept { total += it.area() }<br>println "The shapes in this drawing cover an area of $total units."<br>println 'The individual contributions are: '<br><br>picture.accept { println it.class.name + ":" + it.area() }<br></pre>
+</div>
+
+<hr>
+<br>
+
+Meta Object Protocol<br>
+
+<ul>
+
+  <li>extra level of indirection on each method call</li>
+</ul>
+<div class="code"><pre>println 'Hello'&nbsp; // Groovy<br><br>InvokerHelper.invokeMethod(this,"println",{"Hello"}); // Java<br></pre></div>
+<ul>
+
+  <li>opens a world of possibilities</li>
+</ul>
+
+Hook Methods<br>
+
+<ul>
+
+  <li>hook <span style="font-style: italic;">pretended</span> methods</li>
+</ul>
+
+<div class="code">
+<pre>class Pretender {<br>  def methodMissing(String name, Object args) {<br>	  "called $name with $args"<br>  }<br>}<br>def bounce = new Pretender()<br>assert bounce.hello('Robert')  == 'called hello with [Robert]'<br></pre>
+</div>
+
+<ul>
+
+  <li>hook <span style="font-style: italic;">pretended</span>
+properties</li>
+</ul>
+
+<div class="code">
+<pre>class PropPretender {<br>  def propertyMissing(String name) {<br>		"accessed $name"<br>  }<br>}<br>def bounce2 = new PropPretender()<br>assert bounce2.hello == 'accessed hello'<br></pre>
+</div>
+
+<ul>
+
+  <li>closures for dynamic hook methods</li>
+</ul>
+
+<div class="code">
+<pre>class DynamicPretender {<br>	Closure whatToDo = { name -&gt; "accessed $name" }<br>	def propertyMissing(String name) {<br>		whatToDo(name)<br>	}<br>}<br>def bounce3 = new DynamicPretender()<br>assert bounce3.hello == 'accessed hello'<br>bounce3.whatToDo = { name -&gt; name.size() }<br>assert bounce3.hello == 5<br></pre>
+</div>
+
+<br>
+
+Demo: PretenderScript program<br>
+
+<hr>
+Metaclass<br>
+
+<ul>
+
+  <li>for every class A in the class loader Groovy has a metaclass</li>
+  <li>the metaclass keeps track of both native methods and additional
+methods<br>
+  </li>
+  <li>metaclass can change at runtime for a class or an object</li>
+</ul>
+
+Expando class<br>
+
+<ul>
+
+  <li>pure Groovy class that exploits metaclass features</li>
+  <li>can easily add properties and methods at runtime</li>
+</ul>
+
+<div class="code">
+<pre>def boxer = new Expando()<br>boxer.takeThis = 'ouch!' // new property added<br>boxer.fightBack = { times -&gt; takeThis * times } // new method added<br>assert boxer.fightBack(3) == 'ouch!ouch!ouch!'<br></pre>
+</div>
+
+&nbsp;
+<br>
+
+ExpandoMetaClass<br>
+
+<ul>
+
+  <li>works like an Expando at the metaclass level</li>
+  <li>to add properties and methods to a class set its metaclass to
+ExpandoMetaClass</li>
+  <li>Groovy does this automatically for you when you assign new
+properties / methods</li>
+</ul>
+
+<div class="code">
+<pre>assert String.metaClass =~ /MetaClassImpl/  // default metaclass<br>String.metaClass.low = { -&gt; delegate.toLowerCase() } // add 'low' method to String's metaclass<br>assert String.metaClass =~ /ExpandoMetaClass/  // new metaclass is ExpandoMetaClass<br>assert 'RoBeRt'.low() = 'robert' // invoke the new method<br></pre>
+</div>
+
+<br>
+
+Metaclass Facts<br>
+
+<ul>
+
+  <li>all method calls from Groovy code go through a meta class</li>
+  <li>meta classes can change for all instances or per single instance</li>
+  <li>meta class changes affect all future instances of all running
+threads</li>
+  <li>meta class changes can change a access to Java final classes
+(e.g. String)</li>
+  <li>meta class changes can take the form of <span style="font-style: italic;">pretended</span> properties and <span style="font-style: italic;">pretended</span> methods</li>
+</ul>
+
+<hr>
+Category Classes<br>
+
+<ul>
+
+  <li>technique for limiting the scope of meta class change</li>
+  <li>Groovy adds a <span style="font-family: Courier New,Courier,monospace;">use()</span> method to <span style="font-family: Courier New,Courier,monospace;">java.lang.Object</span></li>
+  <ul>
+    <li>two parameters: a category class and a closure</li>
+  </ul>
+  <li>when closure is executed the MOP is modified as defined by the
+category</li>
+  <li>at end of closure is executed the MOP is reset to previous state</li>
+</ul>
+
+Binding<br>
+
+<ul>
+
+  <li>context that is passed to Groovy scripts</li>
+  <li>facilitates predeclared variables and predeclared methods</li>
+</ul>
+
+Advanced Features (Groovy 1.8)<br>
+
+<ul>
+
+  <li>compile time transformations</li>
+  <li>ability to create custom operators</li>
+  <li>ability to secure (restrict language features) DSLs</li>
+</ul>
+
+<hr>
+Writing a Card Trick DSL<br>
+
+<ul>
+
+  <li>use case: make a valuable Java library (card.core package)
+accessible to a wider audience</li>
+  <li>assume general programming skills, but not java specific skills</li>
+  <li>must know how to read javadoc</li>
+</ul>
+
+<img style="width: 228px; height: 258px;" alt="Card Trick UML" src="images/CardTrickClassDiagram.jpg"><br>
+
+Note: Programmer assumes the role of Magician and Participant<br>
+
+<br>
+
+Card Tricks<br>
+
+<ul>
+
+  <li>Perform Mental Agility + 1</li>
+  <li>Perform Predict A Pair</li>
+</ul>
+
+
+<hr>
+Mental Agility Plus 1<br>
+
+<br>
+
+<div class="code">
+<pre>// Mental Agility Plus 1<br>// see http://www.card-trick.com/mathematical_card_tricks/mental_agility_plus_1_math_card_trick.htm<br><br>deck.shuffle()<br>initialCard = deck.removeCard TOP_CARD<br>print 'initial card: '<br>initialCard.show()<br>println()<br>pile1 = deck.deal 4.cards <br>pile2 = deck.deal 4.cards<br>pile1.add initialCard  	// adds to end<br>deck.addCards pile1,ADD_TO_TOP<br>pile15 = deck.deal 15.cards<br>pile15.reverse true <br>deck.addCards pile15, ADD_TO_TOP<br>deck.addCards pile2, ADD_TO_TOP<br>finalCard = deck.removeCard 14<br>print 'final card (after gyrations): ' <br>finalCard.show()<br>println()<br></pre>
+</div>
+
+<br>
+
+Predict A Pair<br>
+
+<br>
+
+<div class="code">
+<pre>// Predict A Pair<br>// See http://www.card-trick.com/mathematical_card_tricks/predicta_pair_math_card%20_trick.htm<br>cardsToRemove = [TEN_CLUB,JACK_CLUB,QUEEN_CLUB,KING_CLUB,ACE_CLUB,TEN_HEART,JACK_HEART,QUEEN_HEART,KING_HEART,ACE_HEART,<br>   TEN_SPADE,JACK_SPADE,QUEEN_SPADE,KING_SPADE,ACE_SPADE,TEN_DIAMOND,JACK_DIAMOND,QUEEN_DIAMOND,KING_DIAMOND,ACE_DIAMOND]<br>deck - cardsToRemove   // deck.removeCard cardsToRemove<br>// now shuffle the deck<br>deck.shuffle()<br>// pick a random card<br>pick1 = deck.removeCard RANDOM_CARD<br>println "Random pick1: " + pick1<br>// place card back in the deck<br>deck + pick1     //deck.addCards([pick1], ADD_TO_RANDOM)<br>// pick another random card<br>pick2 = deck.removeCard RANDOM_CARD<br>println "Random pick2: " + pick2<br>v1 = pick1.value<br>v1 = (((2 * v1) + 5) * 5) + pick2.value - 25<br>println "Numeric prediction: " + v1<br></pre>
+</div>
+
+<hr>Foundation<br>
+
+<ul>
+
+  <li>Java library card.core package</li>
+  <li>javadoc<br>
+  </li>
+</ul>
+
+Natural Syntax<br>
+
+<ul>
+
+  <li>numbers have 'card' and 'cards' property</li>
+  <li>deck has '+' and '-' operators<br>
+  </li>
+</ul>
+
+<div class="code">
+<pre>// add 'cards' as property	<br>Number.metaClass.getCards = {  -&gt;  delegate}<br>// add 'card' as property<br>Number.metaClass.getCard = {  -&gt;  delegate}<br>// add the 'minus' operator to Deck.<br>Deck.metaClass.minus = { list -&gt; delegate.removeCard list }<br>// add the 'minus' operator to Deck.<br>Deck.metaClass.plus = { list -&gt;<br>  if (list.class == card.core.Card) {<br>	delegate.addCards([list],ADD_TO_RANDOM)<br>  } else {<br>	delegate.addCards(list, ADD_TO_RANDOM)<br>  }<br>}<br></pre>
+</div>
+
+<br>
+
+Remove boilerplate<br>
+
+<ul>
+
+  <li>No imports</li>
+  <li>No types</li>
+</ul>
+
+<br>
+
+<div class="code">
+<pre>def importCustomizer = new ImportCustomizer()<br>importCustomizer.addStaticStars card.core.Card.class.name<br>importCustomizer.addStaticStars card.core.DeckOrder.class.name<br>importCustomizer.addStaticStars card.core.AddToDeck.class.name<br>importCustomizer.addStaticStars card.core.RemoveACard.class.name<br>importCustomizer.addStaticStars card.game.PokerRank.class.name<br>importCustomizer.addImports card.game.PokerHand.name<br>importCustomizer.addImports card.game.PokerPlayer.name<br>importCustomizer.addImports card.game.Player.name<br>def conf = new CompilerConfiguration()<br>conf.addCompilationCustomizers(importCustomizer)<br></pre></div>
+
+<br>
+
+Binding<br>
+
+<ul>
+
+  <li>declares important instance variables</li>
+  <li>contains additional methods</li>
+  <li>how to do this?<br>
+  </li>
+</ul>
+
+<br>
+
+Demo: visit javadoc for Card and Deck classes and enum classes<br>
 
 <br>
 
 <br>
 
-<h3>Data Dictionary:</h3>
-
 <br>
 
-<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
-
-  <tbody>
-    <tr>
-      <td style="text-align: center; font-weight: bold; text-decoration: underline;">Term</td>
-      <td style="text-align: center; font-weight: bold; text-decoration: underline;">Description</td>
-      <td style="text-align: center; font-weight: bold; text-decoration: underline;">Type</td>
-    </tr>
-    <tr>
-      <td>Player</td>
-      <td>An external entity that will interact with other players and
-the deck of cards.</td>
-      <td>Actor</td>
-    </tr>
-    <tr>
-      <td>Card</td>
-      <td>A data item that has value and suit.</td>
-      <td>Data</td>
-    </tr>
-    <tr>
-      <td>Hand</td>
-      <td>A collection of cards held by a player.</td>
-      <td>Collection</td>
-    </tr>
-    <tr>
-      <td>Deck</td>
-      <td>A collection of cards.</td>
-      <td>Collection</td>
-    </tr>
-    <tr>
-      <td>Shuffle</td>
-      <td>A player will manipulate the deck of cards to rearrange the
-order of the collection.</td>
-      <td>Use Case</td>
-    </tr>
-    <tr>
-      <td>Deal</td>
-      <td>A
-player will hand out individual cards to the different players.
-&nbsp;The number of cards handed out depends on the game being played.</td>
-      <td>Use Case</td>
-    </tr>
-    <tr>
-      <td>Card Game</td>
-      <td>A
-collecton of players that get together with a deck of cards. &nbsp;A
-set of rules&nbsp; governs how a particular card game is played.
-&nbsp;These rules control the number of cards dealt, displayed and
-strategies players may use to generate a hand with higher value than
-the other players.</td>
-      <td>Use Case</td>
-    </tr>
-  </tbody>
-</table>
+<br>
 
 <br>
 
 <br>
 
-<h3>Class Diagrams</h3>
-
-The classes in class diagrams represent both the main objects and or
-interactions in the application and objects to be programmed.&nbsp;
-Class diagrams can become more and more detailed but for this we will
-keep it course grained.&nbsp; The goal here is to find our objects or
-in the terminology we are creating - our nouns.<br>
-
 <br>
 
-Card Trick is a simpler model:<br>
-
 <br>
-
-<img style="width: 315px; height: 337px;" alt="Card Trick Class Diagram" src="images/CardTrickClassDiagram.jpg"><br>
-
-<br>
-
-Card Game becomes more complex but it still uses some of the nouns from
-Card Trick.&nbsp; If it is possible always start small and build
-out.&nbsp; If you can use a scaled down version of your system to
-express some of the vocabulary - do it.&nbsp; That is a domain language
-as well, just a smaller one.&nbsp; Once you get that working then you
-can build it to your larger domain.<br>
-
-<br>
-
-<img style="width: 520px; height: 447px;" alt="CardGameClassDiagram" src="images/CardGameClassDiagram.jpg"><br>
-
-<br>
-
-<h3>Sequence Diagram:<br>
-</h3>
-
-Use a sequence diagram to find your verbs.&nbsp; Sequence diagrams are
-generally described as the tool to show interactions between objects in
-the sequential order that those interactions occur.&nbsp; Developers
-typically think that sequence diagrams are meant exclusively for
-them.&nbsp; However, an organization's business staff can find sequence
-diagrams useful to communicate how the business currently works by
-showing how various business objects interact.&nbsp; From this it is
-straight forward to see how sequence diagrams will aid in the
-definition of a domain specific language.<br>
 
 <br>
 
 <br>
 
-<img style="width: 588px; height: 613px;" alt="sequence diagram" src="images/CardTrickSequenceDiagram.jpg"><br>
-
-<p><br>
-</p>
-
-<p>Now let's look at how all this plays out in our example DSL:<br>
-</p>
-
-<code><span style="font-weight: bold;">
-deck.shuffle()</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">initialCard = deck.removeCard TOP_CARD</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">initialCard.show()</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">println()</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">pile1 = deck.deal 4.cards</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">pile2 = deck.deal 4.cards</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">deck.addCards initialCard //adds to end</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">deck.addCards pile1, ADD_TO_TOP</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">pile15 = deck.deal 15.cards</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">pile15Reversed = pile15.reverse true</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">deck.addCards pile15, ADD_TO_TOP</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">deck.addCards pile2, ADD_TO_TOP</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">def finalCard = deck.removeCard 14</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">finalCard.show()</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">println()</span><br>
-<code></code></code>
 <br>
 
+<address>Made 23 January 2012<br>
 <br>
-
-<hr style="width: 100%; height: 4px;">
-
-<h1>Symbol Tables</h1>
-
-The essential purpose of a Symbol Table is to map between a symbol used
-to refer to an object in a DSL script and the object that symbol refers
-to.&nbsp; A mapping like this naturally fits with the notion of a map
-data structure, so it's no surprise that the most common implementation
-of a Symbol Table is a map with the symbol as a key and the Sementic
-Model object as a value.<br>
-
-<br>
-One question to consider is the kind of object that shuld be used as
-the key in the Symbol Table.&nbsp; For many languages, the most obvious
-choice is a string, since the text of the DSL is a string.<br>
-<br>
-Some language like Ruby, Smalltalk and Lisp have a symbol data type
-that is specifically designed to used as the key in these tables.&nbsp;
-The goal of the key is for lookup and string operation such as
-concatenation, substrings, etc are not pertinent.&nbsp; Often you get
-two objects that have the same name, for example "pile".&nbsp; If both
-of these collection of cards are put into the symbol table as "pile",
-how do you find the right object.<br>
-<br>
-
-<p>&nbsp;<!-- Sign and date the page, it's only polite! --></p>
-
-<address>Made 31 August 2011<br>
-by D Bartlett.</address>
+by R Rodini.</address>
 
 </body></html>

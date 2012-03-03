@@ -1,11 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head><title>DSL Lecture 6</title>
+<html><head>
+  <title>DSL Lecture 5</title>
 
   
+  
+  <link rel="stylesheet" href="PS_Lecture.css">
 
-  
-  
-  <link rel="stylesheet" href="PS_Lecture.css"></head><body>
+</head><body>
 <!-- Site navigation menu -->
 <ul class="navbar">
 
@@ -13,7 +14,7 @@
   <li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
   <li><a href="PS_DSL_Lecture_02.html">Lecture 2</a></li>
   <li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
-  <li><a href="PS_DSL_Lecture_05.html">Lecture 5</a></li>
+  <li><a href="PS_DSL_Lecture_04.html">Lecture 4</a></li>
   <li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
   <li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
   <li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
@@ -22,506 +23,402 @@
 </ul>
 
 <!-- Main content -->
-<h1>Penn State Great Valley<br>
-DSL Course - Lecture 6<br>
-</h1>
+<h1>Penn State Great Valley - DSL Course - Lecture 5</h1>
 
-<h2><span style="text-decoration: underline;">Anatomy of Computer
-Languages<img style="width: 432px; height: 640px;" alt="aurora" src="images/aurora/aurora/aurora_1.jpg" align="right"></span></h2>
+<img style="width: 434px; height: 674px;" alt="Aurora" src="images/aurora/aurora/aurora_salomonsen_big.jpg" align="right"><br>
+
+<h2>The Semantic Model and Symbol Table</h2>
+
+The term Semantic Model is
+used over and over and over again in the book and throughout CS.
+&nbsp;It seems to be one of &nbsp;those overloaded terms which is used
+constantly but never really well defined at least well enough so
+students feel they have a strong grasp of the term in it's various
+contexts. &nbsp;So let's get it straight and tear it apart!<br>
+
+<br>
+
+Definition of 'semantic' - is the study of meaning. &nbsp;It is the
+study of the relationship between <span style="font-style: italic;">signifiers</span>,
+such as words, phrases, symbols and signs,&nbsp;and what they stand
+for, their <span style="font-style: italic;">denotata</span>.<br>
+
+<br>
+
+Definition of 'model':<br>
+
+<ol>
+
+  <li>a standard or example for imitation or comparison.</li>
+  <li>a representation, generally in miniature, to show the
+construction or appearance of something.</li>
+  <li>an image in clay, wax, or the like, to be reproduced in more
+durable material.</li>
+  <li>etc, etc, etc....</li>
+</ol>
+
+According to Eric Evans,
+author of Domain Driven Design, the semantic model is the model of the
+domain where you can apply all the principles that&nbsp;DDD espouses.
+&nbsp;The linguistic abstraction is a thin veneer on top of the
+underlying model. &nbsp;The more well abstracted your model is, the
+easier the construction of the layer on top of it will be.
+<p>You must realize that the term 'semantic model'
+can represent the abstract form Evan associates with the domain you are
+trying to model and the concrete representation that Fowler often works
+in when describing the development of DSLs. &nbsp;We will look at it
+from Martin Fowler's perspective but we may move between the abstract
+and the concrete during the discussion.</p>
+
+<p>In the context of a DSL,
+a semantic model is a representation, such as an in-memory object
+model, of the same subject that the DSL describes. &nbsp;The semantic
+model acts as a repository for the next action that you execute.
+&nbsp;If the DSL describes a state machine, then the Semantic Model
+might be an object model with classes for state, event, etc. &nbsp;The
+Semantic Model is the library or framework that the DSL populates.</p>
 
 <p>A
-language is just a set of valid sentences. &nbsp;Every language
-application will have a parser (recognizer) component. &nbsp;The
-whole
-point to writing a grammar or Semantic Model is so you
-can&nbsp;build a
-program that recognizes sentences in that language. </p>
+semantic model is a notion very similar to that of a Domain Model.
+&nbsp;A Domain Model captures the core behavior of an application,
+while a Semantic Model may play a supporting role. &nbsp;A good example
+of this is an object-relational mapper that coordinates data between an
+object model and a relational database. &nbsp;You could use a DSL to
+describe object-relational mappings, and the resulting Semantic Model
+would consist of the Data Mappers, not the Domain Model that is the
+subject of the mapping.</p>
 
-<p>Language
-applications can be complicated and with anything complicated we want
-to break them down into bite-size chunks. &nbsp;The goal is to get
-the
-components to fit together in a multistage pipeline that analyzes or
-manipulates an input stream. &nbsp;The pipeline gradually converts
-an
-input sentence (valid input sentence) to a handy internal data
-structure or translates it to a sentence in another language.</p>
+<p>A Semantic Model is usually different
+from a Abstract Syntax Tree (AST) because they &nbsp;server separate
+purposes. &nbsp;A syntax tree corresponds to the structure of the DSL
+scripts. &nbsp;Although an AST may simplify and somewhat reorganize the
+input data, it still takes fundamentally the same form. &nbsp;The
+Semantic Model, however, is based on what will be done with the
+information from a DSL script. &nbsp;It often will be substantially
+different structure, and usually not a tree structure. &nbsp;There are
+occasions when an AST is an effective Semantic Model for a DSL, but
+these are the exception rather than the rule.</p>
 
-In
-computing, a parser is one of the components in an interpreter or
-compiler that checks for correct syntax and builds a data structure
-(often some kind of parse tree, abstract syntax tree or other
-hierarchical structure) implicit in the input tokens. The parser often
-uses a separate lexical analyzer to create tokens from the sequence of
-input characters. Parsers may be programmed by hand or may be
-(semi-)automatically generated (in some programming languages) by a
-tool.
-<h2><span style="text-decoration: underline;">Programming
-Language Parsing</span></h2>
-
-The
-most common use of a parser is as a component of a compiler or
-interpreter. This parses the source code of a computer programming
-language to create some form of internal representation. Programming
-languages tend to be specified in terms of a context-free grammar
-because fast and efficient parsers can be written for them. Parsers are
-written by hand or generated by parser generators.<br>
-
-<p><br>
-Context-free
-grammars are limited in the extent to which they can express all of the
-requirements of a language. Informally, the reason is that the memory
-of such a language is limited. The grammar cannot remember the presence
-of a construct over an arbitrarily long input; this is necessary for a
-language in which, for example, a name must be declared before it may
-be referenced. More powerful grammars that can express this constraint,
-however, cannot be parsed efficiently. Thus, it is a common strategy to
-create a relaxed parser for a context-free grammar which accepts a
-superset of the desired language constructs (that is, it accepts some
-invalid constructs); later, the unwanted constructs can be filtered out.</p>
-
-<h3>Overview of Parsing Process</h3>
-
-<img style="width: 147px; height: 409px; float: right;" alt="Parse Flow" src="images/Parser_Flow2.gif">The
-following example demonstrates the common case of parsing a computer
-language with two levels of grammar: lexical and syntactic.<br>
+The Semantic Model can
+often precede the DSL. &nbsp;This happens when you decide that a
+portion of the Domain Model might be better populated from a DSL than
+from a regular command-query interface. &nbsp;Alternatively, you can
+build a DSL and Semantic Model together using the discussions with
+Domain experts both to refine the expressions of the DSL and the
+structure of the the Domain Model.<br>
 
 <br>
 
-The
-first stage is the token generation, or lexical analysis, by which the
-input character stream is split into meaningful symbols defined by a
-grammar of regular expressions. For example, a calculator program would
-look at an input such as "12*(3+4)^2" and split it into the tokens 12,
-*, (, 3, +, 4, ), ^, 2, each of which is a meaningful symbol in the
-context of an arithmetic expression. The lexer would contain rules to
-tell it that the characters *, +, ^, ( and ) mark the start of a new
-token, so meaningless tokens like "12*" or "(3" will not be generated.<br>
+The Semantic Model can either
+hold the code to execute itself (interpreter style), or be the basis
+for code generation (compiler style). &nbsp;Even if you are using code
+generation, it's useful to provide interpretation to help with testing
+and debugging.<br>
 
 <br>
 
-The
-next stage is parsing or syntactic analysis, which is checking that the
-tokens form an allowable expression. This is usually done with
-reference to a context-free grammar which recursively defines
-components that can make up an expression and the order in which they
-must appear. However, not all rules defining programming languages can
-be expressed by context-free grammars alone, for example type validity
-and proper declaration of identifiers. These rules can be formally
-expressed with attribute grammars.<br>
+So let's build an Semantic Model for the fun of it...<br>
 
 <br>
 
-The final phase is semantic
-parsing or analysis, which is working out the implications of the
-expression just validated and taking the appropriate action. In the
-case of a calculator or interpreter, the action is to evaluate the
-expression or program, a compiler, on the other hand, would generate
-some kind of code. Attribute grammars can also be used to define these
-actions.<br>
-
-<br>
-
-As you can see, there are several tasks and components
-that can be put together to create your parsing and translation
-program. &nbsp;Some of these can be as simple as XML parsing while
-others can be as complex as general programming language parsers.
-&nbsp;We will stick to the easy stuff, if you want to dig deeper
-feel
-free.<br>
-
-<br>
-
-<h3>Basic Parsing Patterns</h3>
-
-<img style="width: 779px; height: 223px;" alt="Multi-stage Pipeline" src="images/Pipeline.jpg">
-<p>The
-basic idea is the reader recognizes the input and builds an
-intermediate representation (IR) that feeds the rest of the
-application. &nbsp;The intermediate stages form the semantic
-analyzer
-which figures out what the input means. &nbsp;At the end, a
-generator
-emits output based upon the IR and what the application learned in the
-intermediate stages.</p>
-
-<p>There are four broad application categories to the pipeline
-described above:</p>
+<h2>Tips on Building Models<br>
+</h2>
 
 <ol>
 
-  <li>Reader
-- A reader builds a data structure from one or more input streams.
-&nbsp;The input streams are usually text but can be binary data as
-well. &nbsp;Examples include configuration file readers, program
-analysis tools such as a method cross-reference tool, and class file
-loaders.</li>
-  <li>Translator or Rewriter - A translator
-reads text or binary input and emits output conforming to the same or a
-different language. &nbsp;It is essentially a combined reader and
-generator. &nbsp;Examples include translators from extinct
-programming
-languages to modern languages, wiki to HTML translators, refactorers,
-profilers that instrument code, log file report generators, pretty
-printers, and macro preprocessors. &nbsp;Some translators, such as
-assemblers and compilers, are so common that they warrant their own
-subcategories.</li>
-  <li>Interpreter - An interpreter reads, decodes, and
-executes instructions. &nbsp;Interpreters range from simple
-calculators
-and POP protocol servers all the way up to programming language
-implementations such as those for Java, Ruby, and Python.</li>
-  <li>Generator - A generator walks an internal data
-structure and emits output. &nbsp;Examples include
-object-to-relational
-database mapping tools, object serializers, source code generators, and
-web page generators.</li>
+  <li>Understand
+the business completely. &nbsp;In my view this is the best part of our
+job. &nbsp;I've working in manufacturing, insurance, finance, banking,
+medical devices, medical records, pharmaceuticals, &nbsp;retail and
+others.&nbsp;</li>
+  <li>Use good names for all your classes. &nbsp;If you
+can't explain an object to someone then it's probably not right.
+&nbsp;That's OK, get it right on the next iteration. &nbsp;Names should
+be consistent and some stupid overloaded computer term, it should be
+something the business understands implicitly. &nbsp;The name should be
+exact in that it defines the responsibilities of the entity in the
+model.</li>
+  <li>Use metaphors to model abstract operations/entities to
+help simplify the design of the model. &nbsp;For example, "Sticky Note"
+is a comment that hangs on to some entity as it travels through the
+order process flow.</li>
+  <li>Make the model self-contained. &nbsp;It
+should contain the raw logic of the application. &nbsp;Any additional
+logic should be contained in some layers, as for instance the
+work-flow, dependency injection, persistence....</li>
+  <li>The model
+should be independent. &nbsp;The model shouldn't change because the
+underlying persistence implementation or the UI or any other
+&nbsp;layer changes.</li>
+  <li>The model should be technically simple.
+&nbsp;It should only contain POJOs. &nbsp;The responsibilities assigned
+to an entity in the model should be limited to only those necessary for
+the software domain.</li>
+  <li>Keep the model up to date.</li>
+  <li>Make
+sure the software model matches the business model. &nbsp;The software
+domain should be easy to understand for the businessmodel expert and it
+shouldn't have any discrepancy. </li>
+  <li>Care
+for the code quality of you model because it is the foundation of your
+application. &nbsp;If it is bad the whole thing can fall apart, plus
+changes are inevitable to your model so it has to be adaptable.</li>
+  <li>Test your model independently and involve your customer in
+testing.</li>
 </ol>
 
-<h3>Parsing Input Sentences&nbsp;</h3>
+<h2>Card Game Semantic Model</h2>
 
-<h3 style="text-decoration: underline;">Readers</h3>
-
-The most basic reader component and probably something most of you have
-already done in some form, most likely with XML. &nbsp;So here are
-a couple of short examples with of parsing an XML file with Python.<br>
-
-<br>
-
-This example uses Document object model:<br>
+Although
+not as famous as its logical or physical data model cousins, the
+semantic model deserves generally greater consideration because of its
+unyielding focus on the user perspective. When built correctly, the
+semantic model is the user's perspective of the data-and what could be
+more important?<br>
 
 <br>
 
-<span class="code">
-<br>
-&nbsp;&nbsp;from xml.dom import minidom, Node<br>
-&nbsp;&nbsp;def scanNode(node, level = 0):<br>
-&nbsp;&nbsp;&nbsp;&nbsp;msg = node.__class__.__name__<br>
-&nbsp;&nbsp;&nbsp;&nbsp;if node.nodeType ==
-Node.ELEMENT_NODE:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg += ",
-tag: " + node.tagName<br>
-&nbsp;&nbsp;&nbsp;&nbsp;print(" " * level * 4, msg)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;if node.hasChildNodes:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for child
-in node.childNodes:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scanNode(child,
-level + 1)<br>
-<br>
-&nbsp;&nbsp;doc = minidom.parse('planets.xml')<br>
-&nbsp;&nbsp;scanNode(doc)<br>
-<br>
-</span>
-<br>
-
-This example uses tree structure:<br>
-
-&nbsp;<span class="code">&nbsp; <br>
-&nbsp; from xml.etree import ElementTree as etree<br>
-<br>
-&nbsp;&nbsp;def main():<br>
-&nbsp;&nbsp;&nbsp;&nbsp;tree =
-etree.<span style="font-weight: bold;">parse</span>("planets.xml")<br>
-&nbsp;&nbsp;&nbsp;&nbsp;root = tree.getroot()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;print("root: ")<br>
-&nbsp;&nbsp;&nbsp;&nbsp;print(root)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;for child in root:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("
-child: ")<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(child)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for
-grandchild in child:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("
-grandchild: ")<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(grandchild)<br>
-<br>
-&nbsp;&nbsp;if __name__ == "__main__":<br>
-&nbsp;&nbsp;&nbsp;&nbsp;# Someone is launching this
-directly<br>
-&nbsp;&nbsp;&nbsp;&nbsp;main()<br>
-<br>
-</span>
-<br>
-
-You can see from these two snippets of code that tools are available
-for parsing and navigating XML in Python. &nbsp;Tools for XML
-processing are available for most programming languages today.<br>
+In a general sense, semantics is the study of
+meanings-of the message behind the words. "Semantic" in the context of
+data and applications means "from the user's perspective." It is the
+data in context-where the meaning is. "Information" is also often
+defined as "data in context." "Semantic" therefore, while not
+synonymous with information, carries with it the same sense of data at
+work, or data in the worker's hands. <br>
 
 <br>
 
-The tricks come out when you want to create something outside of XML...<br>
+Semantic data elements
+are deceptively similar to the entities and attributes we find in a
+logical or physical data model. They are things like "customer,"
+"product," "credit limit," "net sales," and so forth. What the semantic
+modeler must address however, is the context of the term-the data
+element- and how it relates to the data elements as present in the
+computing systems data stores. For example, is a customer an
+individual-the Purchasing Agent- or a company? Must a customer have
+actually purchased a product, or can a customer also be someone who is
+in the market for a (the) product? What in some contexts might be
+called a "prospect" might be called a "customer" in others. Is a
+customer a wholesaler or is the end consumer the customer? Is the
+wholesaler's customer also called a customer?<br>
 
 <br>
 
-<h3 style="text-decoration: underline;">Translator or Re-Writer</h3>
-
-A
-translator is a program that maps input constructs to output
-constructs. &nbsp;Sometimes we can do this purely with syntax.
-&nbsp;For example, translating a scalar multiply like a x b in a
-mathematics DSL to a*b in Java doesn't require semantic information.
-&nbsp;But it's never quite that simple! &nbsp;If a DSL has
-matrices (2D
-arrays), we need to alter the translation based on type information.
-&nbsp;For example, to translate matrix multiply A x B, we need to
-generate a nested <span style="font-family: Courier New; font-weight: bold;">for</span>
-loop in Java.<br>
+The answer to
+these questions is likely to be "it depends." And that is the correct
+answer, because it does depend. It depends on who is asking and why.
+ABC company's sales department may draw a clear line between customers
+(buyers) and prospects. ABC's marketing department may simply use
+"customer" to refer to those participating in the market, whether or
+not they've actually bought ABC's product.<br>
 
 <br>
 
-Translators
-vary in difficulty depending on a number of factors including the
-relative order of input and output constructs, the presence of forward
-references, whether we need to preserve comments and formating, sheer
-input file size, and so on. &nbsp;Regardless of the translation
-strategy, keep in mind an important design principle:<br>
+The semantic modeler
+must drill down and capture the nuance of each perspective and must
+struggle to work with the business users to develop a naming convention
+or syntax that provides clarity. All perspectives are represented in
+the semantic model. <br>
 
 <br>
 
-<span style="font-style: italic; font-weight: bold;">Translation
-involves fully understanding each input phrase, picking an appropriate
-output construct, and filling it with elements from the input model.</span><br>
+So in our example let's create a semantic model for working with cards
+and card games. &nbsp;Obvious terms include:<br>
 
 <br>
-
-Trying to cleverly replace input symbols with output symbols rarely
-works well. &nbsp;You end up with what we call a <span style="font-weight: bold; font-style: italic;">literal
-translation</span>
-in a natural language. &nbsp;For example, faire un canard in French
-means literally "to make a duck." The real translation is "to hit a
-wrong note."<br>
-
-<br>
-
-In a computer translator, to "understand" a phrase
-means to syntactically and semantically analyze it. &nbsp;We
-usually
-have to create an input model like an Abstract Syntax Tree because we
-can't always do semantic analysis properly as we parse, creating symbol
-tables and compute expression types from the input model.
-&nbsp;According to the needs of the task at hand, we compute
-everything
-we need to know about the input and then make a decision about mapping
-an input phrase to an output phrase. &nbsp;Sometimes this take
-several
-passes.<br>
-
-<br>
-
-Translation is a huge topic, and we can devote only
-limited time and resources to it. &nbsp;Depending upon the
-complexity
-of your DSL will determine if you need to do more complicated
-translations. &nbsp;Let's look a few of the most common translator
-patterns:<br>
-
-<br>
-
-<span style="font-weight: bold; font-style: italic;">Syntax-Directed
-Translator</span>
-- This translator consists of a parser with embedded actions that
-immediately generate output. &nbsp;The key distinguishing feature
-is
-that the syntax-directed translators don't build an internal
-representation. &nbsp;They do everything in one pass.<br>
-
-<br>
-
-<span style="font-weight: bold; font-style: italic;">Rule-Based
-Translator</span>
-- Uses the DSL of a particular rule engine to specify a set of "this
-goes to that" translation rules. &nbsp;Combined with a grammar
-describing the input syntax, a rule engine can automatically perform
-translations.<br>
-
-<br>
-
-<span style="font-weight: bold; font-style: italic;">Model-Driven
-Translator</span>
-- There are lots of variations within the model-driven translator
-strategy, but they all have one thing in common: an internal
-representation of the input. &nbsp;From the input model, a
-translator
-can emit output directly, build up strings, build up templates or build
-up specialized output objects. &nbsp;Depending on the complexity of
-the
-translation, the translator might need multiple passes over the input
-model before generation phase. &nbsp;Most industrial translators
-use
-the model-driven approach.<br>
-
-<br>
-
-<h3 style="text-decoration: underline;">Interpreter</h3>
-
-We have all heard
-of the term "interpreter" in computer science. &nbsp;It is also
-another
-overloaded term. &nbsp;An interpreter normally means a computer
-program
-that executes, i.e. performs, instructions written in a programming
-language. An interpreter may be a program that either<br>
-
-<br>
-
-<ol>
-
-  <li>executes the source code directly</li>
-  <li>translates source code into some efficient intermediate
-representation (code) and immediately executes this code</li>
-  <li>explicitly executes stored precompiled code made by a
-compiler which is part of the interpreter system<br>
-  </li>
-</ol>
-
-Early
-versions of the Lisp programming language and Dartmouth BASIC would be
-examples of type 1. Perl, Python, MATLAB, and Ruby are examples of type
-2, while UCSD Pascal is type 3: Source programs are compiled ahead of
-time and stored as machine independent code, which is then linked at
-run-time and executed by an interpreter and/or compiler (for JIT
-systems). Some systems, such as Smalltalk, contemporary versions of
-BASIC, Java and others, may also combine styles 2 and 3.<br>
-
-<br>
-
-For our
-discussion here with DSLs we are really talking about #2 in that we
-want to execute a program not written in machine language by
-'interpreting' the program or translating it tot he equivalent program
-in a language that already runs on that machine.<br>
-
-<br>
-
-We will look at
-two type of interpreters - high-level interpreters and low-level
-interpreters. &nbsp;High-level interpreters directly execute source
-code instructions or abstract syntax tree equivalent.
-&nbsp;Low-level
-interpreters execute instructions called bytecodes that are close to
-the CPU machine instructions. &nbsp;High-level interpreters fall
-into&nbsp;two&nbsp;basic interpreter design patterns:
-syntax-directed
-interpreters and tree-based interpreters. <br>
-
-<br>
-
-There high-level
-patterns are best suited to building DSLs rather than general-purpose
-programming languages. &nbsp;Usually, simplicity and low cost
-implementation trump execution efficiency for DSLs. &nbsp;This
-leads to
-simpler implementations and a natural tendency to use dynamically typed
-languages because of the minimal machinery needed to interpret a
-high-level language.<br>
-
-<br>
-
-Essentially, an interpreter simulates an
-idealized computer in software. &nbsp;Such "computers" have a
-processor, code memory, data memory, and a stack. &nbsp;The
-processor
-pulls instructions from the code memory, decodes them, and executes
-them. &nbsp;An instruction can read or write to the data memory or
-onto
-the stack. &nbsp;Function calls save return addresses so they can
-return to the instruction following the function call.<br>
-
-<br>
-
-There are three things to consider when building an interpreter:<br>
 
 <ul>
 
-  <li>how to store the data</li>
-  <li>how and when to track the symbols</li>
-  <li>how to execute the instructions</li>
+  <li>Card</li>
+  <li>Suit</li>
+  <li>Deck</li>
+  <li>Player</li>
+  <li>Deal</li>
+  <li>Shuffle</li>
 </ul>
 
-Getting into the details of any interpreter is beyond the scope of this
-lecture but I'll leave you with some of the common design patterns for
-developing interpreters and you should see how prevalent interpreters
-are in your day-to-day tools suite:<br>
+Ok,
+sounds good, now what? &nbsp;We have to look at the relationships and
+actions. &nbsp;For example, suits (Clubs, Diamonds, Hearts, Spades)
+pertain to cards. &nbsp;Deck is a collection of cards, while shuffle is
+an action taken on a deck.<br>
 
 <br>
 
-<span style="font-weight: bold; color: white;">Syntax-Directed
-Interpreter</span>: directly executes source code without
-building an intermediate representation and without translating into
-another language. &nbsp;This pattern works best with small
-languages that are really just lists of instructions and declarations.
-&nbsp;It's not super-efficient but has the fewest components to
-build.<br>
-
-<br>
-
-<span style="font-weight: bold; color: white;">Tree-Based
-Interpreter</span>: also directly executes source code without
-building an intermediate representation and without translating into
-another language. &nbsp;However, this pattern performs a
-preprocessing pass to build and abstract syntax tree and scope tree.
-&nbsp;It supports forward references. &nbsp;Before execution,
-optimizations are performed, information from analysis is squirreled
-away, or rewrites are done on the abstract syntax tree to change <span style="font-weight: bold; color: white;">x</span> to <span style="font-weight: bold; color: white;">this.x</span>. This pattern
-is typically
-faster than a source-level interpreter because it doesn't
-&nbsp;waste time reparsing input. &nbsp;An entire subtree can
-be skipped by moving &nbsp;a pointer instead of parsing over it.<br>
-
-<br>
-
-<span style="color: white; font-weight: bold;">Byte-Code Interpreters</span>:&nbsp;
-This is whole other category of interpreter and it is represents some
-of the more industrial strength languages used today such as Java,
-Python, Ruby 1.9+ and C#. &nbsp;There interpreters translate high-level
-source code down into low-level instructions called bytecode
-instructions. &nbsp;These bytecodes are then executed on an efficient
-interpreter called a virtual machine (VM).<br>
-
-<h3 style="text-decoration: underline;">Generators</h3>
-
-<p>We've talked about translators and re-writers, you should be able to
-come up with loads of examples of these tools. &nbsp;Generally, a
-translators input to output relationship classifies it into one of two
-overall categories in the translation taxonomy: either the output looks
-like the input, or it does not. &nbsp;In the first case the translator
-just tweaks the input, in the second case the output looks very
-different from the input. &nbsp;In this case the translator might
-condense the input into a report such as a set of source code metrics
-or might generate Javadoc comments from Java source code. &nbsp;The
-input is basically highly processed and reorganized.</p>
-
-<p>So
-what is a
-generator and how is it different from what we have discussed?
-&nbsp;Good question! &nbsp;This category usually generates and then
-buffers up bits of translated input that is subsequently organizes into
-larger and larger chunks, leading to the final chunk representing the
-complete output. &nbsp;However, we can generate code in one of two
-ways: &nbsp;straight from our translator or through a template.</p>
-
-<p>Translation
-Generation simply generates statements in the target source code from
-the Semantic Model or Abstract Syntax Tree.&nbsp;</p>
-
-<p>Template Generation is
-exactly as its name implies, write a sample output file then when there
-is something specific to a particular state or event you place special
-markers that allow you to call out to the Semantic Model to generate
-the appropriate code. &nbsp;This is similar to templated web pages with
-tools like ASP and JSP. &nbsp;When you process the templates, it
-replaces the template references with generated code.</p>
-
-<p>With
-Templated Generation you are driven by the structure of your output.
-&nbsp;With Translation Generation, you may be driven by either input,
-output or both.</p>
+<img style="width: 289px; height: 248px;" alt="Card Player Use Case Diagram" src="images/CardPlayerUseCase.jpg"><br>
 
 <br>
 
 <br>
 
-<address>Made 10 January 2012<br>
+<h3>Data Dictionary:</h3>
+
+<br>
+
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="text-align: center; font-weight: bold; text-decoration: underline;">Term</td>
+      <td style="text-align: center; font-weight: bold; text-decoration: underline;">Description</td>
+      <td style="text-align: center; font-weight: bold; text-decoration: underline;">Type</td>
+    </tr>
+    <tr>
+      <td>Player</td>
+      <td>An external entity that will interact with other players and
+the deck of cards.</td>
+      <td>Actor</td>
+    </tr>
+    <tr>
+      <td>Card</td>
+      <td>A data item that has value and suit.</td>
+      <td>Data</td>
+    </tr>
+    <tr>
+      <td>Hand</td>
+      <td>A collection of cards held by a player.</td>
+      <td>Collection</td>
+    </tr>
+    <tr>
+      <td>Deck</td>
+      <td>A collection of cards.</td>
+      <td>Collection</td>
+    </tr>
+    <tr>
+      <td>Shuffle</td>
+      <td>A player will manipulate the deck of cards to rearrange the
+order of the collection.</td>
+      <td>Use Case</td>
+    </tr>
+    <tr>
+      <td>Deal</td>
+      <td>A
+player will hand out individual cards to the different players.
+&nbsp;The number of cards handed out depends on the game being played.</td>
+      <td>Use Case</td>
+    </tr>
+    <tr>
+      <td>Card Game</td>
+      <td>A
+collecton of players that get together with a deck of cards. &nbsp;A
+set of rules&nbsp; governs how a particular card game is played.
+&nbsp;These rules control the number of cards dealt, displayed and
+strategies players may use to generate a hand with higher value than
+the other players.</td>
+      <td>Use Case</td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
+<br>
+
+<h3>Class Diagrams</h3>
+
+The classes in class diagrams represent both the main objects and or
+interactions in the application and objects to be programmed.&nbsp;
+Class diagrams can become more and more detailed but for this we will
+keep it course grained.&nbsp; The goal here is to find our objects or
+in the terminology we are creating - our nouns.<br>
+
+<br>
+
+Card Trick is a simpler model:<br>
+
+<br>
+
+<img style="width: 315px; height: 337px;" alt="Card Trick Class Diagram" src="images/CardTrickClassDiagram.jpg"><br>
+
+<br>
+
+Card Game becomes more complex but it still uses some of the nouns from
+Card Trick.&nbsp; If it is possible always start small and build
+out.&nbsp; If you can use a scaled down version of your system to
+express some of the vocabulary - do it.&nbsp; That is a domain language
+as well, just a smaller one.&nbsp; Once you get that working then you
+can build it to your larger domain.<br>
+
+<br>
+
+<img style="width: 520px; height: 447px;" alt="CardGameClassDiagram" src="images/CardGameClassDiagram.jpg"><br>
+
+<br>
+
+<h3>Sequence Diagram:<br>
+</h3>
+
+Use a sequence diagram to find your verbs.&nbsp; Sequence diagrams are
+generally described as the tool to show interactions between objects in
+the sequential order that those interactions occur.&nbsp; Developers
+typically think that sequence diagrams are meant exclusively for
+them.&nbsp; However, an organization's business staff can find sequence
+diagrams useful to communicate how the business currently works by
+showing how various business objects interact.&nbsp; From this it is
+straight forward to see how sequence diagrams will aid in the
+definition of a domain specific language.<br>
+
+<br>
+
+<br>
+
+<img style="width: 588px; height: 613px;" alt="sequence diagram" src="images/CardTrickSequenceDiagram.jpg"><br>
+
+<p><br>
+</p>
+
+<p>Now let's look at how all this plays out in our example DSL:<br>
+</p>
+
+<code><span style="font-weight: bold;">
+deck.shuffle()</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">initialCard = deck.removeCard TOP_CARD</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">initialCard.show()</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">println()</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">pile1 = deck.deal 4.cards</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">pile2 = deck.deal 4.cards</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">deck.addCards initialCard //adds to end</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">deck.addCards pile1, ADD_TO_TOP</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">pile15 = deck.deal 15.cards</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">pile15Reversed = pile15.reverse true</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">deck.addCards pile15, ADD_TO_TOP</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">deck.addCards pile2, ADD_TO_TOP</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">def finalCard = deck.removeCard 14</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">finalCard.show()</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">println()</span><br>
+<code></code></code>
+<br>
+
+<br>
+
+<hr style="width: 100%; height: 4px;">
+
+<h1>Symbol Tables</h1>
+
+The essential purpose of a Symbol Table is to map between a symbol used
+to refer to an object in a DSL script and the object that symbol refers
+to.&nbsp; A mapping like this naturally fits with the notion of a map
+data structure, so it's no surprise that the most common implementation
+of a Symbol Table is a map with the symbol as a key and the Sementic
+Model object as a value.<br>
+
+<br>
+One question to consider is the kind of object that shuld be used as
+the key in the Symbol Table.&nbsp; For many languages, the most obvious
+choice is a string, since the text of the DSL is a string.<br>
+<br>
+Some language like Ruby, Smalltalk and Lisp have a symbol data type
+that is specifically designed to used as the key in these tables.&nbsp;
+The goal of the key is for lookup and string operation such as
+concatenation, substrings, etc are not pertinent.&nbsp; Often you get
+two objects that have the same name, for example "pile".&nbsp; If both
+of these collection of cards are put into the symbol table as "pile",
+how do you find the right object.<br>
+<br>
+
+<p>&nbsp;<!-- Sign and date the page, it's only polite! --></p>
+
+<address>Made 31 August 2011<br>
 by D Bartlett.</address>
 
 </body></html>
