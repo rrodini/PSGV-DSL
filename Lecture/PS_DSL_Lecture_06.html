@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html><head>
-  <title>DSL Lecture 5</title>
+  <title>DSL Lecture 6</title>
 
   
   
@@ -23,9 +23,10 @@
 </ul>
 
 <!-- Main content -->
-<h1>Penn State Great Valley - DSL Course - Lecture 5</h1>
+<h1>Penn State Great Valley - DSL Course - Lecture 6<br>
+</h1>
 
-<img style="width: 434px; height: 674px;" alt="Aurora" src="images/aurora/aurora/aurora_salomonsen_big.jpg" align="right"><br>
+<img style="width: 481px; height: 618px;" alt="Aurora" src="images/aurora/aurora/aurora_salomonsen_big.jpg" align="top"><br>
 
 <h2>The Semantic Model and Symbol Table</h2>
 
@@ -157,7 +158,8 @@ the software domain.</li>
   <li>Keep the model up to date.</li>
   <li>Make
 sure the software model matches the business model. &nbsp;The software
-domain should be easy to understand for the businessmodel expert and it
+domain should be easy to understand for the business model expert and
+it
 shouldn't have any discrepancy. </li>
   <li>Care
 for the code quality of you model because it is the foundation of your
@@ -300,7 +302,7 @@ player will hand out individual cards to the different players.
     <tr>
       <td>Card Game</td>
       <td>A
-collecton of players that get together with a deck of cards. &nbsp;A
+collection of players that get together with a deck of cards. &nbsp;A
 set of rules&nbsp; governs how a particular card game is played.
 &nbsp;These rules control the number of cards dealt, displayed and
 strategies players may use to generate a hand with higher value than
@@ -370,43 +372,59 @@ definition of a domain specific language.<br>
 <p>Now let's look at how all this plays out in our example DSL:<br>
 </p>
 
-<code><span style="font-weight: bold;">
-deck.shuffle()</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">initialCard = deck.removeCard TOP_CARD</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">initialCard.show()</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">println()</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">pile1 = deck.deal 4.cards</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">pile2 = deck.deal 4.cards</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">deck.addCards initialCard //adds to end</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">deck.addCards pile1, ADD_TO_TOP</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">pile15 = deck.deal 15.cards</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">pile15Reversed = pile15.reverse true</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">deck.addCards pile15, ADD_TO_TOP</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">deck.addCards pile2, ADD_TO_TOP</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">def finalCard = deck.removeCard 14</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">finalCard.show()</span><br style="font-weight: bold;">
-<span style="font-weight: bold;">println()</span><br>
-<code></code></code>
+<span class="code"><br>
+deck.shuffle()<br>
+initialCard = deckremoveCard TOP_CARD<br>
+initialCard.show()<br>
+println()<br>
+pile1 = deck.deal 4.cards<br>
+pile2 = deck.deal 4.cards<br>
+deck.addCards initialCard //adds to end<br>
+deck.addCards pile1, ADD_TO_TOP<br>
+pile15 = deck.deal 15.cards<br>
+pile15Reversed = pile15.reverse true<br>
+deck.addCards pile15, ADD_TO_TOP<br>
+deck.addCards pile2, ADD_TO_TOP<br>
+def finalCard = deck.removeCard 14<br>
+finalCard.show()<br>
+println()<br><br>
+</span>
 <br>
 
 <br>
 
 <hr style="width: 100%; height: 4px;">
-
 <h1>Symbol Tables</h1>
+
+A symbol table is a data type that we use to associate values with
+keys. Clients can store (put) an entry into the symbol table by
+specifying a key-value pair and then can retrieve (get) the value
+corresponding to a particular key from the symbol table. For example, a
+university might associate information such as a student's name, home
+address, and grades (the value or object - 'student') with that
+student's social security number (the key), so that each student's
+records can be accessed by specifying a social security number. The
+same approach might be used by a scientist to organize data, by a
+business to keep track of customer transactions, or by an internet
+search engine to associate keywords with web pages.<br>
+
+<br>
 
 The essential purpose of a Symbol Table is to map between a symbol used
 to refer to an object in a DSL script and the object that symbol refers
 to.&nbsp; A mapping like this naturally fits with the notion of a map
 data structure, so it's no surprise that the most common implementation
-of a Symbol Table is a map with the symbol as a key and the Sementic
+of a Symbol Table is a map with the symbol as a key and the Semantic
 Model object as a value.<br>
 
 <br>
-One question to consider is the kind of object that shuld be used as
+
+One question to consider is the kind of object that should be used as
 the key in the Symbol Table.&nbsp; For many languages, the most obvious
 choice is a string, since the text of the DSL is a string.<br>
+
 <br>
+
 Some language like Ruby, Smalltalk and Lisp have a symbol data type
 that is specifically designed to used as the key in these tables.&nbsp;
 The goal of the key is for lookup and string operation such as
@@ -414,11 +432,53 @@ concatenation, substrings, etc are not pertinent.&nbsp; Often you get
 two objects that have the same name, for example "pile".&nbsp; If both
 of these collection of cards are put into the symbol table as "pile",
 how do you find the right object.<br>
+
 <br>
 
-<p>&nbsp;<!-- Sign and date the page, it's only polite! --></p>
+For the perspective of a DSL or even a general purpose language a
+symbol table is generally used to store information about various
+source language constructs.&nbsp; The information is collected by the
+analysis phases of the compiler and used by the synthesis phases to
+generate the output or target code.&nbsp; For example, during the
+lexical analysis, the character string, or lexeme, forming an
+identifier is saved in a symbol-table entry.&nbsp; Later phases of the
+analysis might add to this entry information such as the type of the
+identifier, it usage (e.g., procedure, variable, or label)&nbsp; and
+its position in storage.&nbsp; The generation phase would then use the
+information to generate the proper output to store and access this
+variable.<br>
 
-<address>Made 31 August 2011<br>
+<br>
+
+Many languages have different kinds of objects that need to be referred
+to.&nbsp; The introductory state model needs to identify states,
+commands, and events.&nbsp; Having multiple kinds of things to refer to
+means you have to choose between a single map, multiple maps, or a
+special class.<br>
+
+<br>
+
+If a single map is used you can't use the same name for different
+things - you can't have an event with the same name as a state - which
+may be a useful constraint to reduce confusion in the DSL.&nbsp; Fowler
+does not recommend this option because a single map makes it harder to
+read the processing code because it is less clear what kind of thing is
+being manipulated when you refer to the symbol.<br>
+
+<br>
+
+With multiple maps, you have a separate map for each kind of object you
+are referrring to.&nbsp; For example, a state model may have three maps
+for events, commands and states.&nbsp; You can think of this as one
+logical symbol table or three symbol tables.&nbsp; You code will be
+cleaner because the kind of object you are referring to is in the
+processing steps.<br>
+
+<br>
+
+<p>&nbsp;</p>
+
+<address>Updated 10 March 2012<br>
 by D Bartlett.</address>
 
 </body></html>
