@@ -1,13 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head>
-  <title>DSL Lecture 10</title>
+<html><head><title>DSL Lecture 10</title>
+
+
+  
 
   
   
-  <link rel="stylesheet" href="PS_Lecture.css">
-
-</head><body>
-<!-- Site navigation menu -->
+  <link rel="stylesheet" href="PS_Lecture.css"></head><body><br>
 <ul class="navbar">
 
   <li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
@@ -22,12 +21,15 @@
   <li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
 </ul>
 
-<!-- Main content -->
+
 <h1>Penn State Great Valley - DSL Course - Lecture 10<br>
 </h1>
 
+<h2><img style="width: 600px; height: 225px;" alt="illuminating-a-winding-road-600w.jpg" src="images/aurora/aurora/illuminating-a-winding-road-600w.jpg"><br>
+</h2>
 <h2>Patterns for Internal DSLs (Continued)<br>
 </h2>
+
 
 This is a continuation of Lecture 9 topics but now we move on to more
 advanced topics.<br>
@@ -155,7 +157,7 @@ string is the alphabet which makes it easy to check for accuracy).<br>
 <br>
 
 <div class="code">
-<pre>		String alphabet = "abcdefghijklmnopqrstuvwxyz";<br>		LinkedHashMap<Character,Integer> letterMap = new LinkedHashMap<Character,Integer> (); <br>		<br>		for (int i=0; i&lt;alphabet.length(); i++) {<br>			int count;<br>			Character c = alphabet.charAt(i);<br>			if (letterMap.get(c) == null) {<br>				letterMap.put(c, 0);<br>			}<br>			count = letterMap.get(c);<br>			letterMap.put(c, count+1);<br>		}<br>		<br>		for (Character key : letterMap.keySet()) {<br>			System.out.println("letter: " + key + " count: " + letterMap.get(key));<br>		}<br><br></Character,Integer></Character,Integer></pre>
+<pre>		String alphabet = "abcdefghijklmnopqrstuvwxyz";<br>		LinkedHashMap<character,integer> letterMap = new LinkedHashMap<character,integer> (); <br>		<br>		for (int i=0; i&lt;alphabet.length(); i++) {<br>			int count;<br>			Character c = alphabet.charAt(i);<br>			if (letterMap.get(c) == null) {<br>				letterMap.put(c, 0);<br>			}<br>			count = letterMap.get(c);<br>			letterMap.put(c, count+1);<br>		}<br>		<br>		for (Character key : letterMap.keySet()) {<br>			System.out.println("letter: " + key + " count: " + letterMap.get(key));<br>		}<br><br></character,integer></character,integer></pre>
 </div>
 
 <br>

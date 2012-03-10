@@ -1,13 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head>
-  <title>DSL Lecture 9</title>
+<html><head><title>DSL Lecture 9</title>
+
+  
 
   
   
-  <link rel="stylesheet" href="PS_Lecture.css">
+  <link rel="stylesheet" href="PS_Lecture.css"></head><body>
+<br>
 
-</head><body>
-<!-- Site navigation menu -->
 <ul class="navbar">
 
   <li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
@@ -22,11 +22,11 @@
   <li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
 </ul>
 
-<!-- Main content -->
+
 <h1>Penn State Great Valley - DSL Course - Lecture 9<br>
 </h1>
 
-<h2>Patterns for Internal DSLs</h2>
+<h2>Patterns for Internal DSLs<img style="width: 600px; height: 450px;" alt="over-snow-covered-mountains-600w.jpg" src="images/aurora/aurora/over-snow-covered-mountains-600w.jpg" align="right"></h2>
 
 Remember that internal DSLs are built using the syntax and semantics of
 a given language (e.g. what is a "block" in the language?&nbsp; how do
@@ -148,7 +148,7 @@ etc.&nbsp; As shown below.<br>
 <br>
 
 <div class="code">
-<pre>class ComputerBuilder {<br> private ProcessorBuilder processor;<br> private List<DiskBuilder> disks = new ArrayList<DiskBuilder>();<br> private ProcessorBuilder currentProcessor;<br> private DiskBuilder currentDisk;<br><br> void computer() {<br>  currentDisk = null;<br>  currentProcessor = null;<br> }<br><br> void processor() {<br>  currentProcessor = new ProcessorBuilder();<br>  processor = currentProcessor;<br>  currentDisk = null;<br> }<br> <br> void disk() {<br>  currentDisk = new DiskBuilder();<br>  disks.add(currentDisk);<br>  currentProcessor = null; // done with processor stuff<br> }<br> // etc.<br><br><br> // this method returns the completed computer<br> Computer getValue() {<br>  return new Computer(processor.getValue(), getDiskValues());<br> }<br><br>} <br></DiskBuilder></DiskBuilder></pre>
+<pre>class ComputerBuilder {<br> private ProcessorBuilder processor;<br> private List<diskbuilder> disks = new ArrayList<diskbuilder>();<br> private ProcessorBuilder currentProcessor;<br> private DiskBuilder currentDisk;<br><br> void computer() {<br>  currentDisk = null;<br>  currentProcessor = null;<br> }<br><br> void processor() {<br>  currentProcessor = new ProcessorBuilder();<br>  processor = currentProcessor;<br>  currentDisk = null;<br> }<br> <br> void disk() {<br>  currentDisk = new DiskBuilder();<br>  disks.add(currentDisk);<br>  currentProcessor = null; // done with processor stuff<br> }<br> // etc.<br><br><br> // this method returns the completed computer<br> Computer getValue() {<br>  return new Computer(processor.getValue(), getDiskValues());<br> }<br><br>} <br></diskbuilder></diskbuilder></pre>
 </div>
 
 <br>
@@ -160,7 +160,7 @@ important.<br>
 <br>
 
 <div class="code">
-<pre>public class Script extends ComputerBuilder {<br> protected void build() { <br>  computer();<br>   processor();<br>    cores(2);<br>    speed(2500);<br>    i386();<br>   disk();<br>    size(150);<br>   disk();<br>    size(75);<br>    speed(7200);<br>    sata();<br> }<br></pre>
+<pre>public class Script extends ComputerBuilder {<br> protected void build() { <br>  computer();<br>   processor();<br>    cores(2);<br>    speed(2500);<br>    i386();<br>   disk();<br>    size(150);<br>   disk();<br>    size(75);<br>    speed(7200);<br>    sata();<br> }<br>}<br></pre>
 </div>
 
 <br>
@@ -201,10 +201,11 @@ function calls as arguments of other calls.</span><br>
 
 <br>
 
-Example - Simple Computer Configurator (Java)<br>
+Example - Simple Computer Configuration (Java)<br>
 
 <br>
-Here is the computer configurator using Nested Function.&nbsp; Assume
+
+Here is the computer configuration using Nested Function.&nbsp; Assume
 that the Java static import feature is used at the top of this script
 (not shown) to import the Builders static functions.<br>
 
@@ -220,28 +221,39 @@ These look like a bunch of nested function calls and indeed they are
 except that i386 and SATA are static values of the appropriate type.<br>
 
 <br>
+
 Here is the implementation in Java.&nbsp; Note that functions like
 "cores" and "speed" don't really do anything.&nbsp; They just make it
 clear what the value stands for.<br>
 
 <br>
 
-<div class="code"><pre>class Builder {<br> static Processor processor(int cores, int speed, Processor.Type type) {<br>  return new Processor(cores, speed, type);<br> }<br> static int cores(int value){<br>  return value;<br> }<br> static int speed(int value){<br>  return value;<br> }<br> static final Processor.Type i386 = Processor.Type.i386;<br> // disk functions skipped<br> static Computer computer(Processor p, Disk... d) {<br>  return new Computer(p, d);<br> }<br>}<br></pre></div>
+<div class="code">
+<pre>class Builder {<br> static Processor processor(int cores, int speed, Processor.Type type) {<br>  return new Processor(cores, speed, type);<br> }<br> static int cores(int value){<br>  return value;<br> }<br> static int speed(int value){<br>  return value;<br> }<br> static final Processor.Type i386 = Processor.Type.i386;<br> // disk functions skipped<br> static Computer computer(Processor p, Disk... d) {<br>  return new Computer(p, d);<br> }<br>}<br></pre>
+</div>
 
 <br>
+
 <span style="font-weight: bold;">How It Works</span><br>
+
 <br>
+
 Well, it works by nesting function calls such that the stack holds the
 assemblage of the Semantic Model under construction.&nbsp;&nbsp; The
 top-most function call picks these component objects off the stack and
 returns the final object. <br>
+
 <br>
+
 <span style="font-weight: bold;">When to Use It</span><br>
+
 <br>
+
 Nested Function struggles with optional arguments and multiple varied
 arguments.&nbsp; It expects you to say what you want and in the precise
 order you want, so if you need greater flexibility you'll need to look
 for another pattern.<br>
+
 <br>
 
 <span style="font-weight: bold;">
@@ -255,11 +267,11 @@ expression.</span><br>
 
 <br>
 
-Example - Simple Computer Configurator (Java)<br>
+Example - Simple Computer Configuration (Java)<br>
 
 <br>
 
-Here is the computer configurator using Method Chaining.<br>
+Here is the computer configuration using Method Chaining.<br>
 
 <br>
 
@@ -331,7 +343,6 @@ Method Chaining violates the principles of command query api:<br>
 
 <br>
 
-<hr>
 <address>Made 23 February 2012<br>
 by R Rodini.<br>
 </address>
