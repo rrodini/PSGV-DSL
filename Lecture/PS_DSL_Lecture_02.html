@@ -2,6 +2,7 @@
 <html><head><title>DSL Lecture 2</title>
 
 
+
 <link rel="stylesheet" href="PS_Lecture.css"></head><body>
 <!-- Site navigation menu -->
 <ul class="navbar">
@@ -398,8 +399,32 @@ as integration tests, since any errors in the parser or Semantic Model
 should cause them to fail. &nbsp;As a result, it is worth sampling
 the
 DSL scripts to use a few for this purpose.
-<h2>Handling Errors</h2>
-<h2>Migrating DSLs</h2>
-<address>Made 31 August 2011<br>
-by D Bartlett.</address>
+
+<h2>Migrating DSLs</h2>Once you write a DSL, internal or external, you
+have created a published interface that is used by code written by
+another team whether within your company or outside of it.&nbsp; This
+is an issue because if you change the DSL you can't just go out and
+change all the code written for it.<br>
+<br>
+Providing tools that will automatically migrate a DSL from one version
+to another.&nbsp; These can be run either during an upgrade, or
+automatically when you try to run an old script.<br>
+<br>
+There are two strategies to handle migration:<br>
+<br>
+<ul>
+  <li>Incremental Migration in which you create a migration program
+that automatically migrates DSL scripts from the old version to the new
+version.</li>
+  <li>Model-Based Migration in which you support multiple parsers for
+your language, one for each version.&nbsp; Each parser populates the
+semantic model.&nbsp; You then run the appropriate parser for the
+version of script you are working with.&nbsp; This handles multiple
+versions, but doesn't migrate the scripts.&nbsp; This style is commonly
+used with XML languages.<br>
+  </li>
+</ul>
+<br>
+
+<address>by D Bartlett.</address>
 </body></html>
