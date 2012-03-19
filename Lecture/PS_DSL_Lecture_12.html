@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html><head><title>DSL Syllabus</title>
+
+
+<link rel="stylesheet" href="PS_Lecture.css"></head><body>
+<br>
+
+<ul class="navbar">
+<li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
+<li><a href="PS_DSL_Lecture_02.html">Lecture 2</a></li>
+<li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
+<li><a href="PS_DSL_Lecture_04.html">Lecture 4</a></li>
+<li><a href="PS_DSL_Lecture_05.html">Lecture 5</a></li>
+<li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
+<li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
+<li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
+<li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
+<li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
+</ul>
+
+<h1>Penn State Great Valley - DSL Course - Lecture 12<br>
+</h1>
+<img style="width: 600px; height: 400px;" alt="gree-streaks-above-everygreens.jpg" src="images/aurora/aurora/green-streaks-above-evergreens-600w.jpg"><br>
+<br>
+<span style="font-weight: bold;">ANTLR and ANTLRWorks</span><br>
+<br>
+What is ANTLR?<br>
+<ul>
+  <li>ANother Tool for&nbsp; Language Recognition</li>
+  <li>a "compiler-compiler"</li>
+  <li>a godsend for people having to develop external&nbsp; DSLs</li>
+  <li>an Open Source&nbsp; project&nbsp; founded by Terence Parr (the ANTLR guy)</li>
+</ul>
+ANTLR Features<br>
+<ul>
+  <li>Powerful LL(*) parsing strategy that supports more natural grammars and makes it easier to build them</li>
+  <li>Auto-backtracking mode that shuts off all grammar analysis
+warnings, forcing the generated parser to simply figure things out at
+runtime</li>
+  <li>Partial parsing result memoization to guarantee linear time complexity during backtracking at the cost of some memory</li>
+  <li>Jean Bovet's ANTLRWorks GUI grammar development environment</li>
+  <li>StringTemplate template engine integration that makes generating structured text such as source code easy</li>
+  <li>Formal AST construction rules that map input grammar alternatives
+to tree grammar fragments, making actions that manually construct ASTs
+no longer necessary</li>
+  <li>Dynamically scoped attributes that allow distant rules to communicate</li>
+  <li>Improved error reporting and recovery for generated recognizers</li>
+  <li>Truly retargetable code generator; building a new target is a matter of defining StringTemplate templates</li>
+</ul>
+ANTLR is Open Source<br>
+<ul>
+  <li>free download</li>
+  <li>you can contribute</li>
+  <li>BSD license</li>
+  <ul>
+    <li>all contributors must sign "certificate of origin"</li>
+  </ul>
+</ul>
+Demo - ANTLR Command Line (Simple expression recognizer)<br>
+<br>
+ANTLRWorks<br>
+<ul>
+  <li>GUI development environment by Jean Bovet</li>
+  <li>written using Swing library<br>
+  </li>
+  <li>Open Source with BSD license</li>
+</ul>
+ANTLRWorks Features<br>
+<ul>
+  <li>Grammar-aware editor</li>
+  <li>Syntax diagram grammar view</li>
+  <li>Interpreter for rapid prototyping</li>
+  <li>Language agnostic debugger</li>
+  <li>Nondeterministic path highlighter for the syntax diagram view</li>
+  <li>Decision lookahead visualization</li>
+  <li>Refactoring patterns for many common operations</li>
+  <li>Dynamic parse tree view</li>
+  <li>Dynamic AST view</li>
+</ul>
+Categorizing Recognizers<br>
+<ul>
+  <li>Top-down: goal already determined but subelements must match it</li>
+  <li>Bottom-up: subelements recognized then goal is recognized</li>
+</ul>
+<span style="font-style: italic;">Note: Human brain works top-down for speech recognition.</span><br>
+<ul>
+  <li>ANTLR is top-down</li>
+  <ul>
+    <li>cannot process left recursize grammar</li>
+    <li>has unlimited lookahead which permits the recognition of large number of grammars</li>
+  </ul>
+</ul>
+Let's build something in ANTLRWorks<br>
+<ol>
+  <li>Grammar for simple expression evaluator (recognizer)<br>
+  </li>
+  <li>Add generation rules (interpreter)</li>
+  <li>Build an AST for grammar<br>
+  </li>
+</ol>
+Demo: ANTRLWorks for SimpleExpr<br>
+<address>Made 19 March 2012<br>
+by R Rodini.<br>
+</address>
+</body></html>
