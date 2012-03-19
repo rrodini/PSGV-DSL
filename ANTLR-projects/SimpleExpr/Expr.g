@@ -7,7 +7,7 @@ stat	:	expr NEWLINE
 	|	NEWLINE
 	;
 	
-expr	:	multExpr (('+' | '-') multExpr)*
+expr	:	multExpr ('+' multExpr | '-' multExpr)*
 	;
 	
 multExpr:	atom ('*' atom)*
