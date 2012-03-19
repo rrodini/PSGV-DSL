@@ -1,12 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head>
-  <title>DSL Lecture 4</title>
+<html><head><title>DSL Lecture 4</title>
+
+
+  
 
   
   
-  <link rel="stylesheet" href="PS_Lecture.css">
-
-</head><body>
+  <link rel="stylesheet" href="PS_Lecture.css"></head><body>
 <!-- Site navigation menu -->
 <ul class="navbar">
 
@@ -534,7 +534,7 @@ to define their syntactic structure.<br>
 <br>
 
 Regular, context-free, and
-context-sensitive are the tree categories taht concern DSL development.
+context-sensitive are the tree categories that concern DSL development.
 They form a hierarchy, in that all grammars that are regular
 are context-free, and all grammars that are context-free are
 context-sensitive:<br>
@@ -581,7 +581,7 @@ that
 regular grammars 'can't count'. &nbsp;In parsing terms this means
 that
 you can't use a finite-state machine to parse a language that has
-mested blocks. &nbsp;Obviously, this is a bit of a bummer when it
+nested blocks. &nbsp;Obviously, this is a bit of a bummer when it
 comes
 to computer languages, as any general-purpose language has to be able
 to do arithmetic. &nbsp;It also affects block structure - programs
@@ -591,13 +591,13 @@ need nested blocks are not regular.<br>
 <h5>Context-Free Grammars</h5>
 
 To
-handle nested blocks, ou need to step up to a context-free grammar.
+handle nested blocks, you need to step up to a context-free grammar.
 &nbsp;A context-free grammar does add hierarchic context to your
 grammar, allowing it to 'count' so the name can be a bit confusing.
 &nbsp;A context-free grammar can be implemented using a push-down
 machine, which is a finite-state machine with a stack. &nbsp;Most
 language parsers use context-free grammars, most Parser Generators use
-them, and both Recursive Decent Pasers and Parser Combinator produce a
+them, and both Recursive Decent parsers and Parser Combinator produce a
 push-down machine. &nbsp;As a result, most modern programming
 languages
 are parsed using context-free grammars.<br>
@@ -691,7 +691,7 @@ basic structure of a Recursive Descent Parser is quite simple.
 &nbsp;There is a method for each nonterminal symbol in the grammar.
 &nbsp;This method implements the various production rules associated
 with the nonterminal. &nbsp;The method returns a Boolean value which
-represents teh result of the match. &nbsp;Failure at any level gets
+represents the result of the match. &nbsp;Failure at any level gets
 propagated back up the call stack. Each method operates on the token
 buffer, advancing the pointer through the tokens as it matches some
 portion of the sentence.<br>
@@ -727,13 +727,13 @@ model of a grammar.<br>
 Each
 combinator is responsible for recognizing some portion of the language,
 determining if there is a match, consuming the relevant tokens from the
-input buffer for the match, and perforing the required actions.<br>
+input buffer for the match, and performing the required actions.<br>
 
 <br>
 
 Rebecca Parsons (Fowler's book) main premise is that Parser
 Generators are not nearly as difficult to work with as they are
-perceived to be but there are legitimate reasos to avoid them if
+perceived to be but there are legitimate reasons to avoid them if
 possible. &nbsp;The most obvious issue is the additional steps in the
 build process required to first generate the parser and then build it.
 &nbsp;Parser Generators are still the right choice for more complex
@@ -765,7 +765,7 @@ and it's not trivial to write one yourself.<br>
 
 <br>
 
-The usualy way to work with a Parser Generator is to write a grammar
+The usually way to work with a Parser Generator is to write a grammar
 file. &nbsp;This file will use a particular form of BNF used by that
 Parser Generator. &nbsp;There is no standardization for these BNF
 formats; so if you change your parser generator, you will have to write
@@ -786,170 +786,64 @@ The
 Parser Generator used in the book and used in this class is ANTLR.
 &nbsp;ANTLR is easily available, has lots of documentation and has been
 around a good while. &nbsp;There is also an IDE-style tool
-(ANTLR-Works) that provides some UI streamlineing for developing
+(ANTLR-Works) that provides some UI streamlining for developing
 grammars.<br>
 
 <br>
 
 <br>
+<h3>
 
-A Simple Example<br>
+A Simple Example</h3>
+
+
+<br>This is a simple example that I'm calling "Earthquake". &nbsp; Bob's
+wife, Barbara, pointed us to all this government data that is
+available, all day, everyday.&nbsp; The earthquake data caught my eye
+because it is in a variety of formats, the structure is simple, the
+volume can be sizable and it is constantly changing.<br>
+<br>
+Earthquake monitoring stations report their data constantly and this
+data is collected by the USGS and provided on their web page: <a href="http://earthquake.usgs.gov">earthquake.usgs.gov</a>.&nbsp; This data comes in from around the world all the time.<br>
+<br>
+So the first thing we need to do is come up with a grammar.<br>
+<br>
+Here's the
+grammar we'll use, already in a similar meta structure to that used by ANTLR: <br>
 
 <br>
 
-We can implement syntax-directed translation in either a top-down or a
-bottom-up <br>
-
-parser and we'll briefly investigate each approach.&nbsp; First, let's
-look at adding attribute <br>
-
-information to a hand-constructed top-down recursive-descent
-parser.&nbsp; Our example <br>
-
-will be a very simple FTP client, where the parser accepts user
-commands and uses a <br>
-
-syntax-directed translation to act upon those requests. Here's in the
-grammar we'll use, <br>
-
-already in an LL(1) form: <br>
-
+<span class="code"><br>
+timespan:('day'|'hour'|'week')<br>
+sortby:('magnitude'|'time')<br>
+output:column-list<br>
+column-list:column(','column)+<br>
+column:('date-tiime'|'lat-long'|'mag'|'depth'|'region')<br>
 <br>
-
-<span class="code">
-Session &#8211;&gt;&nbsp; CommandList T_QUIT <br>
-CommandList &#8211;&gt; Command CommandList | &#949;<br>
-Command &#8211;&gt; Login | Get | Logout <br>
-Login &#8211;&gt; User Pass <br>
-User &#8211;&gt;&nbsp; T_USER T_IDENT <br>
-Pass &#8211;&gt;&nbsp; T_PASS T_IDENT <br>
-Get &#8211;&gt; T_GET T_IDENT MoreFiles <br>
-MoreFiles &#8211;&gt; T_IDENT MoreFiles | &#949;<br>
-Logout &#8211;&gt; T_LOGOUT<br>
 </span>
 <br>
 
-Now, let&#8217;s see how the attributes, such as the username, filename, and
-connection, can <br>
-
-be passed around during the parsing. This recursive-descent parser is
-using the <br>
-
-lookahead/token-matching utility functions from the top-down parsing
-handout. <br>
+Now, let&#8217;s see a file that we can actually pass to our program based upon the above grammar:<br>
 <br>
 
 <span class="code">
-<br>
-static void ParseCommands() <br>
-{ <br>
-&nbsp;Connection *conn = NULL; <br>
-&nbsp;int next; <br>
-&nbsp;&nbsp; while ((next = GetLookahead()) != T_QUIT) { <br>
-&nbsp;&nbsp;&nbsp; switch (next) { <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case T_USER: <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; conn =
-ParseLogin(); break; <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case T_GET: <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ParseGet(conn);
-break; <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case T_LOGOUT: <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ParseLogout(conn); conn = NULL; break; <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; default: <br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-ReportParseFailure("command expected", yytext); <br>
-&nbsp;&nbsp;&nbsp; } <br>
-&nbsp;} <br>
-}<br>
+<br>timespan:day<br>
+sortby:magnitude<br>
+output:date-time,mag,region<br>
 &nbsp;<br>
-static Connection *ParseLogin() // returns attribute of opened
-connection <br>
-{ <br>
-&nbsp;char *user = ParseUser();&nbsp; <br>
-&nbsp;char *pass = ParsePassword(); <br>
-&nbsp; return Login(user, pass); // uses attributes passed up from
-below <br>
-}<br>
-&nbsp;<br>
-static char *ParseUser() // returns attribute of username given <br>
-{ <br>
-&nbsp;MatchToken(T_USER); <br>
-&nbsp;char *str = ParseIdentifier(); // gets name from identfier child
-node <br>
-&nbsp; MatchToken('\n'); <br>
-&nbsp;return str; <br>
-}<br>
-&nbsp;<br>
-static char *ParsePassword() // similar to username5&nbsp; <br>
-{ <br>
-&nbsp;MatchToken(T_PASS); <br>
-&nbsp;char *str = ParseIdentifier(); <br>
-&nbsp;MatchToken('\n'); <br>
-&nbsp;return str; <br>
-}<br>
-&nbsp;<br>
-static char *ParseIdentifier() <br>
-{ <br>
-&nbsp;char *str = NULL; <br>
-&nbsp;&nbsp;&nbsp; <br>
-&nbsp;if (GetLookahead() == T_IDENT) { <br>
-&nbsp;&nbsp;&nbsp; str = strdup(yytext); <br>
-&nbsp;&nbsp; MatchToken(T_IDENT); <br>
-&nbsp;&nbsp; } <br>
-&nbsp;&nbsp; <br>
-&nbsp;&nbsp; return str; // returns NULL on error <br>
-}<br>
-&nbsp;<br>
-static void ParseGet(Connection *conn) // receives conn from above <br>
-{ <br>
-&nbsp;MatchToken(T_GET); <br>
-&nbsp;char *filename = ParseIdentifier(); <br>
-&nbsp;MatchToken('\n');&nbsp; <br>
-&nbsp;Transfer(conn, filename);// reports error if conn NULL <br>
-}<br>
-&nbsp;<br>
-static void ParseLogout(Connection *conn) // receives conn from above <br>
-{ <br>
-&nbsp;MatchToken(T_LOGOUT); <br>
-&nbsp;MatchToken('\n'); <br>
-&nbsp;Logout(conn); // reports error if conn NULL <br>
-} <br>
 </span>
+<br>In order to pull this DSL off we will have to do a simple parse on
+the input file to see what the user wants us to do with the earthquake
+data AND then get the right data set then parse that data set so we can
+manipulate it for the user.<br>
 <br>
-
-During processing of the Login command, the parser gathers the username
-and <br>
-
-password returned from the children nodes and uses that information to
-create a new <br>
-
-connection attribute to pass up the tree.&nbsp; In this situation the
-username, password, and <br>
-
-connection are all acting as synthesized attributes, working their way
-from the leaves <br>
-
-upward to the parent. That open connection is saved and then later
-passed downward <br>
-
-into other commands. The connection is being used as an inherited
-attributed when <br>
-
-processing Get and Logout, those commands are receiving information
-from the parent <br>
-
-about parts of the parse that have already happened (its left
-siblings).<br>
-
+From here on we will look at the example code in the Earthquake project...<br>
 <br>
 
 &nbsp;<br>
 
 <br>
 
-<address>Made 31 August 2011<br>
-by D Bartlett.</address>
-
-=
-</body></html>
+<address>D Bartlett<br>
+<br>
+</address></body></html>
