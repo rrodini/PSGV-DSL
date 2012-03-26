@@ -1,12 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head>
-  <title>DSL Lecture 7</title>
+<html><head><title>DSL Lecture 7</title>
+
+  
 
   
   
-  <link rel="stylesheet" href="PS_Lecture.css">
-
-</head><body>
+  <link rel="stylesheet" href="PS_Lecture.css"></head><body>
 <!-- Site navigation menu -->
 <ul class="navbar">
 
@@ -75,7 +74,7 @@ semi-autonomous lines where context is important.<br>
 <br>
 
 Once a line has been read then next step is to tokenize (break it into
-token) based on an established set of delimiter characters (you can
+tokens) based on an established set of delimiter characters (you can
 consider these punctuation characters).&nbsp; During this process you
 want to ignore white space characters (examples: blanks and tabs) and
 comment lines.<br>
@@ -130,7 +129,7 @@ micro-language processed by a DDT.&nbsp; A line can be:<br>
 <br>
 
 Since .ini files have such a simple format there is a Windows api that
-implements a DDT for them,&nbsp; <big><code>GetPrivateProfileString</code></big>.<br>
+implements a DDT for them,&nbsp; <a target="_blank" href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms724353%28v=vs.85%29.aspx"><big><code>GetPrivateProfileString</code></big></a><a target="_blank" href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms724353%28v=vs.85%29.aspx">.</a><br>
 
 <hr>
 <span style="font-weight: bold;">DDT Example: Java properties file</span><br>
@@ -166,7 +165,7 @@ name1 = a very \<br>
 
 <br>
 
-The class used to read and write properties files is <big><code>java.util.Properties</code></big>.&nbsp;
+The class used to read and write properties files is <a href="http://docs.oracle.com/javase/6/docs/api/java/util/Properties.html" target="_blank"><big><code>java.util.Properties</code></big></a>.&nbsp;
 As of version 1.5 Java property files can be represented in XML syntax.<br>
 
 <br>
@@ -237,8 +236,8 @@ When using a SDT you will almost always see a separation between a
 lexer and a parser.&nbsp; A lexer, also called a tokenizer or a
 scanner, is the first stage in processing the input text.&nbsp;&nbsp;
 The tokens are generally defined using regular expressions.&nbsp; Once
-a token is recognized it is process by the parser to determine how it
-fits in the syntax tree.<br>
+a token is recognized it is processed by the parser to determine how it
+fits into the syntax tree.<br>
 
 <br>
 
@@ -318,7 +317,7 @@ Here is the main loop within the lexer.<br>
 <br>
 
 <div class="code">
-<pre>    public Token nextToken() {<br>        while ( c!=EOF ) {<br>            switch ( c ) {<br>                case ' ': case '\t': case '\n': case '\r': WS(); continue;<br>                case ',' : consume(); return new Token(COMMA, ",");<br>                case '[' : consume(); return new Token(LBRACK, "[");<br>                case ']' : consume(); return new Token(RBRACK, "]");<br>                default:<br>                    if ( isLETTER() ) return NAME();<br>                    throw new Error("invalid character: "+c);<br>            }<br>        }<br>        return new Token(EOF_TYPE,"<EOF>");<br>    }<br></EOF></pre>
+<pre>    public Token nextToken() {<br>        while ( c!=EOF ) {<br>            switch ( c ) {<br>                case ' ': case '\t': case '\n': case '\r': WS(); continue;<br>                case ',' : consume(); return new Token(COMMA, ",");<br>                case '[' : consume(); return new Token(LBRACK, "[");<br>                case ']' : consume(); return new Token(RBRACK, "]");<br>                default:<br>                    if ( isLETTER() ) return NAME();<br>                    throw new Error("invalid character: "+c);<br>            }<br>        }<br>        return new Token(EOF_TYPE,"<eof>");<br>    }<br></eof></pre>
 </div>
 
 <br>
