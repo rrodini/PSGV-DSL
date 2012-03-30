@@ -1,11 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head><title>DSL Lecture 9</title>
+<html><head>
+  <title>DSL Lecture 9</title>
 
   
+  
+  <link rel="stylesheet" href="PS_Lecture.css">
 
-  
-  
-  <link rel="stylesheet" href="PS_Lecture.css"></head><body>
+</head><body>
 <br>
 
 <ul class="navbar">
@@ -21,7 +22,6 @@
   <li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
   <li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
 </ul>
-
 
 <h1>Penn State Great Valley - DSL Course - Lecture 9<br>
 </h1>
@@ -43,13 +43,66 @@ DSLs.&nbsp; Some common patterns are:<br>
 
 <ul>
 
+  <li>Construction Builder</li>
   <li>Expression Builder</li>
   <li>Function Sequence</li>
   <li>Nested Function</li>
   <li>Method Chaining</li>
 </ul>
 
-<hr><span style="font-weight: bold;">Expression Builder</span><br>
+<hr><span style="font-weight: bold;">Construction Builder<br>
+<span style="font-weight: bold;"><br>
+<span style="font-style: italic;"><span style="font-weight: bold;"></span></span></span></span><span style="font-style: italic;">Incrementally create an immutable object
+with a builder that stores constructor arguments in fields.</span><span style="font-weight: bold;"><span style="font-weight: bold;"><br>
+</span><br>
+</span>Example - Create a NutritionFacts immutable object with lots
+of&nbsp; optional&nbsp; fields<br>
+
+<br>
+
+This example is taken from Joshua Bloch's <span style="text-decoration: underline;">Effective Java 2nd. ed.</span>
+which&nbsp; provides a&nbsp; better implementation than&nbsp; Martin
+Fowler.&nbsp;&nbsp;&nbsp; It is&nbsp; generally applicable to&nbsp;
+any&nbsp; type of programming , not&nbsp; just&nbsp; DSLs.<br>
+
+<br>
+
+Here we build an immutable NutritionFacts object which has two required
+fields and four optional fields.&nbsp; Note how clear is it what the
+"units" are for all of the numbers.<br>
+
+<br>
+
+<div class="code"><pre>NutritionFacts cocaCola = new NutritionFacts.Builder(240, 8).<br>  calories(100).sodium(35).carbohydrate(27).build(); <br></pre></div>
+
+<br>
+Here is the full implementation.<br>
+<br>
+
+<div class="code">
+<pre>public class NutritionFacts {<br>  private final int servingSize;<br>  private final int servings;<br>  private final int calories;<br>  private final int fat;<br>  private final int sodium;<br>  private final int carbohydrate;<br>  public static class Builder {<br>    // required fields<br>    private final int servingSize;<br>    private final int servings;<br>    // now optional fields<br>    private final int calories = 0;<br>    private final int fat = 0;<br>    private final int sodium = 0;<br>    private final int carbohydrate = 0;<br>    public Builder(int servingSize, int servings) {<br>      this.servingSize = servingSize;<br>      this.servings = servings;<br>    }<br>    public Builder calories(int val) {<br>      calories = val;<br>      return this;<br>    }<br>    public Builder fat(int val) {<br>      fat = val;<br>      return this;<br>    }<br>    public Builder sodium(int val) {<br>      sodium = val;<br>      return this;<br>    }<br>    public Builder carbohydrate(int val) {<br>      carbohydrate = val;<br>      return this;<br>    }<br>    public NutritionFacts build() {<br>      return new Nutritionfacts(this);<br>    }<br>  }<br>  private NutritionFacts(Builder builder) {<br>    servingSize = builder.servingSize;<br>    servings = builder.servings;<br>    calories = builder.calories;<br>    fat = builder.fat;<br>    sodium = builder.sodium;<br>    carbohydrate = builder.carbohydrate;<br>  }<br>}<br><br></pre>
+</div>
+&nbsp;
+<span style="font-weight: bold;"><br>
+How It Works<br>
+<br>
+</span>You need to create an immutable object in a gradual
+manner.&nbsp; So, take each of the constructor arguments of the object
+and make a field for each one.&nbsp; Add further fields for any other
+attributes of the object your collecting.&nbsp; Finally, add a method
+to create and return a new product object assembled from all of the
+Construction Builder.<br>
+<br>
+<span style="font-weight: bold;">When to Use It</span><br>
+<br>
+Use this pattern when an object has some required fields and many
+optional fields.&nbsp; The constructed object is to be immutable
+(repeat after me "immutable is good, immutable is good,...") so you
+don't want to have lots of setter methods.&nbsp; You also don't want to
+have tons of constructors which can lead to user errors in picking the
+correct constructor.<br>
+<br>
+<hr style="width: 100%; height: 2px;"><span style="font-weight: bold;">Expression Builder</span><br>
 
 <br>
 
@@ -62,7 +115,8 @@ Example - A Fluent Calendar with a Builder (Java)<br>
 
 <br>
 
-In the code below the builder object has a number of api calls tacked
+In the DSL code below the builder object has a number of api calls
+tacked
 onto it.&nbsp; These calls only work semantically when then return an
 object of the correct type (remember Java is a statically typed
 language).&nbsp; <br>
@@ -86,7 +140,7 @@ The implementation of CalendarBuilder might look like the code below.<br>
 <br>
 
 <div class="code">
-<pre>class CalendarBuilder {<br> private Calendar content = new Calendar();  // custom Calendar class here!<br> public CalendarBuilder add(String name) {<br>  content.addEvent(new Event);<br>  getCurrentEvent().setName(name);<br>  return this;<br> }<br><br> private Event getCurrentEvent() {<br>  return content.getEvents().get(content.getEvents().size() - 1);<br> }<br><br> public CalendarBuilder on(int year, int month, int day) {<br>  getCurrentEvent().setDate(new LocalDate(year, month, day));<br>  return this;<br> }<br><br> public CalendarBuilder from (String startTime) {<br>  getCurrentEvent().setStartTime(parseTime(startTime));<br>  return this;<br> }<br><br>// etc.<br> <br></pre>
+<pre>class CalendarBuilder {<br> private Calendar content = new Calendar();  // custom Calendar class here!<br> public CalendarBuilder add(String name) {<br>  content.addEvent(new Event);<br>  getCurrentEvent().setName(name);<br>  return this;<br> }<br><br> private Event getCurrentEvent() {<br>  return content.getEvents().get(content.getEvents().size() - 1);<br> }<br><br> public CalendarBuilder on(int year, int month, int day) {<br>  getCurrentEvent().setDate(new LocalDate(year, month, day));<br>  return this;<br> }<br><br> public CalendarBuilder from (String startTime) {<br>  getCurrentEvent().setStartTime(parseTime(startTime));<br>  return this;<br> }<br>// ...<br> public Calendar getContent() {<br>   return content;<br> }<br><br>}<br> <br></pre>
 </div>
 
 <br>

@@ -2,6 +2,7 @@
 <html><head><title>DSL Lecture 7</title>
 
 
+
   
 
   
@@ -193,7 +194,7 @@ Here's a potential grammar for the "offers" language.<br>
 <br>
 
 <div class="code">
-<pre>offer : reward-phrase activity-phrase location-phrase ;<br>reward-phrase : number per-phrase? 'for' ;<br>per-phrase : 'per' ('day' | 'dollar') ;<br>activity-phrase : ('stay' duration | 'dinner' | 'spa treatment' ) ;<br>duration : number ('night' | 'nights' ) ;<br>number : ('0'..'9')+ ;<br>location : at ( 'Bree' | 'Dol Amroth' | ...) ;<br></pre>
+<pre>offer : reward-phrase activity-phrase location-phrase ;<br>reward-phrase : number per-phrase? 'for' ;<br>per-phrase : 'per' ('day' | 'dollar') ;<br>activity-phrase : ('stay' duration | 'dinner' | 'spa treatment' ) ;<br>duration : number ('night' | 'nights' ) ;<br>number : ('0'..'9')+ ;<br>location-phrase : at locaction;<br>location : ( 'Bree' | 'Dol Amroth' | ...) ('or' location)* ;<br></pre>
 </div>
 
 <br>
