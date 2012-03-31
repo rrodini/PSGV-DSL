@@ -1,12 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html><head><title>DSL Lecture 6</title>
-
-  
-
-  
-  
-  <link rel="stylesheet" href="PS_Lecture.css"></head><body>
-<!-- Site navigation menu -->
+<link rel="stylesheet" href="PS_Lecture.css"><link rel="stylesheet" href="PS_Lecture.css"></head><body>
 <ul class="navbar">
 
   <li><a href="PS_DSL_Syllabus.html">Syllabus</a></li>
@@ -21,7 +15,7 @@
   <li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
 </ul>
 
-<!-- Main content -->
+
 <h1>Penn State Great Valley - DSL Course - Lecture 6<br>
 </h1>
 
@@ -33,7 +27,7 @@ The term Semantic Model is
 used over and over and over again in the book and throughout CS.
 &nbsp;It seems to be one of &nbsp;those overloaded terms which is used
 constantly but never really well defined at least well enough so
-students feel they have a strong grasp of the term in its various
+students feel they have a strong grasp of the term in it's various
 contexts. &nbsp;So let's get it straight and tear it apart!<br>
 
 <br>
@@ -89,12 +83,12 @@ would consist of the Data Mappers, not the Domain Model that is the
 subject of the mapping.</p>
 
 <p>A Semantic Model is usually different
-from an Abstract Syntax Tree (AST) because they &nbsp;serve separate
+from a Abstract Syntax Tree (AST) because they &nbsp;server separate
 purposes. &nbsp;A syntax tree corresponds to the structure of the DSL
 scripts. &nbsp;Although an AST may simplify and somewhat reorganize the
 input data, it still takes fundamentally the same form. &nbsp;The
 Semantic Model, however, is based on what will be done with the
-information from a DSL script. &nbsp;It often will be a substantially
+information from a DSL script. &nbsp;It often will be substantially
 different structure, and usually not a tree structure. &nbsp;There are
 occasions when an AST is an effective Semantic Model for a DSL, but
 these are the exception rather than the rule.</p>
@@ -134,7 +128,7 @@ others.&nbsp;</li>
   <li>Use good names for all your classes. &nbsp;If you
 can't explain an object to someone then it's probably not right.
 &nbsp;That's OK, get it right on the next iteration. &nbsp;Names should
-be consistent and not some stupid overloaded computer term, it should be
+be consistent and some stupid overloaded computer term, it should be
 something the business understands implicitly. &nbsp;The name should be
 exact in that it defines the responsibilities of the entity in the
 model.</li>
@@ -161,7 +155,7 @@ domain should be easy to understand for the business model expert and
 it
 shouldn't have any discrepancy. </li>
   <li>Care
-for the code quality of your model because it is the foundation of your
+for the code quality of you model because it is the foundation of your
 application. &nbsp;If it is bad the whole thing can fall apart, plus
 changes are inevitable to your model so it has to be adaptable.</li>
   <li>Test your model independently and involve your customer in
@@ -373,7 +367,7 @@ definition of a domain specific language.<br>
 
 <span class="code"><br>
 deck.shuffle()<br>
-initialCard = deckremoveCard TOP_CARD<br>
+initialCard = deck.removeCard TOP_CARD<br>
 initialCard.show()<br>
 println()<br>
 pile1 = deck.deal 4.cards<br>
@@ -430,7 +424,7 @@ The goal of the key is for lookup and string operation such as
 concatenation, substrings, etc are not pertinent.&nbsp; Often you get
 two objects that have the same name, for example "pile".&nbsp; If both
 of these collection of cards are put into the symbol table as "pile",
-how do you find the right object?<br>
+how do you find the right object.<br>
 
 <br>
 
@@ -471,13 +465,9 @@ are referrring to.&nbsp; For example, a state model may have three maps
 for events, commands and states.&nbsp; You can think of this as one
 logical symbol table or three symbol tables.&nbsp; You code will be
 cleaner because the kind of object you are referring to is in the
-processing steps.<br>
-
-<br>
-
-<p>&nbsp;</p>
+processing steps.&nbsp;
 
 <address>Updated 10 March 2012<br>
-by D Bartlett.</address>
+by D Bartlett.</address><br>
 
 </body></html>
