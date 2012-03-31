@@ -1,12 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head>
-  <title>DSL Lecture 9</title>
+<html><head><title>DSL Lecture 9</title>
+
+  
 
   
   
-  <link rel="stylesheet" href="PS_Lecture.css">
-
-</head><body>
+  <link rel="stylesheet" href="PS_Lecture.css"></head><body>
 <br>
 
 <ul class="navbar">
@@ -86,7 +85,7 @@ Here is the full implementation.<br>
 <br>
 
 <div class="code">
-<pre>public class NutritionFacts {<br>  private final int servingSize;<br>  private final int servings;<br>  private final int calories;<br>  private final int fat;<br>  private final int sodium;<br>  private final int carbohydrate;<br>  public static class Builder {<br>    // required fields<br>    private final int servingSize;<br>    private final int servings;<br>    // now optional fields<br>    private final int calories = 0;<br>    private final int fat = 0;<br>    private final int sodium = 0;<br>    private final int carbohydrate = 0;<br>    public Builder(int servingSize, int servings) {<br>      this.servingSize = servingSize;<br>      this.servings = servings;<br>    }<br>    public Builder calories(int val) {<br>      calories = val;<br>      return this;<br>    }<br>    public Builder fat(int val) {<br>      fat = val;<br>      return this;<br>    }<br>    public Builder sodium(int val) {<br>      sodium = val;<br>      return this;<br>    }<br>    public Builder carbohydrate(int val) {<br>      carbohydrate = val;<br>      return this;<br>    }<br>    public NutritionFacts build() {<br>      return new Nutritionfacts(this);<br>    }<br>  }<br>  private NutritionFacts(Builder builder) {<br>    servingSize = builder.servingSize;<br>    servings = builder.servings;<br>    calories = builder.calories;<br>    fat = builder.fat;<br>    sodium = builder.sodium;<br>    carbohydrate = builder.carbohydrate;<br>  }<br>}<br><br></pre>
+<pre>public class NutritionFacts {<br>  private final int servingSize;<br>  private final int servings;<br>  private final int calories;<br>  private final int fat;<br>  private final int sodium;<br>  private final int carbohydrate;<br>  public static class Builder {<br>    // required fields<br>    private int servingSize;<br>    private int servings;<br>    // now optional fields<br>    private int calories = 0;<br>    private int fat = 0;<br>    private int sodium = 0;<br>    private int carbohydrate = 0;<br>    public Builder(int servingSize, int servings) {<br>      this.servingSize = servingSize;<br>      this.servings = servings;<br>    }<br>    public Builder calories(int val) {<br>      calories = val;<br>      return this;<br>    }<br>    public Builder fat(int val) {<br>      fat = val;<br>      return this;<br>    }<br>    public Builder sodium(int val) {<br>      sodium = val;<br>      return this;<br>    }<br>    public Builder carbohydrate(int val) {<br>      carbohydrate = val;<br>      return this;<br>    }<br>    public NutritionFacts build() {<br>      return new NutritionFacts(this);<br>    }<br>  }<br>  private NutritionFacts(Builder builder) {<br>    servingSize = builder.servingSize;<br>    servings = builder.servings;<br>    calories = builder.calories;<br>    fat = builder.fat;<br>    sodium = builder.sodium;<br>    carbohydrate = builder.carbohydrate;<br>  }<br><br>// getters for servingSize, servings, calories, etc. not shown.<br>}<br><br></pre>
 </div>
 
 &nbsp;
