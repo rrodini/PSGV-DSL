@@ -1,13 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head><title>DSL Lecture 7</title>
-
-
-
-  
+<html><head>
+  <title>DSL Lecture 7</title>
 
   
   
-  <link rel="stylesheet" href="PS_Lecture.css"></head><body>
+  <link rel="stylesheet" href="PS_Lecture.css">
+
+</head><body>
 <img style="width: 698px; height: 216px;" alt="AuroraCorona_FredrikBroms_27sep2011_APOD900.jpg" src="images/aurora/aurora/AuroraCorona_FredrikBroms_27sep2011_APOD900.jpg"><br>
 
 <ul class="navbar">
@@ -22,6 +21,8 @@
   <li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
   <li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
   <li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
+  <li><a href="PS_DSL_Lecture_11.html">Lecture 11</a></li>
+  <li><a href="PS_DSL_Lecture_12.html">Lecture 12</a></li>
 </ul>
 
 <br>
@@ -55,7 +56,8 @@ How It Works</span><br>
 
 <br>
 
-Delimiter-Directed Translation (DDT) works by taking the input and breaking
+Delimiter-Directed Translation (DDT) works by taking the input and
+breaking
 it down into small chunks based on a small set of delimiter
 characters.&nbsp; Usually the input is line-oriented so the individual
 lines are isolated and then delimiter characters are used to isolate
@@ -65,7 +67,8 @@ tokens within the line.<br>
 
 Due to the line-orientation there is a the fundamental problem of
 distinguishing between a "logical line" and one or more "physical
-lines".&nbsp; To solve this problem most DDTs recognize some kind of line continuation characters
+lines".&nbsp; To solve this problem most DDTs recognize some kind of
+line continuation characters
 (Example: \ character in Korn shell scripts).<br>
 
 <br>
@@ -233,7 +236,9 @@ goals of the DSL.<br>
 Both approaches are shown in the diagram below.<br>
 
 <br>
+
 <img style="width: 457px; height: 357px;" alt="basic-parsing" src="images/basic-parsing.jpg"><br>
+
 <img alt="basic-parsing" src="images/basic-parsing.tiff"><br>
 
 When using a SDT you will almost always see a separation between a
@@ -329,15 +334,19 @@ Here is the main loop within the lexer.<br>
 As you can see there is no rocket science here.&nbsp; The parser is not
 much more complicated, however, recursion is involved (how did you
 think that nested list was going to be processed?).&nbsp; Notice how
-the parsing code calls upon the lexer to move to the next input token when the current token matches the expected token.<br>
+the parsing code calls upon the lexer to move to the next input token
+when the current token matches the expected token.<br>
 
 <br>
 
-<div class="code"><pre>public class ListParser extends Parser {<br>    public ListParser(Lexer input) { super(input); }<br>    <br>    /** list : '[' elements ']' ; // match bracketed list */<br>    public void list() {<br>        match(ListLexer.LBRACK); elements(); match(ListLexer.RBRACK);<br>    }<br>    /** elements : element (',' element)* ; */<br>    void elements() {<br>        element();<br>        while ( lookahead.type==ListLexer.COMMA ) {<br>            match(ListLexer.COMMA); element();<br>        }<br>    }<br>    /** element : name | list ; // element is name or nested list */<br>    void element() {<br>        if ( lookahead.type==ListLexer.NAME ) match(ListLexer.NAME);<br>        else if ( lookahead.type==ListLexer.LBRACK ) list();<br>        else throw new Error("expecting name or list; found "+lookahead);<br>    }<br>}<br></pre></div>
+<div class="code">
+<pre>public class ListParser extends Parser {<br>    public ListParser(Lexer input) { super(input); }<br>    <br>    /** list : '[' elements ']' ; // match bracketed list */<br>    public void list() {<br>        match(ListLexer.LBRACK); elements(); match(ListLexer.RBRACK);<br>    }<br>    /** elements : element (',' element)* ; */<br>    void elements() {<br>        element();<br>        while ( lookahead.type==ListLexer.COMMA ) {<br>            match(ListLexer.COMMA); element();<br>        }<br>    }<br>    /** element : name | list ; // element is name or nested list */<br>    void element() {<br>        if ( lookahead.type==ListLexer.NAME ) match(ListLexer.NAME);<br>        else if ( lookahead.type==ListLexer.LBRACK ) list();<br>        else throw new Error("expecting name or list; found "+lookahead);<br>    }<br>}<br></pre>
+</div>
 
 <br>
 
-Let's see a Syntax Directed Translator in action by looking at a full name list parser which uses recursive descent.<br>
+Let's see a Syntax Directed Translator in action by looking at a full
+name list parser which uses recursive descent.<br>
 
 <br>
 

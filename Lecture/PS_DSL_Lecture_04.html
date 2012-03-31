@@ -1,28 +1,31 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head><title>DSL Lecture 4</title>
-
-
-  
+<html><head>
+  <title>DSL Lecture 4</title>
 
   
   
-  <link rel="stylesheet" href="PS_Lecture.css"></head><body>
-<!-- Site navigation menu -->
+  <link rel="stylesheet" href="PS_Lecture.css">
+
+</head><body>
+<br>
+
 <ul class="navbar">
 
   <li><a href="PS_DSL_Syllabus.html">Syllabus</a></li>
   <li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
   <li><a href="PS_DSL_Lecture_02.html">Lecture 2</a></li>
   <li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
+  <li><a href="PS_DSL_Lecture_04.html">Lecture 3</a></li>
   <li><a href="PS_DSL_Lecture_05.html">Lecture 5</a></li>
   <li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
   <li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
   <li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
   <li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
   <li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
+  <li><a href="PS_DSL_Lecture_11.html">Lecture 11</a></li>
+  <li><a href="PS_DSL_Lecture_12.html">Lecture 12</a></li>
 </ul>
 
-<!-- Main content -->
 <h1>Penn State Great Valley<br>
 DSL Course - Lecture 4</h1>
 
@@ -792,24 +795,33 @@ grammars.<br>
 <br>
 
 <br>
-<h3>
 
+<h3>
 A Simple Example</h3>
 
+<br>
 
-<br>This is a simple example that I'm calling "Earthquake". &nbsp; Bob's
+This is a simple example that I'm calling "Earthquake". &nbsp; Bob's
 wife, Barbara, pointed us to all this government data that is
 available, all day, everyday.&nbsp; The earthquake data caught my eye
 because it is in a variety of formats, the structure is simple, the
 volume can be sizable and it is constantly changing.<br>
+
 <br>
+
 Earthquake monitoring stations report their data constantly and this
-data is collected by the USGS and provided on their web page: <a href="http://earthquake.usgs.gov">earthquake.usgs.gov</a>.&nbsp; This data comes in from around the world all the time.<br>
+data is collected by the USGS and provided on their web page: <a href="http://earthquake.usgs.gov">earthquake.usgs.gov</a>.&nbsp; This
+data comes in from around the world all the time.<br>
+
 <br>
+
 So the first thing we need to do is come up with a grammar.<br>
+
 <br>
+
 Here's the
-grammar we'll use, already in a similar meta structure to that used by ANTLR: <br>
+grammar we'll use, already in a similar meta structure to that used by
+ANTLR: <br>
 
 <br>
 
@@ -823,21 +835,30 @@ column:('date-tiime'|'lat-long'|'mag'|'depth'|'region')<br>
 </span>
 <br>
 
-Now, let&#8217;s see a file that we can actually pass to our program based upon the above grammar:<br>
+Now, let&#8217;s see a file that we can actually pass to our program based
+upon the above grammar:<br>
+
 <br>
 
 <span class="code">
-<br>timespan:day<br>
+<br>
+timespan:day<br>
 sortby:magnitude<br>
 output:date-time,mag,region<br>
 &nbsp;<br>
 </span>
-<br>In order to pull this DSL off we will have to do a simple parse on
+<br>
+
+In order to pull this DSL off we will have to do a simple parse on
 the input file to see what the user wants us to do with the earthquake
 data AND then get the right data set then parse that data set so we can
 manipulate it for the user.<br>
+
 <br>
-From here on we will look at the example code in the Earthquake project...<br>
+
+From here on we will look at the example code in the Earthquake
+project...<br>
+
 <br>
 
 &nbsp;<br>
@@ -846,4 +867,6 @@ From here on we will look at the example code in the Earthquake project...<br>
 
 <address>D Bartlett<br>
 <br>
-</address></body></html>
+</address>
+
+</body></html>

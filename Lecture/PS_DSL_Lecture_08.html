@@ -7,7 +7,8 @@
   <link rel="stylesheet" href="PS_Lecture.css">
 
 </head><body>
-<!-- Site navigation menu -->
+<br>
+
 <ul class="navbar">
 
   <li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
@@ -20,13 +21,16 @@
   <li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
   <li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
   <li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
+  <li><a href="PS_DSL_Lecture_11.html">Lecture 11</a></li>
+  <li><a href="PS_DSL_Lecture_12.html">Lecture 12</a></li>
 </ul>
 
-<!-- Main content -->
 <h1>Penn State Great Valley<br>
 DSL Course - Lecture 8<br>
 </h1>
+
 <br>
+
 <p>
 The simplest of options that you have when designing an external DSL is
 when you have a custom syntax that you've developed a parser
@@ -35,24 +39,17 @@ The parsing engine first lexicalizes the input stream, converting them
 to recognizable tokens.&nbsp; These tokens are also known as the
 terminals of the grammar.&nbsp; The tokens are then fed on to the
 production rules and parsed as valid sentences of the grammar.<br>
-
 <br>
-
 The parsing infrastructure is the only processor that does everything
 required to process the input DSL script and generate the necessary
 output.<br>
-
 <br>
-
 <br>
-
 <br>
-
 <br>
-
 <br>
-
 </p>
+
 <p>A
 language is just a set of valid sentences. &nbsp;Every language
 appllication will have a parser (recognizer) component. &nbsp;The
@@ -86,16 +83,19 @@ intermediate stages.</p>
 described above:</p>
 
 <ol>
-<li>Reader
+
+  <li>Reader
 - A reader builds a data structure from one or more input streams.
 &nbsp;The input streams are usually text but can be binary data as
 well. &nbsp;Examples include configuration file readers, program
 analysis tools such as a method cross-reference tool, and class file
-loaders.</li><li>Generator - A generator walks an internal data
+loaders.</li>
+  <li>Generator - A generator walks an internal data
 structure and emits output. &nbsp;Examples include
 object-to-relational
 database mapping tools, object serializers, source code generators, and
-web page generators.</li><li>Translator or Rewriter - A translator
+web page generators.</li>
+  <li>Translator or Rewriter - A translator
 reads text or binary input and emits output conforming to the same or a
 different language. &nbsp;It is essentially a combined reader and
 generator. &nbsp;Examples include translators from extinct
@@ -104,7 +104,8 @@ languages to modern languages, wiki to HTML translators, refactorers,
 profilers that instrument code, log file report generators, pretty
 printers, and macro preprocessors. &nbsp;Some translators, such as
 assemblers and compilers, are so common that they warrant their own
-subcategories.</li><li>Interpreter - An interpreter reads, decodes, and
+subcategories.</li>
+  <li>Interpreter - An interpreter reads, decodes, and
 executes instructions. &nbsp;Interpreters range from simple
 calculators
 and POP protocol servers all the way up to programming language
@@ -194,6 +195,7 @@ directly<br>
 
 <p><br>
 </p>
+
 <p>A generic template for displaying HTML for a lecture!
 </p>
 

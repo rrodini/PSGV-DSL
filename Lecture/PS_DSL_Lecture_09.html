@@ -21,6 +21,8 @@
   <li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
   <li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
   <li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
+  <li><a href="PS_DSL_Lecture_11.html">Lecture 11</a></li>
+  <li><a href="PS_DSL_Lecture_12.html">Lecture 12</a></li>
 </ul>
 
 <h1>Penn State Great Valley - DSL Course - Lecture 9<br>
@@ -73,15 +75,20 @@ fields and four optional fields.&nbsp; Note how clear is it what the
 
 <br>
 
-<div class="code"><pre>NutritionFacts cocaCola = new NutritionFacts.Builder(240, 8).<br>  calories(100).sodium(35).carbohydrate(27).build(); <br></pre></div>
+<div class="code">
+<pre>NutritionFacts cocaCola = new NutritionFacts.Builder(240, 8).<br>  calories(100).sodium(35).carbohydrate(27).build(); <br></pre>
+</div>
 
 <br>
+
 Here is the full implementation.<br>
+
 <br>
 
 <div class="code">
 <pre>public class NutritionFacts {<br>  private final int servingSize;<br>  private final int servings;<br>  private final int calories;<br>  private final int fat;<br>  private final int sodium;<br>  private final int carbohydrate;<br>  public static class Builder {<br>    // required fields<br>    private final int servingSize;<br>    private final int servings;<br>    // now optional fields<br>    private final int calories = 0;<br>    private final int fat = 0;<br>    private final int sodium = 0;<br>    private final int carbohydrate = 0;<br>    public Builder(int servingSize, int servings) {<br>      this.servingSize = servingSize;<br>      this.servings = servings;<br>    }<br>    public Builder calories(int val) {<br>      calories = val;<br>      return this;<br>    }<br>    public Builder fat(int val) {<br>      fat = val;<br>      return this;<br>    }<br>    public Builder sodium(int val) {<br>      sodium = val;<br>      return this;<br>    }<br>    public Builder carbohydrate(int val) {<br>      carbohydrate = val;<br>      return this;<br>    }<br>    public NutritionFacts build() {<br>      return new Nutritionfacts(this);<br>    }<br>  }<br>  private NutritionFacts(Builder builder) {<br>    servingSize = builder.servingSize;<br>    servings = builder.servings;<br>    calories = builder.calories;<br>    fat = builder.fat;<br>    sodium = builder.sodium;<br>    carbohydrate = builder.carbohydrate;<br>  }<br>}<br><br></pre>
 </div>
+
 &nbsp;
 <span style="font-weight: bold;"><br>
 How It Works<br>
@@ -92,17 +99,24 @@ and make a field for each one.&nbsp; Add further fields for any other
 attributes of the object your collecting.&nbsp; Finally, add a method
 to create and return a new product object assembled from all of the
 Construction Builder.<br>
+
 <br>
+
 <span style="font-weight: bold;">When to Use It</span><br>
+
 <br>
+
 Use this pattern when an object has some required fields and many
 optional fields.&nbsp; The constructed object is to be immutable
 (repeat after me "immutable is good, immutable is good,...") so you
 don't want to have lots of setter methods.&nbsp; You also don't want to
 have tons of constructors which can lead to user errors in picking the
 correct constructor.<br>
+
 <br>
-<hr style="width: 100%; height: 2px;"><span style="font-weight: bold;">Expression Builder</span><br>
+
+<hr style="width: 100%; height: 2px;"><span style="font-weight: bold;">Expression
+Builder</span><br>
 
 <br>
 
