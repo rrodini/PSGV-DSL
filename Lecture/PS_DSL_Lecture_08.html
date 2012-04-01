@@ -1,15 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head>
-  <title>DSL Lecture 8</title>
+<html><head><title>DSL Lecture 8</title>
+
+  
 
   
   
   <link rel="stylesheet" href="PS_Lecture.css">
 
   
-  <link rel="stylesheet" href="PS_Lecture.css">
-
-</head><body>
+  <link rel="stylesheet" href="PS_Lecture.css"></head><body>
 <br>
 
 <ul class="navbar">
@@ -27,10 +26,6 @@
   <li><a href="PS_DSL_Lecture_11.html">Lecture 11</a></li>
   <li><a href="PS_DSL_Lecture_12.html">Lecture 12</a></li>
 </ul>
-
-<h1>Penn State Great Valley<br>
-DSL Course - Lecture 8<br>
-</h1>
 
 <h1>Penn State Great Valley<br>
 DSL Course - Lecture 8<br>
@@ -124,7 +119,7 @@ So, the
 language described by a grammar is the set of all strings you can
 produce with the production rules. If a string cannot in any way be
 produced by using the rules the string is not allowed in the language.
-<h3>The BNF Highlightes Again</h3>
+<h3>The BNF Highlights Again</h3>
 
 <p>The meta-symbols of BNF are:<br>
 <br>
@@ -329,8 +324,38 @@ languages it can define, just more convenient. Any EBNF production can
 be translated into an equivalent set of BNF productions.<br>
 
 <br>
+
 <h3>Card Trick as BNF</h3>
 
+So let's pick up where we left off in Lecture 6 about the Semantic
+Model and let's follow this all the way through to the BNF for Card
+Trick.&nbsp; We will use the ANTLR grammar BNF form and give you your
+first peek at ANTLR.<br>
+
+<h3>Sequence Diagram:<br>
+</h3>
+
+Use a sequence diagram to find your verbs.&nbsp; Sequence diagrams are
+generally described as the tool to show interactions between objects in
+the sequential order that those interactions occur.&nbsp; Developers
+typically think that sequence diagrams are meant exclusively for
+them.&nbsp; However, an organization's business staff can find sequence
+diagrams useful to communicate how the business currently works by
+showing how various business objects interact.&nbsp; From this it is
+straight forward to see how sequence diagrams will aid in the
+definition of a domain specific language.<br>
+
+<br>
+
+<br>
+
+<img style="width: 588px; height: 613px;" alt="sequence diagram" src="images/CardTrickSequenceDiagram.jpg"><br>
+
+<br>
+The 'trick' to getting BNF of Card Trick is to look at the sequence
+diagram and describe it in BNF form.&nbsp; It's obvious that everything
+is some type of assignment or method call so we start there and work
+our way to all the terminal elements.<br>
 <br>
 
 <div class="code"><br>
@@ -341,7 +366,8 @@ Trick&nbsp;&nbsp;&nbsp; : Assignment | MethodCall;<br>
 Assignment :&nbsp;&nbsp;&nbsp; Name '=' MethodCall;<br>
 MethodCall :&nbsp;&nbsp;&nbsp; Name '.' MethodName Params;<br>
 Params&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; '(' ')' | ParamList;<br>
-ParamList&nbsp; :&nbsp;&nbsp;&nbsp; Param (',' Param)*;&nbsp;&nbsp;&nbsp;
+ParamList&nbsp; :&nbsp;&nbsp;&nbsp; Param (','
+Param)*;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <br>
 MethodName :&nbsp;&nbsp;&nbsp; 'shuffle' | 'print' | 'show' | 'println'
 <br>
@@ -361,9 +387,14 @@ Constant&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp; 'ADD_TO_TOP' | 'ADD_TO_BOTTOM'
 | 'TOP_CARD';&nbsp;&nbsp;&nbsp; <br>
 <br>
 </div>
-<br>
 
 <br>
+
+It is very similar to building out a DTD or XML schema.&nbsp; The end
+product represents metadata and is a description.&nbsp; It can be used
+to find errors, validate or parse the data it represents.&nbsp; There
+is definitely an advantage to having some experience in creating these
+forms and the skills are worth pursuing.<br>
 
 <br>
 
@@ -389,18 +420,18 @@ your grammar file (for example, BNF) to generate a parser.</p>
 or compiler generator is a
 tool that creates a parser, interpreter, or compiler from some form of
 formal description of a language and machine. The earliest and still
-most common form of compiler-compiler is a parser generator, whose
+most common form is a parser generator, whose
 input is a grammar (usually in BNF) of a programming language, and
 whose generated output is the source code of a parser often used as a
 component of a compiler.</p>
 
-<p>The usualy way to work with a Parser Generator is to write a
+<p>The usual way to work with a Parser Generator is to write a
 grammar file. &nbsp;This file will likely use a particular form of
-BNF used by that Parser Generator. &nbsp;There is not
+BNF used by that Parser Generator. &nbsp;There is no
 standardization here so if you change your parser generator you will
 likely have to rewrite your grammar.</p>
 
-<p>Once you have a grammar, the usualy route is to use the parser
+<p>Once you have a grammar, the usually route is to use the parser
 generator to generate a parser. &nbsp;Most parser generators use
 code generation which allows them&nbsp;to output to different host
 languages. &nbsp;There is no reason why a parser generator
@@ -411,13 +442,13 @@ then build a parser combinator (more in next section).</p>
 delve into it. &nbsp;It is, however, &nbsp;useful to follow
 what the parser is doing - particularly if you are trying to debug your
 grammar. &nbsp;In this case, there is an advantage in the parser
-generator using an algorithm that is easier to follo, such as
+generator using an algorithm that is easier to follow, such as
 generating a Recursive Descent Parser.</p>
 
 <p>The greatest advantage to using a parser generator is that it
 provides
-an explicit grammar to define the syntactic structure of th elanguage
-you're processing. &nbsp;This is the key advantage of using a DSL.
+an explicit grammar to define the syntactic structure of the language
+you are processing. &nbsp;This is the key advantage of using a DSL.
 &nbsp;Since
 parser generators are primarily designed to handle complicated
 languages, they also give you much more features and power than you
@@ -426,7 +457,7 @@ require some
 effort to learn, you can usually start with a simple set and work your
 way up from there. Parser Generators may provide good error handling
 and diagnostics which can make a big difference when trying to figure
-out why your grammar isn't doing whay you think it should.
+out why your grammar isn't doing what you think it should.
 </p>
 
 <p>In the last lecture we will look at ANTLR parser generator.
@@ -435,7 +466,8 @@ parser generators. &nbsp;ANTLR outputs to a variety of host
 languages; ANTLR is a mature tool with excellent documentation; ANTLR
 is free and easy to download and install.</p>
 
-<h3>Variants</h3>
+<h3>Variants and History<br>
+</h3>
 
 <p>A typical parser generator associates executable code with
 each of
@@ -448,7 +480,7 @@ parse tree (or abstract syntax tree), or generate executable code
 directly.<br>
 <br>
 One of the earliest (1964), surprisingly powerful, versions of
-compiler-compilers is MetaII, which accepted grammars and code
+a compiler-compiler is MetaII, which accepted grammars and code
 generation rules, and is able to compile itself and other languages.<br>
 <br>
 Some experimental compiler-compilers take as input a formal description
@@ -471,7 +503,6 @@ generators (e.g. ANTLR can be used for simultaneous type checking,
 constant propagation, and more during the parsing stage).<br>
 </p>
 
-<h3>History</h3>
 
 <p>The first compiler-compiler to use that name was written by
 Tony
@@ -479,28 +510,83 @@ Brooker in 1960 and was used to create compilers for the Atlas computer
 at the University of Manchester, including the Atlas Autocode compiler.
 However it was rather different from modern compiler-compilers, and
 today would probably be described as being somewhere between a highly
-customisable generic compiler and an extensible-syntax language. The
+customizable generic compiler and an extensible-syntax language. The
 name 'compiler-compiler' was far more appropriate for Brooker's system
 than it is for most modern compiler-compilers, which are more
 accurately described as parser generators. It is almost certain that
 the "Compiler Compiler" name has entered common use due to Yacc rather
 than Brooker's work being remembered.<br>
-<br>
+</p>
+Probably the most well known and widely used parser generator is YACC
+or Yet Another Compiler Compiler.&nbsp; YACC was written in the 1975 by
+Stephen C. Johnson at Bell Labs for the the Unix operating
+system.&nbsp; It generates a parser based on an analytic grammar
+written in a notation similar to BNF.&nbsp; YACC used to be available
+on all Unix system but lately it has been supplanted by Berkeley Yacc,
+GNU Bison and MKS Yacc.
+<p><img style="width: 473px; height: 396px;" alt="Compilation Sequence" src="images/compilationSeq.gif"><br>
+</p>
+<p>
 Other examples of parser generators in the yacc vein are ANTLR, Coco/R,
-CUP, GNU bison, Eli, FSL, SableCC and JavaCC.</p>
+CUP, GNU Bison, Eli, FSL, SableCC and JavaCC.</p>
 
-<h2>Parser Combinator</h2>
-
-In functional programming, a parser combinator is a higher-order
-function which accepts several parsers as input and returns a new
-parser as its output. In this context, a parser is a function accepting
-strings as input and returning some structure as output, typically a
-parse tree or a set of indices representing locations in the string
-where parsing stopped successfully. Parser combinators enable a
-recursive descent parsing strategy which facilitates modular piecewise
-construction and testing. This parsing technique is called combinatory
-parsing.<br>
-
+<h2>Parser Combinator</h2>Parser combinators are one of the most
+beautiful applications of functional programming.&nbsp; They offer an
+internal DSL a tool used for designing external DSLs so you don&#8217;t have
+to implement your own language infrastructure as you do with other
+techniques of external DSL design. When we look at ANTLR we will design
+our grammar for the DSL and ANTLR will&nbsp; generate the parser for
+us. To design our own DSL, we have to use an external tool to provide
+the necessary language implementation infrastructure. Using parser
+combinators, you don&#8217;t have to step out of the host language for a
+second. This makes the implementation succinct, expressive, and
+completely free of any external dependency.<br>
+<br>
+A parser is an engine that works on an input stream and consumes a
+collection of tokens. It can either recognize the stream of tokens as
+part of a valid language identified by the parser, or it can reject the
+input as soon as it encounters an invalid symbol. In either case, the
+parser returns a result (success or failure), along with a truncated
+stream containing the rest of the input not yet consumed. When the
+parser returns a success, you can feed the truncated input stream to
+yet another parser that can potentially consume the rest of the input.
+In the case of a failure, you can rewind to the beginning of the stream
+and try parsing with another parser. Because parsers work this way, you
+can chain them in a variety of ways to parse a complete input stream. <br>
+<br>
+Chaining parsers. Parser #1 parses a part of the input stream. Parser
+#2 matches the part left over by parser #1. The combination returns a
+parser that combines the two results. The combination parser succeeds
+only if both parser #1<br>
+and parser #2 match their inputs.<br>
+<br>
+<img style="width: 623px; height: 591px;" alt="Parser Combinator" src="images/ParserCombinator.jpg"><br>
+<br>
+Because it&#8217;s a function of its input, a parser can compose with other
+parsers and evolve the syntax of our DSL in a piecemeal way.<br>
+<br>
+Let&#8217;s look at the problem of composing parsers in a functional way. In
+functional programming, a parser is a function that takes input and
+produces a result. Parser combinators allow you to use higher-order
+functions (also known as combinators) in a purely compositional way to
+construct grammar structures such as sequencing, repetitions,
+optionality, and choice. If your language of implementation supports
+infix operator notation, then a grammar rule written using parser
+combinators resembles an EBNF production.<br>
+<br>
+The biggest advantage of parsing with combinators is improved
+composability; you take primitive parsers and compose them functionally
+to generate larger ones. Composing with combinators is like building
+with LEGOs&#8212;we start with smaller pieces and build higher-order
+structures out of them.<br>
+<br>
+In the world of DSL design, you can use parser combinators to compose
+smaller language fragments that model parts of your DSL syntax and
+build the whole DSL structure out of them. The sequence combinator that
+you see in figure 8.2 is only one such combinator, which is shown in
+the figure composing two DSL syntax parsers sequentially. Any standard
+implementation includes a variety of such combinators, much like LEGO
+sets.<br>
 <p>Parsers built using combinators are straightforward to
 construct,
 &#8216;readable&#8217;, modular, well-structured and easily maintainable. They have
@@ -508,11 +594,11 @@ been used extensively in the prototyping of compilers and processors
 for domain-specific languages such as natural language interfaces to
 databases, where complex and varied semantic actions are closely
 integrated with syntactic processing. In 1989, Richard Frost and John
-Launchbury demonstrated[1] use of parser combinators to construct
+Launchbury demonstrated use of parser combinators to construct
 natural language interpreters. Graham Hutton also used higher-order
-functions for basic parsing in 1992.[2] S.D. Swierstra also exhibited
-the practical aspects of parser combinators in 2001.[3] In 2008, Frost,
-Hafiz and Callaghan described[4] a set of parser combinators in Haskell
+functions for basic parsing in 1992.&nbsp; S.D. Swierstra also exhibited
+the practical aspects of parser combinators in 2001.&nbsp; In 2008, Frost,
+Hafiz and Callaghan described a set of parser combinators in Haskell
 that solve the long-standing problem of accommodating left recursion,
 and work as a complete top-down parsing tool in polynomial time and
 space.<br>
@@ -530,7 +616,7 @@ non-terminal(s) and/or terminal(s), or the alternative may consist of a
 single non-terminal or terminal or the empty string. If a simple parser
 is available for each of these alternatives, a parser combinator can be
 used to combine each of these parsers, returning a new parser which can
-recognise any or all of the alternatives.<br>
+recognize any or all of the alternatives.<br>
 <br>
 A parser combinator can take the form of an infix operator, used to
 &#8216;glue&#8217; different parsers to form a complete rule. Parser combinators
@@ -538,91 +624,9 @@ thereby enable parsers to be defined in an embedded style, in code
 which is similar in structure to the rules of the grammar. As such,
 implementations can be thought of as executable specifications with all
 of the associated advantages.<br>
-<br>
-</p>
+</p><h3>Shortcomings and solutions</h3>
 
-<h3>The combinators</h3>
 
-<p>To keep the discussion relatively straightforward, we discuss
-parser
-combinators in terms of recognizers only. If the input string is of
-length #input and its members are accessed through an index j, a
-recognizer is a parser which returns, as output, a set of indices
-representing positions at which the parser successfully finished
-recognizing a sequence of tokens that began at position j. An empty
-result set indicates that the recognizer failed to recognize any
-sequence beginning at index j. A non-empty result set indicates the
-recognizer ends at different positions successfully.<br>
-<br>
-&nbsp;&nbsp;&nbsp; The empty recognizer recognizes the
-empty string.
-This parser always succeeds, returning a singleton set containing the
-current position:<br>
-<br>
-&nbsp;&nbsp;&nbsp; empty(j) = \{j\}<br>
-<br>
-&nbsp;&nbsp;&nbsp; A recognizer term &#8217;x&#8217; recognizes the
-terminal x. If
-the token at position j in the input string is x, this parser returns a
-singleton set containing j + 1; otherwise, it returns the empty set.<br>
-<br>
-&nbsp;&nbsp;&nbsp; term(x,j) = \begin{cases} \left \{
-\right \}, &amp;
-j \geq \#input\\ \left \{ j+1 \right \}, &amp; j^{th} \mbox{
-element of
-} input=x\\ \left \{ \right \}, &amp; \mbox{otherwise} \end{cases} <br>
-<br>
-Note that there may be multiple distinct ways to parse a string while
-finishing at the same index: this indicates an ambiguous grammar.
-Simple recognizers do not acknowledge these ambiguities; each possible
-finishing index is listed only once in the result set. For a more
-complete set of results, a more complicated object such as a parse tree
-must be returned.<br>
-<br>
-Following the definitions of two basic recognizers p and q, we can
-define two major parser combinators for alternative and sequencing:<br>
-<br>
-&nbsp;&nbsp;&nbsp; The &#8216;alternative&#8217; parser combinator,
-&lt;+&gt;,
-applies both of the recognizers on the same input position j and sums
-up the results returned by both of the recognizers, which is eventually
-returned as the final result. It is used as an infix operator between p
-and q as follows:<br>
-<br>
-&nbsp;&nbsp;&nbsp; (p \quad &lt;\!+\!&gt; \quad
-q)(j) = p(j) \cup q(j) <br>
-<br>
-&nbsp;&nbsp;&nbsp; The sequencing of recognizers is done
-with the
-&lt;*&gt; parser combinator. Like &lt;+&gt;, it is used
-as an infix
-operator between p and q. But it applies the first recognizer p to the
-input position j, and if there is any successful result of this
-application, then the second recognizer q is applied to every element
-of the result set returned by the first recognizer. &lt;*&gt;
-ultimately returns the union of these applications of q.<br>
-<br>
-&nbsp;&nbsp;&nbsp; (p \quad &lt;*\!&gt; \quad q)(j)
-= \bigcup \{ q(k) : k \in p(j) \} <br>
-<br>
-<br>
-</p>
-
-<h3>Examples</h3>
-
-<p>Consider a highly ambiguous context-free grammar, s ::= &#8216;x&#8217; s
-s | e.
-Using the combinators defined earlier, we can modularly define
-executable notations of this grammar in a modern functional language
-(e.g. Haskell) as s = term &#8216;x&#8217; &lt;*&gt; s &lt;*&gt; s
-&lt;+&gt; empty.
-When the recognizer s is applied on an input sequence xxxxx at position
-1, according to the above definitions it would return a result set
-{5,4,3,2}.<br>
-<br>
-</p>
-
-<h3>Shortcomings and solutions</h3>
 
 <p>Parser combinators, like all recursive descent parsers, are
 not
@@ -637,220 +641,11 @@ languages, which are not reported at compile-time, and which are
 introduced not by human error, but by ambiguous grammar. The only
 solution which eliminates these bugs is to remove the ambiguities and
 use a context-free grammar.<br>
+<br><br>
 <br>
-The simple implementations of parser combinators have some
-shortcomings, which are common in top-down parsing. Naïve combinatory
-parsing requires exponential time and space when parsing an ambiguous
-context-free grammar. In 1996, Frost and Szydlowski[5] demonstrated how
-memoization can be used with parser combinators to reduce the time
-complexity to polynomial. Later Frost used monads[6] to construct the
-combinators for systematic and correct threading of memo-table
-throughout the computation.<br>
-<br>
-Like any top-down recursive descent parsing, the conventional parser
-combinators (like the combinators described above) will not terminate
-while processing a left-recursive grammar (e.g. s ::= s
-&lt;*&gt; term
-&#8216;x&#8217;|empty). A recognition algorithm[7] that accommodates ambiguous
-grammars with direct left-recursive rules is described by Frost and
-Hafiz in 2006. The algorithm curtails the otherwise ever-growing
-left-recursive parse by imposing depth restrictions. That algorithm was
-extended[8] to a complete parsing algorithm to accommodate indirect as
-well as direct left-recursion in polynomial time, and to generate
-compact polynomial-size representations of the potentially exponential
-number of parse trees for highly ambiguous grammars by Frost, Hafiz and
-Callaghan in 2007. This extended algorithm accommodates indirect left
-recursion by comparing its &#8216;computed context&#8217; with &#8216;current context&#8217;.
-The same authors also described[4] their implementation of a set of
-parser combinators written in the Haskell programming language based on
-the same algorithm. The X-SAIGA site has more about the algorithms and
-implementation details.<br>
+
 </p>
 
-<p><br>
-</p>
-
-<p>*********************************<br>
-</p>
-
-<p>
-The simplest of options that you have when designing an external DSL is
-when you have a custom syntax that you've developed a parser
-for.&nbsp;
-The parsing engine first lexicalizes the input stream, converting them
-to recognizable tokens.&nbsp; These tokens are also known as the
-terminals of the grammar.&nbsp; The tokens are then fed on to the
-production rules and parsed as valid sentences of the grammar.<br>
-<br>
-The parsing infrastructure is the only processor that does everything
-required to process the input DSL script and generate the necessary
-output.<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-</p>
-
-<p>A
-language is just a set of valid sentences. &nbsp;Every language
-appllication will have a parser (recognizer) component. &nbsp;The
-whole
-point to writing a grammar or Semantic Model is so you
-can&nbsp;build a
-programthat recognizes sentences in that language. </p>
-
-<p>Language
-applications can be complicated and with anything complicated we want
-to break them down into bite-size chuncks. &nbsp;The goal is to get
-the
-components to fit together in a multistage pipeline that analyzes or
-manipulates an input stream. &nbsp;The pipeline gradually converts
-an
-input sentence (valid input sentence) to a handy internal data
-structure or translates it to a sentence in another language.</p>
-
-<img style="width: 779px; height: 223px;" alt="Multi-stage Pipeline" src="images/Pipeline.jpg">
-<p>The
-basic idea is the reader recognizes the input and builds an
-intermediate representation (IR) that feeds the rest of the
-application. &nbsp;The intermedeiate stages form the semantic
-analyzer
-which figures out what the input means. &nbsp;At the end, a
-generator
-emits output based upon the IR and what the application learned in the
-intermediate stages.</p>
-
-<p>There are four broad application catagories to the pipeline
-described above:</p>
-
-<ol>
-
-  <li>Reader
-- A reader builds a data structure from one or more input streams.
-&nbsp;The input streams are usually text but can be binary data as
-well. &nbsp;Examples include configuration file readers, program
-analysis tools such as a method cross-reference tool, and class file
-loaders.</li>
-  <li>Generator - A generator walks an internal data
-structure and emits output. &nbsp;Examples include
-object-to-relational
-database mapping tools, object serializers, source code generators, and
-web page generators.</li>
-  <li>Translator or Rewriter - A translator
-reads text or binary input and emits output conforming to the same or a
-different language. &nbsp;It is essentially a combined reader and
-generator. &nbsp;Examples include translators from extinct
-programming
-languages to modern languages, wiki to HTML translators, refactorers,
-profilers that instrument code, log file report generators, pretty
-printers, and macro preprocessors. &nbsp;Some translators, such as
-assemblers and compilers, are so common that they warrant their own
-subcategories.</li>
-  <li>Interpreter - An interpreter reads, decodes, and
-executes instructions. &nbsp;Interpreters range from simple
-calculators
-and POP protocol servers all the way up to programming language
-implementations such as those for Java, Ruby, and Python.</li>
-</ol>
-
-<h3>Parsing Input Sentences - Readers</h3>
-
-The most basic reader component and probably something most of you have
-already done in some form, most likely with XML. &nbsp;So here are
-a couple of short examples with of parsing an XML file with Python.<br>
-
-<br>
-
-This example uses Document object model:<br>
-
-<br>
-
-<code><br>
-&nbsp;&nbsp;from xml.dom import minidom, Node<br>
-&nbsp;&nbsp;def scanNode(node, level = 0):<br>
-&nbsp;&nbsp;&nbsp;&nbsp;msg = node.__class__.__name__<br>
-&nbsp;&nbsp;&nbsp;&nbsp;if node.nodeType ==
-Node.ELEMENT_NODE:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg += ",
-tag: " + node.tagName<br>
-&nbsp;&nbsp;&nbsp;&nbsp;print(" " * level * 4, msg)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;if node.hasChildNodes:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for child
-in node.childNodes:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scanNode(child,
-level + 1)<br>
-<br>
-&nbsp;&nbsp;doc = minidom.parse('planets.xml')<br>
-&nbsp;&nbsp;scanNode(doc)<br>
-</code><br>
-
-This example uses tree structure:
-<code><br>
-<br>
-&nbsp;&nbsp;from xml.etree import ElementTree as etree<br>
-<br>
-&nbsp;&nbsp;def main():<br>
-&nbsp;&nbsp;&nbsp;&nbsp;tree =
-etree.<span style="font-weight: bold;">parse</span>("planets.xml")<br>
-&nbsp;&nbsp;&nbsp;&nbsp;root = tree.getroot()<br>
-&nbsp;&nbsp;&nbsp;&nbsp;print("root: ")<br>
-&nbsp;&nbsp;&nbsp;&nbsp;print(root)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;for child in root:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("
-child: ")<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(child)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for
-grandchild in child:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("
-grandchild: ")<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(grandchild)<br>
-<br>
-&nbsp;&nbsp;if __name__ == "__main__":<br>
-&nbsp;&nbsp;&nbsp;&nbsp;# Someone is launching this
-directly<br>
-&nbsp;&nbsp;&nbsp;&nbsp;main()<br>
-</code>
-<br>
-
-<br>
-
-<h3>Generating Sentences with State Machines</h3>
-
-<h3>The Requirements for Generating Complex Language</h3>
-
-<br>
-
-<br>
-
-<h3>Enforcing Sentence Tree Structure with Pushdown Machines</h3>
-
-<h3>Ambiguous Languages</h3>
-
-<br>
-
-<h3>Vocabulary Symbols Are Structured Too</h3>
-
-<h3>Recognizing Computer Language Sentences</h3>
-
-<br>
-
-<p>A generic template for displaying HTML for a lecture!
-</p>
-
-<p>It lacks images, but at least it has style.
-And it has links, even if they don't go
-anywhere&#8230;
-</p>
-
-<p><code>int x = rand()*17;</code>
-</p>
-
-<p>There should be more here, but I don't know
-what yet.
-<!-- Sign and date the page, it's only polite! --></p>
-
-<address>Made 31 August 2011<br>
-by D Bartlett.</address>
+<address>by D Bartlett.</address>
 
 </body></html>

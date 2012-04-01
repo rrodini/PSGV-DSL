@@ -1,36 +1,217 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head><title>DSL Syllabus</title>
+<html><head>
+  <title>DSL Template</title>
 
-<link rel="stylesheet" href="PS_Lecture.css">
-</head>
+  
+  
+  <link rel="stylesheet" href="PS_Lecture.css">
 
-<body>
+</head><body>
 <!-- Site navigation menu -->
 <ul class="navbar">
-<li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
-<li><a href="PS_DSL_Lecture_02.html">Lecture 2</a></li>
-<li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
-<li><a href="PS_DSL_Lecture_04.html">Lecture 4</a></li>
-<li><a href="PS_DSL_Lecture_05.html">Lecture 5</a></li>
-<li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
-<li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
-<li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
-<li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
-<li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
+
+  <li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
+  <li><a href="PS_DSL_Lecture_02.html">Lecture 2</a></li>
+  <li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
+  <li><a href="PS_DSL_Lecture_04.html">Lecture 4</a></li>
+  <li><a href="PS_DSL_Lecture_05.html">Lecture 5</a></li>
+  <li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
+  <li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
+  <li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
+  <li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
+  <li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
 </ul>
+
 <!-- Main content -->
-<h1>Penn State Great Valley - DSL Course - Syllabus</h1>
+<h1>Penn State Great Valley - DSL Course - Template</h1>
+
+<br>
+
+<p><br>
+</p>
+
+<p>*********************************<br>
+</p>
+
+<p>
+The simplest of options that you have when designing an external DSL is
+when you have a custom syntax that you've developed a parser
+for.&nbsp;
+The parsing engine first lexicalizes the input stream, converting them
+to recognizable tokens.&nbsp; These tokens are also known as the
+terminals of the grammar.&nbsp; The tokens are then fed on to the
+production rules and parsed as valid sentences of the grammar.<br>
+<br>
+The parsing infrastructure is the only processor that does everything
+required to process the input DSL script and generate the necessary
+output.<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</p>
+
+<p>A
+language is just a set of valid sentences. &nbsp;Every language
+application will have a parser (recognizer) component. &nbsp;The
+whole
+point to writing a grammar or Semantic Model is so you
+can&nbsp;build a
+program that recognizes sentences in that language. </p>
+
+<p>Language
+applications can be complicated and with anything complicated we want
+to break them down into bite-size chunks. &nbsp;The goal is to get
+the
+components to fit together in a multistage pipeline that analyzes or
+manipulates an input stream. &nbsp;The pipeline gradually converts
+an
+input sentence (valid input sentence) to a handy internal data
+structure or translates it to a sentence in another language.</p>
+
+<img style="width: 779px; height: 223px;" alt="Multi-stage Pipeline" src="images/Pipeline.jpg">
+<p>The
+basic idea is the reader recognizes the input and builds an
+intermediate representation (IR) that feeds the rest of the
+application. &nbsp;The intermediate stages form the semantic
+analyzer
+which figures out what the input means. &nbsp;At the end, a
+generator
+emits output based upon the IR and what the application learned in the
+intermediate stages.</p>
+
+<p>There are four broad application categories to the pipeline
+described above:</p>
+
+<ol>
+
+  <li>Reader
+- A reader builds a data structure from one or more input streams.
+&nbsp;The input streams are usually text but can be binary data as
+well. &nbsp;Examples include configuration file readers, program
+analysis tools such as a method cross-reference tool, and class file
+loaders.</li>
+  <li>Generator - A generator walks an internal data
+structure and emits output. &nbsp;Examples include
+object-to-relational
+database mapping tools, object serializers, source code generators, and
+web page generators.</li>
+  <li>Translator or Rewriter - A translator
+reads text or binary input and emits output conforming to the same or a
+different language. &nbsp;It is essentially a combined reader and
+generator. &nbsp;Examples include translators from extinct
+programming
+languages to modern languages, wiki to HTML translators, refactorers,
+profilers that instrument code, log file report generators, pretty
+printers, and macro preprocessors. &nbsp;Some translators, such as
+assemblers and compilers, are so common that they warrant their own
+subcategories.</li>
+  <li>Interpreter - An interpreter reads, decodes, and
+executes instructions. &nbsp;Interpreters range from simple
+calculators
+and POP protocol servers all the way up to programming language
+implementations such as those for Java, Ruby, and Python.</li>
+</ol>
+
+<h3>Parsing Input Sentences - Readers</h3>
+
+The most basic reader component and probably something most of you have
+already done in some form, most likely with XML. &nbsp;So here are
+a couple of short examples with of parsing an XML file with Python.<br>
+
+<br>
+
+This example uses Document object model:<br>
+
+<br>
+
+<code><br>
+&nbsp;&nbsp;from xml.dom import minidom, Node<br>
+&nbsp;&nbsp;def scanNode(node, level = 0):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;msg = node.__class__.__name__<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if node.nodeType ==
+Node.ELEMENT_NODE:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg += ",
+tag: " + node.tagName<br>
+&nbsp;&nbsp;&nbsp;&nbsp;print(" " * level * 4, msg)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if node.hasChildNodes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for child
+in node.childNodes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scanNode(child,
+level + 1)<br>
+<br>
+&nbsp;&nbsp;doc = minidom.parse('planets.xml')<br>
+&nbsp;&nbsp;scanNode(doc)<br>
+</code><br>
+
+This example uses tree structure:
+<code><br>
+<br>
+&nbsp;&nbsp;from xml.etree import ElementTree as etree<br>
+<br>
+&nbsp;&nbsp;def main():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tree =
+etree.<span style="font-weight: bold;">parse</span>("planets.xml")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;root = tree.getroot()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;print("root: ")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;print(root)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for child in root:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("
+child: ")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(child)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for
+grandchild in child:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print("
+grandchild: ")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(grandchild)<br>
+<br>
+&nbsp;&nbsp;if __name__ == "__main__":<br>
+&nbsp;&nbsp;&nbsp;&nbsp;# Someone is launching this
+directly<br>
+&nbsp;&nbsp;&nbsp;&nbsp;main()<br>
+</code>
+<br>
+
+<br>
+
+<h3>Generating Sentences with State Machines</h3>
+
+<h3>The Requirements for Generating Complex Language</h3>
+
+<br>
+
+<br>
+
+<h3>Enforcing Sentence Tree Structure with Pushdown Machines</h3>
+
+<h3>Ambiguous Languages</h3>
+
+<br>
+
+<h3>Vocabulary Symbols Are Structured Too</h3>
+
+<h3>Recognizing Computer Language Sentences</h3>
+
+<p><br>
+</p>
+
 <p>A generic template for displaying HTML for a lecture!
 </p>
+
 <p>It lacks images, but at least it has style.
 And it has links, even if they don't go
 anywhere&#8230;
 </p>
+
 <p><code>int x = rand()*17;</code>
 </p>
+
 <p>There should be more here, but I don't know
 what yet.
 <!-- Sign and date the page, it's only polite! --></p>
+
 <address>Made 31 August 2011<br>
 by D Bartlett.</address>
+
 </body></html>
