@@ -1,14 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head><title>DSL Lecture 8</title>
-
-  
+<html><head>
+  <title>DSL Lecture 8</title>
 
   
   
   <link rel="stylesheet" href="PS_Lecture.css">
 
   
-  <link rel="stylesheet" href="PS_Lecture.css"></head><body>
+  <link rel="stylesheet" href="PS_Lecture.css">
+
+</head><body>
 <br>
 
 <ul class="navbar">
@@ -35,7 +36,7 @@ DSL Course - Lecture 8<br>
 <h1>Getting to BNF + Parser Generators &amp; Parser
 Combinators</h1>
 
-<h1><img style="width: 944px; height: 297px;" alt="Aurora" src="../../../../_work/PennState/DSL/Lecture/images/aurora/aurora/AuroraPrelude_takasaka600h.jpg"><br>
+<h1><img style="width: 944px; height: 297px;" alt="Aurora" src="images/aurora/aurora/AuroraPrelude_takasaka600h.jpg"><br>
 </h1>
 
 <h2>Getting to BNF</h2>
@@ -352,10 +353,12 @@ definition of a domain specific language.<br>
 <img style="width: 588px; height: 613px;" alt="sequence diagram" src="images/CardTrickSequenceDiagram.jpg"><br>
 
 <br>
+
 The 'trick' to getting BNF of Card Trick is to look at the sequence
 diagram and describe it in BNF form.&nbsp; It's obvious that everything
 is some type of assignment or method call so we start there and work
 our way to all the terminal elements.<br>
+
 <br>
 
 <div class="code"><br>
@@ -503,7 +506,6 @@ generators (e.g. ANTLR can be used for simultaneous type checking,
 constant propagation, and more during the parsing stage).<br>
 </p>
 
-
 <p>The first compiler-compiler to use that name was written by
 Tony
 Brooker in 1960 and was used to create compilers for the Atlas computer
@@ -517,6 +519,7 @@ accurately described as parser generators. It is almost certain that
 the "Compiler Compiler" name has entered common use due to Yacc rather
 than Brooker's work being remembered.<br>
 </p>
+
 Probably the most well known and widely used parser generator is YACC
 or Yet Another Compiler Compiler.&nbsp; YACC was written in the 1975 by
 Stephen C. Johnson at Bell Labs for the the Unix operating
@@ -526,22 +529,27 @@ on all Unix system but lately it has been supplanted by Berkeley Yacc,
 GNU Bison and MKS Yacc.
 <p><img style="width: 473px; height: 396px;" alt="Compilation Sequence" src="images/compilationSeq.gif"><br>
 </p>
+
 <p>
 Other examples of parser generators in the yacc vein are ANTLR, Coco/R,
 CUP, GNU Bison, Eli, FSL, SableCC and JavaCC.</p>
 
-<h2>Parser Combinator</h2>Parser combinators are one of the most
-beautiful applications of functional programming.&nbsp; They offer an
-internal DSL a tool used for designing external DSLs so you don&#8217;t have
-to implement your own language infrastructure as you do with other
-techniques of external DSL design. When we look at ANTLR we will design
-our grammar for the DSL and ANTLR will&nbsp; generate the parser for
-us. To design our own DSL, we have to use an external tool to provide
-the necessary language implementation infrastructure. Using parser
-combinators, you don&#8217;t have to step out of the host language for a
-second. This makes the implementation succinct, expressive, and
-completely free of any external dependency.<br>
+<h2>Parser Combinator</h2>
+
+Parser combinators are one of the most beautiful applications of
+functional programming.&nbsp; They offer an internal DSL a tool used
+for designing external DSLs so you don&#8217;t have to implement your own
+language infrastructure as you do with other techniques of external DSL
+design. When we look at ANTLR we will design our grammar for the DSL
+and ANTLR will&nbsp; generate the parser for us. To design our own DSL,
+we have to use an external tool to provide the necessary language
+implementation infrastructure. Using parser combinators, you don&#8217;t have
+to step out of the host language for a second. This makes the
+implementation succinct, expressive, and completely free of any
+external dependency.<br>
+
 <br>
+
 A parser is an engine that works on an input stream and consumes a
 collection of tokens. It can either recognize the stream of tokens as
 part of a valid language identified by the parser, or it can reject the
@@ -553,18 +561,27 @@ yet another parser that can potentially consume the rest of the input.
 In the case of a failure, you can rewind to the beginning of the stream
 and try parsing with another parser. Because parsers work this way, you
 can chain them in a variety of ways to parse a complete input stream. <br>
+
 <br>
+
 Chaining parsers. Parser #1 parses a part of the input stream. Parser
 #2 matches the part left over by parser #1. The combination returns a
 parser that combines the two results. The combination parser succeeds
 only if both parser #1<br>
+
 and parser #2 match their inputs.<br>
+
 <br>
+
 <img style="width: 623px; height: 591px;" alt="Parser Combinator" src="images/ParserCombinator.jpg"><br>
+
 <br>
+
 Because it&#8217;s a function of its input, a parser can compose with other
 parsers and evolve the syntax of our DSL in a piecemeal way.<br>
+
 <br>
+
 Let&#8217;s look at the problem of composing parsers in a functional way. In
 functional programming, a parser is a function that takes input and
 produces a result. Parser combinators allow you to use higher-order
@@ -573,13 +590,17 @@ construct grammar structures such as sequencing, repetitions,
 optionality, and choice. If your language of implementation supports
 infix operator notation, then a grammar rule written using parser
 combinators resembles an EBNF production.<br>
+
 <br>
+
 The biggest advantage of parsing with combinators is improved
 composability; you take primitive parsers and compose them functionally
 to generate larger ones. Composing with combinators is like building
 with LEGOs&#8212;we start with smaller pieces and build higher-order
 structures out of them.<br>
+
 <br>
+
 In the world of DSL design, you can use parser combinators to compose
 smaller language fragments that model parts of your DSL syntax and
 build the whole DSL structure out of them. The sequence combinator that
@@ -587,6 +608,7 @@ you see in figure 8.2 is only one such combinator, which is shown in
 the figure composing two DSL syntax parsers sequentially. Any standard
 implementation includes a variety of such combinators, much like LEGO
 sets.<br>
+
 <p>Parsers built using combinators are straightforward to
 construct,
 &#8216;readable&#8217;, modular, well-structured and easily maintainable. They have
@@ -596,8 +618,10 @@ databases, where complex and varied semantic actions are closely
 integrated with syntactic processing. In 1989, Richard Frost and John
 Launchbury demonstrated use of parser combinators to construct
 natural language interpreters. Graham Hutton also used higher-order
-functions for basic parsing in 1992.&nbsp; S.D. Swierstra also exhibited
-the practical aspects of parser combinators in 2001.&nbsp; In 2008, Frost,
+functions for basic parsing in 1992.&nbsp; S.D. Swierstra also
+exhibited
+the practical aspects of parser combinators in 2001.&nbsp; In 2008,
+Frost,
 Hafiz and Callaghan described a set of parser combinators in Haskell
 that solve the long-standing problem of accommodating left recursion,
 and work as a complete top-down parsing tool in polynomial time and
@@ -624,9 +648,9 @@ thereby enable parsers to be defined in an embedded style, in code
 which is similar in structure to the rules of the grammar. As such,
 implementations can be thought of as executable specifications with all
 of the associated advantages.<br>
-</p><h3>Shortcomings and solutions</h3>
+</p>
 
-
+<h3>Shortcomings and solutions</h3>
 
 <p>Parser combinators, like all recursive descent parsers, are
 not
@@ -641,9 +665,9 @@ languages, which are not reported at compile-time, and which are
 introduced not by human error, but by ambiguous grammar. The only
 solution which eliminates these bugs is to remove the ambiguities and
 use a context-free grammar.<br>
-<br><br>
 <br>
-
+<br>
+<br>
 </p>
 
 <address>by D Bartlett.</address>
