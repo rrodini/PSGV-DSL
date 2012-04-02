@@ -1,12 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head>
-  <title>DSL Lecture 10</title>
+<html><head><title>DSL Lecture 10</title>
+
+  
 
   
   
-  <link rel="stylesheet" href="PS_Lecture.css">
-
-</head><body>
+  <link rel="stylesheet" href="PS_Lecture.css"></head><body>
 <br>
 
 <ul class="navbar">
@@ -234,7 +233,7 @@ there (not really, but Fowler calls them blocks in the text).<br>
 <br>
 
 <div class="code">
-<pre><br>class ComputerBuilder {<br>	Computer comp<br>	Processor proc<br>	<br>	def doBuild(Closure block) {<br>		block.setDelegate(this)<br>		block.call()<br>		return comp<br>	}<br>	<br>	def computer (Closure block) {<br>		block.setDelegate(this)<br>		block.call()<br>		comp = new Computer()<br>		comp.proc = proc<br>		return comp<br>	}<br>	<br>        def processor(Closure block) {<br>		proc = new Processor()		<br>		block.setDelegate(this)<br>		block.call()<br>	}	<br>	<br>	def cores(int n){<br>		proc.cores = n<br>	}<br><br>	def i386() {<br>	   proc.type = "i386"	<br>	}<br>	<br>	def speed(float s){<br>		proc.speed = s<br>	}<br>	<br>}<br><br>class Computer {<br>	Processor proc<br>	String toString() {<br>		"Computer( ${proc.toString()} )"<br>	}<br>	<br>}<br><br>class Processor {<br>	int cores<br>	String type<br>	float speed<br>	String toString(){<br>		"Processor( cores: $cores, type: $type, speed: $speed )"<br>	}<br>	<br>}<br><br>// main section of script here<br>ComputerBuilder cb = new ComputerBuilder()<br><br>def myComputer = cb.doBuild {<br>	computer<br>	  {<br>		processor { <br>			cores(2) <br>			i386()<br>			speed(2.2)<br>		}<br>	}<br>}<br><br>println myComputer<br></pre>
+<pre><br>class ComputerBuilder {<br>	Computer comp<br>	Processor proc<br>	<br>	def doBuild(Closure block) {<br>		block.setDelegate(this)<br>		block.call()<br>		return comp<br>	}<br>	<br>	def computer (Closure block) {<br>		block.setDelegate(this)<br>		block.call()<br>		comp = new Computer()<br>		comp.proc = proc<br>		return comp<br>	}<br>	<br>        def processor(Closure block) {<br>		proc = new Processor()		<br>		block.setDelegate(this)<br>		block.call()<br>	}	<br>	<br>	def cores(int n){<br>		proc.cores = n<br>	}<br><br>	def i386() {<br>	   proc.type = "i386"	<br>	}<br>	<br>	def speed(float s){<br>		proc.speed = s<br>	}<br>	<br>}<br><br>class Computer {<br>	Processor proc<br>	String toString() {<br>		"Computer( ${proc.toString()} )"<br>	}<br>	<br>}<br><br>class Processor {<br>	int cores<br>	String type<br>	float speed<br>	String toString(){<br>		"Processor( cores: $cores, type: $type, speed: $speed )"<br>	}<br>	<br>}<br><br>// main section of script here<br>ComputerBuilder cb = new ComputerBuilder()<br><br>def myComputer = cb.doBuild {<br>	computer {<br>		processor { <br>			cores(2) <br>			i386()<br>			speed(2.2)<br>		}<br>	}<br>}<br><br>println myComputer<br></pre>
 </div>
 
 <br>
