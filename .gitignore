@@ -1,0 +1,3 @@
+*.class
+ANTLR-projects/**/*.java
+
