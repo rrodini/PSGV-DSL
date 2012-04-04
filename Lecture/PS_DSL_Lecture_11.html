@@ -1,48 +1,124 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head>
-  <title>DSL Syllabus</title>
+<html><head><title>Lecture 11 - Choosing DSL Implementations</title>
 
-  
-  
-  <link rel="stylesheet" href="PS_Lecture.css">
-
-</head><body>
+<link rel="stylesheet" href="PS_Lecture.css">
+</head>
+<body>
 <!-- Site navigation menu -->
 <ul class="navbar">
-
-  <li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
-  <li><a href="PS_DSL_Lecture_02.html">Lecture 2</a></li>
-  <li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
-  <li><a href="PS_DSL_Lecture_04.html">Lecture 4</a></li>
-  <li><a href="PS_DSL_Lecture_05.html">Lecture 5</a></li>
-  <li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
-  <li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
-  <li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
-  <li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
-  <li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
-  <li><a href="PS_DSL_Lecture_11.html">Lecture 11</a></li>
-  <li><a href="PS_DSL_Lecture_12.html">Lecture 12</a></li>
+<li><a href="PS_DSL_Lecture_01.html">Lecture 1</a></li>
+<li><a href="PS_DSL_Lecture_02.html">Lecture 2</a></li>
+<li><a href="PS_DSL_Lecture_03.html">Lecture 3</a></li>
+<li><a href="PS_DSL_Lecture_04.html">Lecture 4</a></li>
+<li><a href="PS_DSL_Lecture_05.html">Lecture 5</a></li>
+<li><a href="PS_DSL_Lecture_06.html">Lecture 6</a></li>
+<li><a href="PS_DSL_Lecture_07.html">Lecture 7</a></li>
+<li><a href="PS_DSL_Lecture_08.html">Lecture 8</a></li>
+<li><a href="PS_DSL_Lecture_09.html">Lecture 9</a></li>
+<li><a href="PS_DSL_Lecture_10.html">Lecture 10</a></li>
+<li><a href="PS_DSL_Lecture_11.html">Lecture 11</a></li>
+<li><a href="PS_DSL_Lecture_12.html">Lecture 12</a></li>
 </ul>
-
 <!-- Main content -->
-<h1>Penn State Great Valley - DSL Course - Syllabus</h1>
-
-<p>A generic template for displaying HTML for a lecture!
-</p>
-
-<p>It lacks images, but at least it has style.
-And it has links, even if they don't go
-anywhere&#8230;
-</p>
-
-<p><code>int x = rand()*17;</code>
-</p>
-
-<p>There should be more here, but I don't know
-what yet.
-<!-- Sign and date the page, it's only polite! --></p>
-
-<address>Made 31 August 2011<br>
-by D Bartlett.</address>
-
+<h1>Penn State Great Valley - DSL Course</h1><p></p><hr style="width: 100%; height: 2px;"><h1>Choosing A DSL Implementation</h1><p><img style="width: 600px; height: 450px;" alt="Aurora Over Mountains" src="images/aurora/aurora/over-snow-covered-mountains-600w.jpg"></p><p></p><p>When
+designing software, we&#8217;re always faced with many options, be it in
+design methodology, programming paradigms, or using idioms in specific
+implementations. We&#8217;ve been talking about designing DSLs, the virtues
+of well-designed abstractions, and a multitude of options to make your
+language expressive enough to your user community. Now we have to talk
+about some other options that you&#8217;ll face.</p><p>Suppose you&#8217;ve decided
+to adopt a DSL-based development approach for your project and you&#8217;ve
+already identified a couple of business domain components that make
+good candidates for expressive DSL design. How do you decide on your
+DSL implementation strategy? Do you want to use the host language and
+model your problem as an internal DSL? Or would you prefer to design an
+external DSL to get to the level of expressivity that your users need?
+As with most problems in software engineering, there&#8217;s no universal
+choice. It all depends on the set of constraints that the problem
+domain presents and the set of options your solution domain offers. In
+this section, let&#8217;s review some of the factors you need to consider
+before jumping in todecide on the DSL implementation technique. </p><h3>REUSING EXISTING INFRASTRUCTURE</h3><p>Internal
+DSLs piggyback on the host language infrastructure, syntax, semantics,
+module system, type system, method of error reporting, and the complete
+tool chain that it integrates with. This piggybacking is possibly the
+most definitive advantage of implementing internal DSLs. For external
+DSLs, you need to build all these from the ground up, which is never an
+easy proposition. Even within internal DSLs, you have lots of
+implementation patterns to choose from, as we saw in the last section.
+Your choice here will mostly depend on the capabilities of your host
+language and the level of abstraction that it supports.</p><p>If you
+use a language like Scala or Haskell that offers rich type systems, you
+can decide to use them to encode your domain types and have a purely
+embedded DSL. But embedding might not always be the most appropriate
+option available. The language that you&#8217;re trying to embed needs to
+have concrete syntax and semantics similar to that of the host language
+for embedding to work. A mismatch in either will make your DSL look
+foreign to the ecosystem of the host language and will never compose
+with its native control structures. In such cases, you might want to
+resort to metaprogramming techniques, if they&#8217;re offered by your host
+language. As I discussed earlier, metaprogramming lets you extend the
+base language with your own domain constructs and can often lead to the
+design of more expressive surface syntax for your DSL compared to the
+embedded variant.<br><br></p><h3>LEVERAGING EXISTING KNOWLEDGE</h3><p>There
+are situations when your decision to use an implementation paradigm is
+driven by the available knowledge base of your team members. Internal
+DSLs are more likely to score on this point. The important point to
+consider is that being familiar with the language doesn&#8217;t imply that
+the programmers are aware of the DSL-friendly idioms that it offers.
+Fluent interfaces are commonly used in Java and Ruby, but they have
+their pitfalls too. And there are situations when you need to consider
+aspects like mutability of abstractions, context sensitivity of the
+fluent API, and the finishing problem of finalizing the chain (see [4]
+in section 2.6) to make your DSL semantically consistent. All these
+things involve subtle idiomatic usage of the language, which
+contributes to the consistency of your DSL.</p><p>Leveraging existing
+knowledge is certainly an important consideration. As the leader of the
+team, judge the expertise of your team members, based on the context of
+DSL implementation, not on their familiarity of the surface syntax of
+the language. I&#8217;ve seen instances when a team decided to use XML as the
+external DSL and gained a lot in productivity and user acceptance
+instead of trying to shoehorn internal DSLs into Java.<br><br></p><h3>LEARNING CURVE WITH EXTERNAL DSLS</h3><p>Maybe
+you&#8217;re afraid to choose external DSLs because you think that designing
+them is just as complex as designing a general-purpose programming
+language. If that&#8217;s what you&#8217;re thinking, I don&#8217;t blame you. Just
+having to deal with terms like syntax-directed translation, recursive
+descent parsers, LALR and SLR seems to remind you of how complex the
+whole thing can be.<br>In reality, most of the external DSLs required
+in application development don&#8217;t need to be as complicated as a
+full-blown programming language. Then again, some external DSLs will be
+complex, and there is an associated learning curve as part of the cost
+of development. The advantage is that you can customize almost
+everything, including how you handle errors and exceptions, instead of
+being confined within the constraints of an underlying host language.<br><br></p><h3>THE RIGHT LEVEL OF EXPRESSIVITY</h3><p>Although
+internal DSLs score a lot of points by reusing existing infrastructure,
+it&#8217;s also true that the constraints that the base language forces on
+you can make it difficult to achieve the right level of expressivity
+for your domain users. More often than not, modules are identified as
+candidates for DSL long after the development environment and the tool
+chain have been finalized. It&#8217;s not always possible to switch to an
+alternate language that might have been a better candidate for the DSL
+design.</p><p>When this happens, you need to consider external DSLs as
+part of your application infrastructure. The main advantage of modeling
+a problem with an external DSL is that you can design it precisely to
+the level of sophistication that you need for the problem at hand. It
+also gives you ample room for tweaking, based on user feedback. This
+isn&#8217;t always possible with internal DSLs, because you have to abide by
+the basic constraints of syntax and semantics that the base language
+enforces.<br><br></p><h3>COMPOSABILITY</h3><p>In a typical application
+development scenario, you need to compose DSLs with each other and also
+with the host language. Composing internal DSLs with the host language
+is easy. After all, the DSL uses the same language and is mostly
+implemented as a library that embeds into your host language.</p><p>But
+let&#8217;s talk a bit about combining multiple DSLs, even when they&#8217;re
+implemented using the same host language. If you&#8217;re using statically
+typed languages for implementation and you&#8217;ve designed embedded DSLs,
+you need the support of the host language&#8217;s type system to ensure
+seamless composability between them. Languages that support functional
+programming paradigms encourage you to design internal DSLs based on
+functional combinators. The internal DSL and the combinators can be
+completely composable, if they&#8217;re designed properly. External DSLs are
+harder to design in this manner, particularly if they were designed
+separately and without considering composability as an upfront
+criterion.</p><p></p>
+<address>by D Bartlett.</address>
 </body></html>
