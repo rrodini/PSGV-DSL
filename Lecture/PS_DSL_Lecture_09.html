@@ -1,11 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head><title>DSL Lecture 9</title>
+<html><head>
+  <title>DSL Lecture 9</title>
 
   
+  
+  <link rel="stylesheet" href="PS_Lecture.css">
 
-  
-  
-  <link rel="stylesheet" href="PS_Lecture.css"></head><body>
+</head><body>
 <br>
 
 <ul class="navbar">
@@ -358,7 +359,7 @@ on.&nbsp; Below is the implementation.<br>
 <br>
 
 <div class="code">
-<pre>class ComputerBuilder {<br> private ProcessorBuilder currentProcessor;<br><br> public ComputerBuilder() {<br>  currentProcessor = new ProcessorBuilder();<br>  return this;<br> }<br><br> public ComputerBuilder cores(int arg) {<br>  currentProcessor.cores = arg;<br>  return this;<br> }<br><br> public ComputerBuilder i386() {<br>  currentProcessor.type = Processor.Type.i386;<br>  return this;<br> }<br><br>// etc.<br>}<br><br>class ProcessorBuilder {<br> private static final int DEFAULT_CORES = 1;<br> private static final int DEFAULT_SPEED = -1;<br><br> int cores = DEFAULT_CORES;<br> int speed = DEFAULT_SPEED;<br> Processor.Type type;<br><br> Processor getValue() {<br>  return new Processor(cores, speed, type);<br> }<br>// etc.<br>}<br><br>class DiskBuilder {<br>// not shown<br>}<br></pre>
+<pre>class ComputerBuilder {<br> private ProcessorBuilder currentProcessor;<br><br> public static ComputerBuilder computer() {<br>  return new ComputerBuilder();<br> }<br><br> public ComputerBuilder processor() {<br>  currentProcessor = new ProcessorBuilder();<br>  return this;<br> }<br><br> public ComputerBuilder cores(int arg) {<br>  currentProcessor.cores = arg;<br>  return this;<br> }<br><br> public ComputerBuilder i386() {<br>  currentProcessor.type = Processor.Type.i386;<br>  return this;<br> }<br><br>// etc.<br>}<br><br>class ProcessorBuilder {<br> private static final int DEFAULT_CORES = 1;<br> private static final int DEFAULT_SPEED = -1;<br><br> int cores = DEFAULT_CORES;<br> int speed = DEFAULT_SPEED;<br> Processor.Type type;<br><br> Processor getValue() {<br>  return new Processor(cores, speed, type);<br> }<br>// etc.<br>}<br><br>class DiskBuilder {<br>// not shown<br>}<br></pre>
 </div>
 
 <br>
