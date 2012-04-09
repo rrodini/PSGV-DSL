@@ -1,5 +1,6 @@
 grammar Expr3;
 options {
+	// tells ANTLR to generate an AST
  	output=AST;
  	// ANTLR can handle any tree node type, but let's use Java
  	ASTLabelType=CommonTree;  // type of $stat.tree ref

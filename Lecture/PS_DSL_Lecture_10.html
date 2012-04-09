@@ -1,11 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head><title>DSL Lecture 10</title>
+<html><head>
+  <title>DSL Lecture 10</title>
 
   
+  
+  <link rel="stylesheet" href="PS_Lecture.css">
 
-  
-  
-  <link rel="stylesheet" href="PS_Lecture.css"></head><body>
+</head><body>
 <br>
 
 <ul class="navbar">
@@ -340,11 +341,12 @@ the class PoorMansTagBuilder.<br>
 <br>
 
 Whenever Groovy encounters a "methodMissing" exception it looks for a
-method the literally has that name.&nbsp; And it conveniently passes
-the name of the method and a variable argument array of what the parser
+method that literally has that name.&nbsp; And it conveniently passes
+the name of the missing method and a variable argument array of what
+the parser
 considers the methods parameters.&nbsp; In this case the first missing
 method is "root" and its parameter is the anonymous closure that
-follows it which can be reference as "arg[0]".&nbsp; Before calling
+follows it which can be reference as "args[0]".&nbsp; Before calling
 that anonymous closure its delegate is set to "this" which means that
 any nested missing method will also be caught by "methodMissing." <br>
 
@@ -391,6 +393,17 @@ an SQL statement varies little from query to query. <br>
 
 Also consider its use when you have to build well-understood
 hierarchical structures.<br>
+
+<br>
+
+Here is the overworked computer builder example where the computer is
+built by Groovy's XML Markup builder.&nbsp; So short and so sweet!<br>
+
+<br>
+
+<div class="code"><pre>def writer = new StringWriter()<br>def builder = new groovy.xml.MarkupBuilder(writer)<br><br>computer = builder.computer {<br>	processor(cores:2, speed:2500, type: '386') {<br>	}<br>	disk(size:250, speed:7200, type:'sata' ) {<br>		<br>	}<br>} <br><br>println writer.toString()<br></pre></div>
+
+<br>
 
 <span style="font-weight: bold;"></span>
 <address>Made 27 February 2012<br>
