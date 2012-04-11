@@ -1,12 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html><head>
-  <title>Lecture 11 - Choosing DSL Implementations</title>
+<html><head><title>Lecture 11 - Choosing DSL Implementations</title>
+
+  
 
   
   
-  <link rel="stylesheet" href="PS_Lecture.css">
-
-</head><body>
+  <link rel="stylesheet" href="PS_Lecture.css"></head><body>
 <!-- Site navigation menu -->
 <ul class="navbar">
 
@@ -43,15 +42,132 @@ about some other options that you&#8217;ll face.</p>
 <p>Suppose you&#8217;ve decided
 to adopt a DSL-based development approach for your project and you&#8217;ve
 already identified a couple of business domain components that make
-good candidates for expressive DSL design. How do you decide on your
-DSL implementation strategy? Do you want to use the host language and
-model your problem as an internal DSL? Or would you prefer to design an
-external DSL to get to the level of expressivity that your users need?
-As with most problems in software engineering, there&#8217;s no universal
+good candidates for expressive DSL design.&nbsp;</p><ul><li>How do you decide on your
+DSL implementation strategy?</li><li>&nbsp;Do you want to use the host language and
+model your problem as an internal DSL?</li><li>&nbsp;Or would you prefer to design an
+external DSL to get to the level of expressivity that your users need?&nbsp;</li></ul>As with most problems in software engineering, there&#8217;s no universal
 choice. It all depends on the set of constraints that the problem
 domain presents and the set of options your solution domain offers. In
 this section, let&#8217;s review some of the factors you need to consider
-before jumping in todecide on the DSL implementation technique. </p>
+before jumping in to decide on the DSL implementation technique.<br><br><h3>LEARNING CURVE</h3>Maybe
+you&#8217;re afraid to choose external DSLs because you think that designing
+them is just as complex as designing a general-purpose programming
+language. If that&#8217;s what you&#8217;re thinking, I don&#8217;t blame you. Just
+having to deal with terms like syntax-directed translation, recursive
+descent parsers, LALR and SLR seems to remind you of how complex the
+whole thing can be.<br><br>In reality, most of the external DSLs required
+in application development don&#8217;t need to be as complicated as a
+full-blown programming language. Then again, some external DSLs will be
+complex, and there is an associated learning curve as part of the cost
+of development. The advantage is that you can customize almost
+everything, including how you handle errors and exceptions, instead of
+being confined within the constraints of an underlying host language.<br>
+<br>This seems to favor using an internal DSL especially if you are
+already familiar with a language such as Groovy, Ruby or Scala.
+&nbsp;An internal DSL is really just a type of API, and you are using
+facilities of a language you already know. &nbsp;With an external DSL,
+you have to learn about parsers, grammars, and Parser Generators.
+&nbsp;Yuch!<br><br>There is some truth to this but it is more nuanced.
+&nbsp;Yes, there are new concepts to learn with Syntax-Directed
+Translation and the way you drive parsers with grammars can seem like
+magic. &nbsp;Hopefully, as you have seen from this class - it's not as
+bad as many people fear and I hope this class has given you the
+knowledge, understanding and experience to be able to objectively
+recommend an external DSL as well an internal DSL.<br><br>Sadly, the
+learning curve for Syntax-Directed Translation is made worse by the
+poor documentation of Parser Generator tools. &nbsp;Most of the
+documentation tends to be written for people doing general purpose
+language development rather than DSLs. &nbsp;There is a need to do more
+to make Parser Generator tools more accessible to those who want to use
+them for DSL work but don't have a background in the language
+community. &nbsp;ANTLR provides a great tool with excellent
+documentation. &nbsp;(More on that in the next lecture)<br><br>Delimiter-Directed
+Translation is much more familiar and an easy way to get the project
+going because most of the tactics - breaking up strings, regular
+expressions, and no need for grammars - are familiar to most
+programmers and development managers. &nbsp;An extension of
+Delimiter-Directed Translation is using an XML carrier syntax which is
+already over used. &nbsp;If you find yourself in a meeting arguing
+about this topic you may want to seriously consider diving into the
+Syntax-Directed Translation curve because most likely your grammar will
+be simpler and easier to read.<br><br>Lastly, internal DSLs are NOT
+necessarily as easy as you might think. &nbsp;First, you have to be
+familiar with the language of the internal DSL and everyone who may
+work with you or maintain this code must be familiar with it as well.
+&nbsp;That presents a learning curve, possibly a large learning curve.
+&nbsp;Internal DSLs often rely on obscure tricks in the host language
+to produce something that's fluent. &nbsp;So, even if you know the
+language well, you may need to spend some time finding out about the
+tricks available to you in your particular language. &nbsp;The
+difference between this learning curve and the Syntax-Directed
+Translation learning curve is that you can get up and running with the
+internal DSL language and learn along the way but with Syntax-Directed
+Translation you need to do some serious learning before you begin to
+write.<br><br>So from the learning curve perspective, internal DSL probably wins but not by a great deal.<br><br><h3>COST OF BUILDING</h3>Most
+of the cost of building a DSL is in the learning curve.
+&nbsp;Hopefully, this class has helped lower that cost. &nbsp;It is
+important to separate the cost of building the model from the cost of
+building the DSL that layers over the model. &nbsp;Usually, the model
+has its own justification and may already be started in some form of
+API or library. &nbsp;If that is the case then layering the DSL code
+over top is the future cost of creating the DSL but don't forget that
+the model may need to be extended.<br><br>With an internal DSL, the
+extra effort involved is in creating a layer of Expression Builders
+over the model. &nbsp;The expression builders are relatively
+straight-forward to write, but most effort isn't in getting them to
+work but in fiddling with the language so that you have something that
+works well. &nbsp;This expression builder cost won't appear if you are
+putting the fluent methods directly in the model, but that may lead to
+other costs if people find these methods confusing compared to a
+command-query API.<br><br>With an external DSL, the equivalent cost is
+building the parser. &nbsp;Once you are up to speed with
+Syntax-Directed Translation, it's actually quite quick to write a
+grammar and the translation code. &nbsp;It varies with implementation
+but you will probably find that the cost to build a set of expression
+builder routines for an internal DSL versus building a parser for an
+external DSL are comparable.<br><br>Once you are familiar with
+Syntax-Directed Translation, it is not that much harder than using an
+XML carrier syntax, and it is easier than using Delimiter-Directed
+Translation unless the language is quite simple.<br><br>Fowler finds
+that once you are familiar with the techniques, there is no big
+difference in cost for building an internal or external DSL.<br><span style="font-weight: bold;"><br></span><span style="font-weight: bold;"></span><h3>COMMUNICATION WITH DOMAIN EXPERTS</h3>Internal
+DSLs are always tied to the syntax of the host language. &nbsp;The
+result will almost always be some constraints on how you can express
+things, together with some amount of syntactic noise. &nbsp;While this
+is unlikely to be a big factor for programmer users (who are used to
+these elements), domain experts are a different matter. &nbsp;The
+degree of constraints and syntactic noise also depends on the language;
+some languages are better suited for DSLs than others.<br><br>Even the
+best internal DSLs do not offer the same syntactic flexibility as an
+external DSL. &nbsp;The size of the comfort gap will depend on
+particular domain experts, but such is the value of the communication
+channel that I'd be inclined to push that bit harder and use an
+external DSL if it looks like it could make the difference.<br><br>If
+you are more comfortable building an internal DSL, you can always start
+with an internal DSL and test out it's usefulness with the domain
+experts. &nbsp;If it doesn't work out, all your work is not lost as the
+semantic model is still relevant and now you can switch to an external
+DSL.<h3>PROGRAMMER FAMILIARITY</h3>Many
+people argue that with an internal DSL, programmers who use it are
+using the language they are already familiar with, which makes it
+easier to work with than a new, external DSL. &nbsp;To some extent this
+is true, but I don't think the difference is as marked as most people
+think. &nbsp;The odd fluent interface style takes as least a little to
+get used to, although rather less than it does to learn how to build
+it. &nbsp;An external DSL is also not hard to learn as it is, by
+definition, rather simple. &nbsp;Echoing the syntactic conventions of
+your usual programming language can help make it more approachable.<br><br>Other
+than the syntactic element, the biggest difference is often that of the
+tools. &nbsp;If your host language is one with a sophisticated IDE,
+then you get to keep that familiar tooling with an internal DSL.
+&nbsp;You may need to use a more complicated techniques to preserve
+that tool's support, but this way you can keep enjoying the IDE's
+strengths. &nbsp;With external DSLs, however, you are unlikely to be
+offered anything but the most basic level of editing support.
+&nbsp;You'll usually have to fall back to a regular text editor.
+&nbsp;It's not too difficult to support syntax highlighting, and most
+text editors are very configurable but thinks like type-aware
+autocompletion are almost certainly out of the question. 
 
 <h3>REUSING EXISTING INFRASTRUCTURE</h3>
 
@@ -64,7 +180,14 @@ DSLs, you need to build all these from the ground up, which is never an
 easy proposition. Even within internal DSLs, you have lots of
 implementation patterns to choose from, as we saw in the last section.
 Your choice here will mostly depend on the capabilities of your host
-language and the level of abstraction that it supports.</p>
+language and the level of abstraction that it supports.</p><p>A
+benefit of this thin boundary is that is allows you to use the host
+language freely when you don't have the constructs of the internal DSL
+available to you. &nbsp;So, if you need to express arithmetic in your
+DSL, there is no point in making DSL constructs for this; just use the
+feathers of the host language. &nbsp;If you need to build abstractions
+on top of the DSL, you can use the abstraction layer of the host
+language.</p>
 
 <p>If you
 use a language like Scala or Haskell that offers rich type systems, you
@@ -76,11 +199,30 @@ for embedding to work. A mismatch in either will make your DSL look
 foreign to the ecosystem of the host language and will never compose
 with its native control structures. In such cases, you might want to
 resort to metaprogramming techniques, if they&#8217;re offered by your host
-language. As I discussed earlier, metaprogramming lets you extend the
-base language with your own domain constructs and can often lead to the
-design of more expressive surface syntax for your DSL compared to the
-embedded variant.<br>
-<br>
+language. <br>
+</p><p>This
+strength is particularly nice when you need to put chunks of imperative
+code inside you DSL. &nbsp;A good example of this is using a DSL to
+describe how to build software. &nbsp;We have looked at the build
+languages that use a dependency network, such as external DSLs Make and
+Ant as well as an internal DSL Gradle. &nbsp;All of these are good at
+expressing dependency network that you need for builds. &nbsp;However,
+the content of many build tasks requires more complex logic, and often
+the dependencies themselves need abstractions layered on top of them.
+&nbsp;Ant has suffered from sliding into generality, acquiring all
+manner of imperative constructs that don't suit its nature or syntax.</p><p>Contrast
+this with Gradle where you are free to mix your dependency network with
+imperative code in nested closures and you have scripts that make it
+easier to describe complicated build actions. &nbsp;Using Groovy's
+objects and methods to build abstractions on top of the dependency
+network helps describe the higher-level structure of the build.</p><p>It
+is not impossible to mix external DSLs with host code and this is what
+we normally see when we mix in regular expressions or SQL code today.
+&nbsp;However, the mixing is awkward and usually looks like an
+exceptional statement and not part of the script. &nbsp;Tools usually
+do not know what you are doing and thus it looks clunky. &nbsp;If you
+want to intermix host and DSL code, then an internal DSL is almost
+always the way to go.<br>
 </p>
 
 <h3>LEVERAGING EXISTING KNOWLEDGE</h3>
@@ -92,10 +234,7 @@ DSLs are more likely to score on this point. The important point to
 consider is that being familiar with the language doesn&#8217;t imply that
 the programmers are aware of the DSL-friendly idioms that it offers.
 Fluent interfaces are commonly used in Java and Ruby, but they have
-their pitfalls too. And there are situations when you need to consider
-aspects like mutability of abstractions, context sensitivity of the
-fluent API, and the finishing problem of finalizing the chain (see [4]
-in section 2.6) to make your DSL semantically consistent. All these
+their pitfalls too. All these
 things involve subtle idiomatic usage of the language, which
 contributes to the consistency of your DSL.</p>
 
@@ -107,28 +246,7 @@ the language. I&#8217;ve seen instances when a team decided to use XML as the
 external DSL and gained a lot in productivity and user acceptance
 instead of trying to shoehorn internal DSLs into Java.<br>
 <br>
-</p>
-
-<h3>LEARNING CURVE WITH EXTERNAL DSLS</h3>
-
-<p>Maybe
-you&#8217;re afraid to choose external DSLs because you think that designing
-them is just as complex as designing a general-purpose programming
-language. If that&#8217;s what you&#8217;re thinking, I don&#8217;t blame you. Just
-having to deal with terms like syntax-directed translation, recursive
-descent parsers, LALR and SLR seems to remind you of how complex the
-whole thing can be.<br>
-In reality, most of the external DSLs required
-in application development don&#8217;t need to be as complicated as a
-full-blown programming language. Then again, some external DSLs will be
-complex, and there is an associated learning curve as part of the cost
-of development. The advantage is that you can customize almost
-everything, including how you handle errors and exceptions, instead of
-being confined within the constraints of an underlying host language.<br>
-<br>
-</p>
-
-<h3>THE RIGHT LEVEL OF EXPRESSIVITY</h3>
+</p><h3>THE RIGHT LEVEL OF EXPRESSIVITY</h3>
 
 <p>Although
 internal DSLs score a lot of points by reusing existing infrastructure,
@@ -138,7 +256,12 @@ for your domain users. More often than not, modules are identified as
 candidates for DSL long after the development environment and the tool
 chain have been finalized. It&#8217;s not always possible to switch to an
 alternate language that might have been a better candidate for the DSL
-design.</p>
+design.</p><p>The
+ability to freely mix host and DSL code isn't always a positive.
+&nbsp;It only works if the users of the DSL are comfortable with the
+host language. &nbsp;Throwing lumps of a host language into the DSL
+will usually only raise a communication barrier that the DSL was
+supposed to avoid.</p>
 
 <p>When this happens, you need to consider external DSLs as
 part of your application infrastructure. The main advantage of modeling
@@ -147,7 +270,12 @@ the level of sophistication that you need for the problem at hand. It
 also gives you ample room for tweaking, based on user feedback. This
 isn&#8217;t always possible with internal DSLs, because you have to abide by
 the basic constraints of syntax and semantics that the base language
-enforces.<br>
+enforces.</p><p>One
+of the benefits of a DSL is that is produces a restricted range of what
+can be done. &nbsp;This restriction can make it easier to understand
+what to do, and serves as a barrier to bugs. &nbsp;If you have a DSL
+with strong boundaries, that limits the kinds of things you need to
+test for. &nbsp;
 <br>
 </p>
 
@@ -170,7 +298,56 @@ functional combinators. The internal DSL and the combinators can be
 completely composable, if they&#8217;re designed properly. External DSLs are
 harder to design in this manner, particularly if they were designed
 separately and without considering composability as an upfront
-criterion.</p>
+criterion.</p><h3>RUNTIME CONFIGURATION</h3>One
+of the main reasons that XML DSLs have become so popular is that they
+allow you to alter the execution context of the code from compile time
+to runtime. &nbsp;For situations where you are using a compiled
+language and want to alter the behavior of the system without
+recompiling, this is an important factor. &nbsp;External DSLs allow
+you to do this since you can easily parse them at runtime, translate
+into a semantic model, and then execute that model.<br><br>One approach
+is to use interpreted languages in conjunction with a compiled
+language. &nbsp;You can then write an internal DSL in the interpreted
+language. &nbsp;In this scenario, many of the common benefits of an
+internal DSL may be attenuated. &nbsp;Unless most of the team is
+familiar with the dynamic language, you won't get the the language
+familiarity benefit of internal DSLs.<br><br><h3>SLIDING INTO GENERALITY</h3>We
+have talked about Ant since the first night of class and Ant is one of
+the most successful DSLs around. &nbsp;Ant is a language for specifying
+builds for Java; it is an external DSL in XML syntax.<br><br>Ant is
+both a roaring success and a nightmare! &nbsp;It filled a huge gap in
+Java development at the time, but since then, its success has forced
+many teams to face its flaws. &nbsp;There are many problems with Ant,
+its XML syntax is perhaps the most noticeable. &nbsp;The real issue
+behind Ant is that over time, it steadily grew in capability so that it
+no longer has the limited expressiveness that a DSL needs.<br><br>This
+is a common problem and can be seen throughout many useful and common
+programming DSLs because programmers know how to extend these DSL and
+do so for their own reasons only to make the DSL more general and
+watered down. &nbsp;It happens because the demands placed on the DSL
+get steadily greater, leading to more features and greater complexity -
+and drop by drop, all the clarity that a good DSL has leaks out.<br><br>This
+danger always exists with external DSLs - and, like most issues in
+design, has no simple answer. &nbsp;It needs constant attention and
+determination to not let things get too complex. &nbsp;This is always
+the struggle between laws and liberty. &nbsp;Many great languages,
+tools, designs and architectures start out under the firm guidance of a
+strong mind and will. &nbsp;Eventually, that person moves on and their
+creation falls to a committee or someone not as respected and the
+original intent is watered down. &nbsp;DSLs need constant attention and
+determination to not let things get too complex.<br><br>There are
+alternatives. &nbsp;One is to let other languages develop for more
+complicated cases. &nbsp;Instead of extending one language, you can
+introduce other languages for particular and difficult cases. &nbsp;You
+can layer another language over the base DSL whose output is that base
+DSL. &nbsp;This can be a useful technique to allow abstractions to be
+built in a language that lacks abstraction building features.
+&nbsp;Internal DSLs are often a good choice when this kind of
+complexity grows, because they allow you to mix DSL and general-purpose
+elements.<br><br>Since internal DSLs are melded in with a
+general-purpose host language, they don't suffer from this problem.
+&nbsp;An analogous problem may arise when mixing with the host language
+gets so intertwined that you lose the DSLness of the internal DSL....
 
 <address>by D Bartlett.</address>
 
