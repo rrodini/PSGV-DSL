@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g 2012-04-07 18:14:05
+// $ANTLR 3.4 /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g 2012-04-14 14:12:19
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -37,7 +37,7 @@ public class Expr3Parser extends DebugParser {
 
 
 public static final String[] ruleNames = new String[] {
-    "invalidRule", "atom", "multExpr", "stat", "prog", "expr"
+    "invalidRule", "atom", "expr", "stat", "prog", "multExpr"
 };
 
 public static final boolean[] decisionCanBacktrack = new boolean[] {
@@ -202,7 +202,7 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
-        dbg.location(10, 60);
+        dbg.location(11, 5);
 
         }
         finally {
@@ -223,7 +223,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "stat"
-    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:12:1: stat : ( expr NEWLINE -> expr | ID '=' expr NEWLINE -> ^( '=' ID expr ) | NEWLINE ->);
+    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:13:1: stat : ( expr NEWLINE -> expr | ID '=' expr NEWLINE -> ^( '=' ID expr ) | NEWLINE ->);
     public final Expr3Parser.stat_return stat() throws RecognitionException {
         Expr3Parser.stat_return retval = new Expr3Parser.stat_return();
         retval.start = input.LT(1);
@@ -253,10 +253,10 @@ public TreeAdaptor getTreeAdaptor() {
         try { dbg.enterRule(getGrammarFileName(), "stat");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(12, 0);
+        dbg.location(13, 0);
 
         try {
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:12:6: ( expr NEWLINE -> expr | ID '=' expr NEWLINE -> ^( '=' ID expr ) | NEWLINE ->)
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:13:6: ( expr NEWLINE -> expr | ID '=' expr NEWLINE -> ^( '=' ID expr ) | NEWLINE ->)
             int alt2=3;
             try { dbg.enterDecision(2, decisionCanBacktrack[2]);
 
@@ -307,17 +307,17 @@ public TreeAdaptor getTreeAdaptor() {
                 case 1 :
                     dbg.enterAlt(1);
 
-                    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:12:8: expr NEWLINE
+                    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:13:8: expr NEWLINE
                     {
-                    dbg.location(12,8);
-                    pushFollow(FOLLOW_expr_in_stat51);
+                    dbg.location(13,8);
+                    pushFollow(FOLLOW_expr_in_stat54);
                     expr2=expr();
 
                     state._fsp--;
 
                     stream_expr.add(expr2.getTree());
-                    dbg.location(12,13);
-                    NEWLINE3=(Token)match(input,NEWLINE,FOLLOW_NEWLINE_in_stat53);  
+                    dbg.location(13,13);
+                    NEWLINE3=(Token)match(input,NEWLINE,FOLLOW_NEWLINE_in_stat56);  
                     stream_NEWLINE.add(NEWLINE3);
 
 
@@ -332,9 +332,9 @@ public TreeAdaptor getTreeAdaptor() {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 12:21: -> expr
+                    // 13:21: -> expr
                     {
-                        dbg.location(12,24);
+                        dbg.location(13,24);
                         adaptor.addChild(root_0, stream_expr.nextTree());
 
                     }
@@ -347,30 +347,30 @@ public TreeAdaptor getTreeAdaptor() {
                 case 2 :
                     dbg.enterAlt(2);
 
-                    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:13:4: ID '=' expr NEWLINE
+                    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:14:4: ID '=' expr NEWLINE
                     {
-                    dbg.location(13,4);
-                    ID4=(Token)match(input,ID,FOLLOW_ID_in_stat62);  
+                    dbg.location(14,4);
+                    ID4=(Token)match(input,ID,FOLLOW_ID_in_stat65);  
                     stream_ID.add(ID4);
 
-                    dbg.location(13,7);
-                    char_literal5=(Token)match(input,13,FOLLOW_13_in_stat64);  
+                    dbg.location(14,7);
+                    char_literal5=(Token)match(input,13,FOLLOW_13_in_stat67);  
                     stream_13.add(char_literal5);
 
-                    dbg.location(13,11);
-                    pushFollow(FOLLOW_expr_in_stat66);
+                    dbg.location(14,11);
+                    pushFollow(FOLLOW_expr_in_stat69);
                     expr6=expr();
 
                     state._fsp--;
 
                     stream_expr.add(expr6.getTree());
-                    dbg.location(13,16);
-                    NEWLINE7=(Token)match(input,NEWLINE,FOLLOW_NEWLINE_in_stat68);  
+                    dbg.location(14,16);
+                    NEWLINE7=(Token)match(input,NEWLINE,FOLLOW_NEWLINE_in_stat71);  
                     stream_NEWLINE.add(NEWLINE7);
 
 
                     // AST REWRITE
-                    // elements: 13, expr, ID
+                    // elements: 13, ID, expr
                     // token labels: 
                     // rule labels: retval
                     // token list labels: 
@@ -380,22 +380,22 @@ public TreeAdaptor getTreeAdaptor() {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 13:24: -> ^( '=' ID expr )
+                    // 14:24: -> ^( '=' ID expr )
                     {
-                        dbg.location(13,27);
-                        // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:13:27: ^( '=' ID expr )
+                        dbg.location(14,27);
+                        // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:14:27: ^( '=' ID expr )
                         {
                         CommonTree root_1 = (CommonTree)adaptor.nil();
-                        dbg.location(13,29);
+                        dbg.location(14,29);
                         root_1 = (CommonTree)adaptor.becomeRoot(
                         stream_13.nextNode()
                         , root_1);
 
-                        dbg.location(13,33);
+                        dbg.location(14,33);
                         adaptor.addChild(root_1, 
                         stream_ID.nextNode()
                         );
-                        dbg.location(13,36);
+                        dbg.location(14,36);
                         adaptor.addChild(root_1, stream_expr.nextTree());
 
                         adaptor.addChild(root_0, root_1);
@@ -411,10 +411,10 @@ public TreeAdaptor getTreeAdaptor() {
                 case 3 :
                     dbg.enterAlt(3);
 
-                    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:14:4: NEWLINE
+                    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:15:4: NEWLINE
                     {
-                    dbg.location(14,4);
-                    NEWLINE8=(Token)match(input,NEWLINE,FOLLOW_NEWLINE_in_stat83);  
+                    dbg.location(15,4);
+                    NEWLINE8=(Token)match(input,NEWLINE,FOLLOW_NEWLINE_in_stat86);  
                     stream_NEWLINE.add(NEWLINE8);
 
 
@@ -429,9 +429,9 @@ public TreeAdaptor getTreeAdaptor() {
                     RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.tree:null);
 
                     root_0 = (CommonTree)adaptor.nil();
-                    // 14:12: ->
+                    // 15:12: ->
                     {
-                        dbg.location(15,2);
+                        dbg.location(16,2);
                         root_0 = null;
                     }
 
@@ -459,7 +459,7 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
-        dbg.location(15, 1);
+        dbg.location(16, 1);
 
         }
         finally {
@@ -480,7 +480,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "expr"
-    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:17:1: expr : multExpr ( '+' ^ multExpr | '-' ^ multExpr )* ;
+    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:18:1: expr : multExpr ( '+' ^ multExpr | '-' ^ multExpr )* ;
     public final Expr3Parser.expr_return expr() throws RecognitionException {
         Expr3Parser.expr_return retval = new Expr3Parser.expr_return();
         retval.start = input.LT(1);
@@ -503,26 +503,26 @@ public TreeAdaptor getTreeAdaptor() {
         try { dbg.enterRule(getGrammarFileName(), "expr");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(17, 0);
+        dbg.location(18, 0);
 
         try {
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:17:6: ( multExpr ( '+' ^ multExpr | '-' ^ multExpr )* )
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:18:6: ( multExpr ( '+' ^ multExpr | '-' ^ multExpr )* )
             dbg.enterAlt(1);
 
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:17:8: multExpr ( '+' ^ multExpr | '-' ^ multExpr )*
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:18:8: multExpr ( '+' ^ multExpr | '-' ^ multExpr )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
 
-            dbg.location(17,8);
-            pushFollow(FOLLOW_multExpr_in_expr97);
+            dbg.location(18,8);
+            pushFollow(FOLLOW_multExpr_in_expr100);
             multExpr9=multExpr();
 
             state._fsp--;
 
             adaptor.addChild(root_0, multExpr9.getTree());
-            dbg.location(17,17);
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:17:17: ( '+' ^ multExpr | '-' ^ multExpr )*
+            dbg.location(18,17);
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:18:17: ( '+' ^ multExpr | '-' ^ multExpr )*
             try { dbg.enterSubRule(3);
 
             loop3:
@@ -546,17 +546,17 @@ public TreeAdaptor getTreeAdaptor() {
             	case 1 :
             	    dbg.enterAlt(1);
 
-            	    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:17:18: '+' ^ multExpr
+            	    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:18:18: '+' ^ multExpr
             	    {
-            	    dbg.location(17,21);
-            	    char_literal10=(Token)match(input,11,FOLLOW_11_in_expr100); 
+            	    dbg.location(18,21);
+            	    char_literal10=(Token)match(input,11,FOLLOW_11_in_expr103); 
             	    char_literal10_tree = 
             	    (CommonTree)adaptor.create(char_literal10)
             	    ;
             	    root_0 = (CommonTree)adaptor.becomeRoot(char_literal10_tree, root_0);
 
-            	    dbg.location(17,23);
-            	    pushFollow(FOLLOW_multExpr_in_expr103);
+            	    dbg.location(18,23);
+            	    pushFollow(FOLLOW_multExpr_in_expr106);
             	    multExpr11=multExpr();
 
             	    state._fsp--;
@@ -568,17 +568,17 @@ public TreeAdaptor getTreeAdaptor() {
             	case 2 :
             	    dbg.enterAlt(2);
 
-            	    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:17:34: '-' ^ multExpr
+            	    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:18:34: '-' ^ multExpr
             	    {
-            	    dbg.location(17,37);
-            	    char_literal12=(Token)match(input,12,FOLLOW_12_in_expr107); 
+            	    dbg.location(18,37);
+            	    char_literal12=(Token)match(input,12,FOLLOW_12_in_expr110); 
             	    char_literal12_tree = 
             	    (CommonTree)adaptor.create(char_literal12)
             	    ;
             	    root_0 = (CommonTree)adaptor.becomeRoot(char_literal12_tree, root_0);
 
-            	    dbg.location(17,39);
-            	    pushFollow(FOLLOW_multExpr_in_expr110);
+            	    dbg.location(18,39);
+            	    pushFollow(FOLLOW_multExpr_in_expr113);
             	    multExpr13=multExpr();
 
             	    state._fsp--;
@@ -614,7 +614,7 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
-        dbg.location(18, 1);
+        dbg.location(19, 1);
 
         }
         finally {
@@ -635,7 +635,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "multExpr"
-    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:20:1: multExpr : atom ( '*' ^ atom )* ;
+    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:21:1: multExpr : atom ( '*' ^ atom )* ;
     public final Expr3Parser.multExpr_return multExpr() throws RecognitionException {
         Expr3Parser.multExpr_return retval = new Expr3Parser.multExpr_return();
         retval.start = input.LT(1);
@@ -654,26 +654,26 @@ public TreeAdaptor getTreeAdaptor() {
         try { dbg.enterRule(getGrammarFileName(), "multExpr");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(20, 0);
+        dbg.location(21, 0);
 
         try {
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:20:9: ( atom ( '*' ^ atom )* )
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:21:9: ( atom ( '*' ^ atom )* )
             dbg.enterAlt(1);
 
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:20:11: atom ( '*' ^ atom )*
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:21:11: atom ( '*' ^ atom )*
             {
             root_0 = (CommonTree)adaptor.nil();
 
 
-            dbg.location(20,11);
-            pushFollow(FOLLOW_atom_in_multExpr122);
+            dbg.location(21,11);
+            pushFollow(FOLLOW_atom_in_multExpr125);
             atom14=atom();
 
             state._fsp--;
 
             adaptor.addChild(root_0, atom14.getTree());
-            dbg.location(20,16);
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:20:16: ( '*' ^ atom )*
+            dbg.location(21,16);
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:21:16: ( '*' ^ atom )*
             try { dbg.enterSubRule(4);
 
             loop4:
@@ -694,17 +694,17 @@ public TreeAdaptor getTreeAdaptor() {
             	case 1 :
             	    dbg.enterAlt(1);
 
-            	    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:20:17: '*' ^ atom
+            	    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:21:17: '*' ^ atom
             	    {
-            	    dbg.location(20,20);
-            	    char_literal15=(Token)match(input,10,FOLLOW_10_in_multExpr125); 
+            	    dbg.location(21,20);
+            	    char_literal15=(Token)match(input,10,FOLLOW_10_in_multExpr128); 
             	    char_literal15_tree = 
             	    (CommonTree)adaptor.create(char_literal15)
             	    ;
             	    root_0 = (CommonTree)adaptor.becomeRoot(char_literal15_tree, root_0);
 
-            	    dbg.location(20,22);
-            	    pushFollow(FOLLOW_atom_in_multExpr128);
+            	    dbg.location(21,22);
+            	    pushFollow(FOLLOW_atom_in_multExpr131);
             	    atom16=atom();
 
             	    state._fsp--;
@@ -740,7 +740,7 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
-        dbg.location(21, 1);
+        dbg.location(22, 1);
 
         }
         finally {
@@ -761,7 +761,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "atom"
-    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:23:1: atom : ( INT | ID | '(' ! expr ')' !);
+    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:24:1: atom : ( INT | ID | '(' ! expr ')' !);
     public final Expr3Parser.atom_return atom() throws RecognitionException {
         Expr3Parser.atom_return retval = new Expr3Parser.atom_return();
         retval.start = input.LT(1);
@@ -784,10 +784,10 @@ public TreeAdaptor getTreeAdaptor() {
         try { dbg.enterRule(getGrammarFileName(), "atom");
         if ( getRuleLevel()==0 ) {dbg.commence();}
         incRuleLevel();
-        dbg.location(23, 0);
+        dbg.location(24, 0);
 
         try {
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:23:6: ( INT | ID | '(' ! expr ')' !)
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:24:6: ( INT | ID | '(' ! expr ')' !)
             int alt5=3;
             try { dbg.enterDecision(5, decisionCanBacktrack[5]);
 
@@ -822,13 +822,13 @@ public TreeAdaptor getTreeAdaptor() {
                 case 1 :
                     dbg.enterAlt(1);
 
-                    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:23:8: INT
+                    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:24:8: INT
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
-                    dbg.location(23,8);
-                    INT17=(Token)match(input,INT,FOLLOW_INT_in_atom141); 
+                    dbg.location(24,8);
+                    INT17=(Token)match(input,INT,FOLLOW_INT_in_atom144); 
                     INT17_tree = 
                     (CommonTree)adaptor.create(INT17)
                     ;
@@ -840,13 +840,13 @@ public TreeAdaptor getTreeAdaptor() {
                 case 2 :
                     dbg.enterAlt(2);
 
-                    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:24:4: ID
+                    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:25:4: ID
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
-                    dbg.location(24,4);
-                    ID18=(Token)match(input,ID,FOLLOW_ID_in_atom146); 
+                    dbg.location(25,4);
+                    ID18=(Token)match(input,ID,FOLLOW_ID_in_atom149); 
                     ID18_tree = 
                     (CommonTree)adaptor.create(ID18)
                     ;
@@ -858,22 +858,22 @@ public TreeAdaptor getTreeAdaptor() {
                 case 3 :
                     dbg.enterAlt(3);
 
-                    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:25:4: '(' ! expr ')' !
+                    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:26:4: '(' ! expr ')' !
                     {
                     root_0 = (CommonTree)adaptor.nil();
 
 
-                    dbg.location(25,7);
-                    char_literal19=(Token)match(input,8,FOLLOW_8_in_atom151); 
-                    dbg.location(25,9);
-                    pushFollow(FOLLOW_expr_in_atom154);
+                    dbg.location(26,7);
+                    char_literal19=(Token)match(input,8,FOLLOW_8_in_atom154); 
+                    dbg.location(26,9);
+                    pushFollow(FOLLOW_expr_in_atom157);
                     expr20=expr();
 
                     state._fsp--;
 
                     adaptor.addChild(root_0, expr20.getTree());
-                    dbg.location(25,17);
-                    char_literal21=(Token)match(input,9,FOLLOW_9_in_atom156); 
+                    dbg.location(26,17);
+                    char_literal21=(Token)match(input,9,FOLLOW_9_in_atom159); 
 
                     }
                     break;
@@ -896,7 +896,7 @@ public TreeAdaptor getTreeAdaptor() {
         finally {
         	// do for sure before leaving
         }
-        dbg.location(26, 1);
+        dbg.location(27, 1);
 
         }
         finally {
@@ -915,25 +915,25 @@ public TreeAdaptor getTreeAdaptor() {
  
 
     public static final BitSet FOLLOW_stat_in_prog37 = new BitSet(new long[]{0x0000000000000172L});
-    public static final BitSet FOLLOW_expr_in_stat51 = new BitSet(new long[]{0x0000000000000040L});
-    public static final BitSet FOLLOW_NEWLINE_in_stat53 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_stat62 = new BitSet(new long[]{0x0000000000002000L});
-    public static final BitSet FOLLOW_13_in_stat64 = new BitSet(new long[]{0x0000000000000130L});
-    public static final BitSet FOLLOW_expr_in_stat66 = new BitSet(new long[]{0x0000000000000040L});
-    public static final BitSet FOLLOW_NEWLINE_in_stat68 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_NEWLINE_in_stat83 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_multExpr_in_expr97 = new BitSet(new long[]{0x0000000000001802L});
-    public static final BitSet FOLLOW_11_in_expr100 = new BitSet(new long[]{0x0000000000000130L});
-    public static final BitSet FOLLOW_multExpr_in_expr103 = new BitSet(new long[]{0x0000000000001802L});
-    public static final BitSet FOLLOW_12_in_expr107 = new BitSet(new long[]{0x0000000000000130L});
-    public static final BitSet FOLLOW_multExpr_in_expr110 = new BitSet(new long[]{0x0000000000001802L});
-    public static final BitSet FOLLOW_atom_in_multExpr122 = new BitSet(new long[]{0x0000000000000402L});
-    public static final BitSet FOLLOW_10_in_multExpr125 = new BitSet(new long[]{0x0000000000000130L});
-    public static final BitSet FOLLOW_atom_in_multExpr128 = new BitSet(new long[]{0x0000000000000402L});
-    public static final BitSet FOLLOW_INT_in_atom141 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_ID_in_atom146 = new BitSet(new long[]{0x0000000000000002L});
-    public static final BitSet FOLLOW_8_in_atom151 = new BitSet(new long[]{0x0000000000000130L});
-    public static final BitSet FOLLOW_expr_in_atom154 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_9_in_atom156 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_expr_in_stat54 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_NEWLINE_in_stat56 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_stat65 = new BitSet(new long[]{0x0000000000002000L});
+    public static final BitSet FOLLOW_13_in_stat67 = new BitSet(new long[]{0x0000000000000130L});
+    public static final BitSet FOLLOW_expr_in_stat69 = new BitSet(new long[]{0x0000000000000040L});
+    public static final BitSet FOLLOW_NEWLINE_in_stat71 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_NEWLINE_in_stat86 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_multExpr_in_expr100 = new BitSet(new long[]{0x0000000000001802L});
+    public static final BitSet FOLLOW_11_in_expr103 = new BitSet(new long[]{0x0000000000000130L});
+    public static final BitSet FOLLOW_multExpr_in_expr106 = new BitSet(new long[]{0x0000000000001802L});
+    public static final BitSet FOLLOW_12_in_expr110 = new BitSet(new long[]{0x0000000000000130L});
+    public static final BitSet FOLLOW_multExpr_in_expr113 = new BitSet(new long[]{0x0000000000001802L});
+    public static final BitSet FOLLOW_atom_in_multExpr125 = new BitSet(new long[]{0x0000000000000402L});
+    public static final BitSet FOLLOW_10_in_multExpr128 = new BitSet(new long[]{0x0000000000000130L});
+    public static final BitSet FOLLOW_atom_in_multExpr131 = new BitSet(new long[]{0x0000000000000402L});
+    public static final BitSet FOLLOW_INT_in_atom144 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_ID_in_atom149 = new BitSet(new long[]{0x0000000000000002L});
+    public static final BitSet FOLLOW_8_in_atom154 = new BitSet(new long[]{0x0000000000000130L});
+    public static final BitSet FOLLOW_expr_in_atom157 = new BitSet(new long[]{0x0000000000000200L});
+    public static final BitSet FOLLOW_9_in_atom159 = new BitSet(new long[]{0x0000000000000002L});
 
 }

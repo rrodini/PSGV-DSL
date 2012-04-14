@@ -1,4 +1,4 @@
-// $ANTLR 3.4 /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g 2012-04-07 18:14:05
+// $ANTLR 3.4 /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g 2012-04-14 14:12:19
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -165,10 +165,10 @@ public class Expr3Lexer extends Lexer {
         try {
             int _type = ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:28:4: ( ( 'a' .. 'z' | 'A' .. 'Z' )+ )
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:28:6: ( 'a' .. 'z' | 'A' .. 'Z' )+
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:29:4: ( ( 'a' .. 'z' | 'A' .. 'Z' )+ )
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:29:6: ( 'a' .. 'z' | 'A' .. 'Z' )+
             {
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:28:6: ( 'a' .. 'z' | 'A' .. 'Z' )+
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:29:6: ( 'a' .. 'z' | 'A' .. 'Z' )+
             int cnt1=0;
             loop1:
             do {
@@ -223,10 +223,10 @@ public class Expr3Lexer extends Lexer {
         try {
             int _type = INT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:29:5: ( ( '0' .. '9' )+ )
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:29:7: ( '0' .. '9' )+
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:30:5: ( ( '0' .. '9' )+ )
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:30:7: ( '0' .. '9' )+
             {
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:29:7: ( '0' .. '9' )+
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:30:7: ( '0' .. '9' )+
             int cnt2=0;
             loop2:
             do {
@@ -281,10 +281,10 @@ public class Expr3Lexer extends Lexer {
         try {
             int _type = NEWLINE;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:30:9: ( ( '\\r' )? '\\n' )
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:30:11: ( '\\r' )? '\\n'
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:31:9: ( ( '\\r' )? '\\n' )
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:31:11: ( '\\r' )? '\\n'
             {
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:30:11: ( '\\r' )?
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:31:11: ( '\\r' )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -293,7 +293,7 @@ public class Expr3Lexer extends Lexer {
             }
             switch (alt3) {
                 case 1 :
-                    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:30:11: '\\r'
+                    // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:31:11: '\\r'
                     {
                     match('\r'); 
 
@@ -321,10 +321,10 @@ public class Expr3Lexer extends Lexer {
         try {
             int _type = WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:31:4: ( ( ' ' | '\\t' )+ )
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:31:6: ( ' ' | '\\t' )+
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:32:4: ( ( ' ' | '\\t' )+ )
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:32:6: ( ' ' | '\\t' )+
             {
-            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:31:6: ( ' ' | '\\t' )+
+            // /Users/Robert/Documents/PSGV-DSL/ANTLR-projects/SimpleExpr/Expr3.g:32:6: ( ' ' | '\\t' )+
             int cnt4=0;
             loop4:
             do {

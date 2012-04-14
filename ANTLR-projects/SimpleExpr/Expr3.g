@@ -7,7 +7,8 @@ options {
 }
 
 prog	:	( stat {System.out.println(
-		  $stat.tree==null?"null":$stat.tree.toStringTree());} )+ ;
+		  $stat.tree==null?"null":$stat.tree.toStringTree());} 
+		)+ ;
 
 stat	:	expr NEWLINE -> expr
 	|	ID '=' expr NEWLINE -> ^('=' ID expr)
