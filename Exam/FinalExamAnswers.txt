@@ -1,0 +1,116 @@
+Below is a typical Restaurant receipt:
+
+***************************************** 
+* Hard Rock Cafe - Philadelphia         *
+* 1201 Market Street                    *   
+* Philadelphia, PA  19106               *
+* 215-993-1234
+*                                       *
+* Check:  3210                          *
+* Table:  55/1                          *
+* Server: 200071964 Tawni               *   
+* Date:   MAR22'12 1:56PM               *
+* Food:   Cheesesteak Sandwich  $8.49   *
+*         Chicken Ceasar Salad  $9.99   *
+*         Bacon Burger          $8.49   *
+* Drink:  Draft Beer            $4.00   *
+*         Draft Beer            $4.00   *
+*         Lemonade              $2.25   *
+* Tax:                          $2.23   *
+* Subtotal:                    $39.45   *
+* Tip:                          $6.00   *
+* Total:                       $45.45   *
+*       ***** Thank You! *****          *
+***************************************** 
+
+1. Write an XML file representation for the above restaurant receipt.
+<?xml version="1.0" encoding="UTF-8"?>
+<Receipt
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:noNamespaceSchemaLocation="RestaurantReceipt.xsd">
+  <Restaurant>
+    <RestaurantNumber>123456</RestaurantNumber>
+    <US-Address>
+      <name>Hard Rock Cafe - Philadelpphia</name>
+      <street>1201 Market Street</street>
+      <city>Philadelphia</city>
+      <state>PA</state>
+      <zip>19106</zip>
+    </US-Address>
+    <Phone_Number>2159931234</Phone_Number>
+  </Restaurant>
+  <FoodItems>
+    <item id="cheesesteak-sand">
+      <productName>Cheesesteak Sandwich</productName>
+      <quantity>1</quantity>
+      <price>8.49</price>
+      <calories>445</calories>
+    </item>
+    <item id="chickceasar-salad">
+      <productName>Chicken Ceasar Salad</productName>
+      <quantity>1</quantity>
+      <price>9.99</price>
+      <calories>225</calories>
+    </item>
+    <item id="bacon-burger">
+      <productName>Bacon Burger</productName>
+      <quantity>1</quantity>
+      <price>8.49</price>
+      <calories>515</calories>
+    </item>
+  </FoodItems>
+  <BeverageItems>
+    <item id="draft">
+      <productName>Draft Beer</productName>
+      <quantity>2</quantity>
+      <price>4.00</price>
+      <calories>195</calories>
+    </item>
+    <item id="lemonade">
+      <productName>Lemonade</productName>
+      <quantity>1</quantity>
+      <price>2.25</price>
+      <calories>225</calories>
+    </item>
+  </BeverageItems>
+  <Taxes>
+  	<StateTax percent='4'>
+  	  <totalTax>1.49</totalTax>
+  	</StateTax>
+  	<CityTax percent='2'>
+  	  <totalTax>.74</totalTax>
+  	</CityTax>
+  </Taxes>
+  <Tip>6.00</Tip>
+  <Total>45.45<Total>
+  <Salutation>Thank You!</Salutation>
+</Receipt>
+
+
+2. Write a BNF grammar for the above restaurant receipt. 
+
+Receipt	         : Restaurant FoodItems BeverageItems Taxes Tip Total Salutation;
+Restaurant       : RestaurantNumber USAddress;
+RestaurantNumber : numbers;
+USAddress	       : Name Street City State Zip;
+Name 	           :	('a'..'z' | 'A'..'Z' | '0'..'9')+;
+Street	         :	('a'..'z' | 'A'..'Z' | '0'..'9')+;
+City	           :	('a'..'z' | 'A'..'Z' | '0'..'9')+;
+State	           :	('a'..'z' | 'A'..'Z' | '0'..'9')+;
+Zip	             :	numbers;
+FoodItems	       : Item+;
+BeverageItems	   : Item+;
+Item 	           :	ID productName quantity price calories;
+ID	             :	numbers;
+productName	     : ('a'..'z' | 'A'..'Z' | '0'..'9')+;
+quantity	       : '0'..'9')+;
+price	           : 	float;
+calories	       : numbers;
+Taxes 	         :	percent;
+Tip	             :	float;
+Total	           :	float;
+Salutation	     : ('a'..'z' | 'A'..'Z' | '0'..'9')+;	
+percent	         :	numbers;
+float	           :	numbers '.' numbers;
+numbers	         :	number+;
+number 	         :	'0'..'9';

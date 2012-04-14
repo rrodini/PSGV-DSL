@@ -1,0 +1,37 @@
+
+Below is a typical Restaurant receipt:
+
+***************************************** 
+* Hard Rock Cafe - Philadelphia         *
+* 1201 Market Street                    *   
+* Philadelphia, PA  19106               *
+*                                       *
+* Check:  3210                          *
+* Table:  55/1                          *
+* Server: 200071964 Tawni               *   
+* Date:   MAR22'12 1:56PM               *
+* Food:   Cheesesteak Sandwich  $8.49   *
+*         Chicken Ceasar Salad  $9.99   *
+*         Bacon Burger          $8.49   *
+* Drink:  Draft Beer            $4.00   *
+*         Draft Beer            $4.00   *
+*         Lemonade              $2.25   *
+* Tax:                          $2.23   *
+* Subtotal:                    $39.45   *
+* Tip:                          $6.00   *
+* Total:                       $45.45   *
+*       ***** Thank You! *****          *
+***************************************** 
+
+1. Write an XML file representation for the above restaurant receipt.
+2. Write a BNF grammar for the above restaurant receipt.      
+
+Describe 2 use cases for developing a DSL:
+3. In one page or less describe a use case for developing an internal DSL.
+4. In one page or less describe a use case for developing an external DSL.
+
+Pick two of the following and write one page or less: 
+6. Why define a grammar as part of your DSL definition?
+7. Why use ANTLR for development of an external DSL?
+8. What are the strengths and weaknesses of both internal and external DSLs?  Why use one or the other?
+
