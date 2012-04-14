@@ -1,7 +1,7 @@
 tree grammar Eval;
 
 options {
- tokenVocab=Expr;  // read token types from Expr.tokens file
+ tokenVocab=Expr3;  // read token types from Expr3.tokens file
  ASTLabelType=CommonTree;  // what is Java type of nodes?
 }
 
@@ -21,9 +21,9 @@ stat	: expr {System.out.println($expr.value); }
 	;
 
 expr returns [int value]
-	: ^('+' a = expr b=expr) {$value = a+b;}
-	| ^('-' a = expr b=expr) {$value = a-b;}
-	| ^('*' a = expr b=expr) {$value = a*b;}
+	: ^('+' a=expr b=expr) {$value = a+b;}
+	| ^('-' a=expr b=expr) {$value = a-b;}
+	| ^('*' a=expr b=expr) {$value = a*b;}
 	| ID {Integer v = (Integer) memory.get($ID.text);
 	      if (v!=null) $value = v.intValue();
 	      else System.err.println("undefined variable "+$ID.text);
