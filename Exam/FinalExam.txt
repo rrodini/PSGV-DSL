@@ -31,7 +31,7 @@ Describe 2 use cases for developing a DSL:
 4. In one page or less describe a use case for developing an external DSL.
 
 Pick two of the following and write one page or less: 
-6. Why define a grammar as part of your DSL definition?
-7. Why use ANTLR for development of an external DSL?
-8. What are the strengths and weaknesses of both internal and external DSLs?  Why use one or the other?
+5. Why define a grammar as part of your DSL definition?
+6. Why use ANTLR for development of an external DSL?
+7. What are the strengths and weaknesses of both internal and external DSLs?  Why use one or the other?
 
